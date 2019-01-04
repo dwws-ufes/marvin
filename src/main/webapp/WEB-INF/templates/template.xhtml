@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui" template="/admin.xhtml">
+
+    <ui:define name="head">
+        <title>Marvin</title>
+    </ui:define>
+
+    <ui:define name="logo-lg">
+        Marvin
+    </ui:define>
+
+    <ui:define name="logo-mini">
+        [M]
+    </ui:define>
+
+    <ui:define name="menu">
+        <ul class="sidebar-menu">
+            <li><p:link outcome="/index" onclick="clearBreadCrumbs()">
+                    <i class="fa fa-home"></i>
+                    <span><h:outputText value="#{msgs['menu.home']}" /></span>
+                </p:link></li>
+            <li class="header">Header</li>
+            <li><p:link outcome="/index" onclick="clearBreadCrumbs()">
+                    <i class="fa fa-calendar"></i>
+                    <span>Blank Link</span>
+                </p:link></li>
+        </ul>
+    </ui:define>
+
+    <ui:define name="top-menu">
+
+    </ui:define>
+
+    <ui:define name="footer">
+        <h:outputText value="#{msgs['text.developedBy']} " /><a href="http://www.inf.ufes.br/~vitorsouza/">Prof. Vítor E. Silva Souza</a>
+        &amp; students <h:outputText value=" #{msgs['text.for']} " /><a href="http://informatica.ufes.br/">DI &amp; PPGI/UFES</a>
+        <div class="pull-right hidden-xs" style="color: gray"><i>1.0.0</i></div>
+    </ui:define>
+</ui:composition>
