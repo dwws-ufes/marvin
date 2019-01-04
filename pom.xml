@@ -16,7 +16,7 @@
 				<checksumPolicy>fail</checksumPolicy>
 			</releases>
 			<id>br.ufes.inf.nemo</id>
-			<name>Nemo Maven Repository</name>
+			<name>NEMO Maven Repository</name>
 			<url>http://dev.nemo.inf.ufes.br/maven2</url>
 			<layout>default</layout>
 		</repository>
