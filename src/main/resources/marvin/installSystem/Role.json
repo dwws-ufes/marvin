@@ -1,0 +1,22 @@
+[
+	{
+		"name": "SysAdmin",
+		"descriptionKey": "core.role.sysadmin"
+	},
+	{
+		"name": "Professor",
+		"descriptionKey": "core.role.professor"
+	},
+	{
+		"name": "Staff",
+		"descriptionKey": "core.role.staff"
+	},
+	{
+		"name": "Student",
+		"descriptionKey": "core.role.student"
+	},
+	{
+		"name": "Visitor",
+		"descriptionKey": "core.role.visitor"
+	}
+]

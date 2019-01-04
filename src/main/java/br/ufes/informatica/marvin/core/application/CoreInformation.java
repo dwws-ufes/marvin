@@ -1,7 +1,6 @@
 package br.ufes.informatica.marvin.core.application;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class CoreInformation implements Serializable {
 	private static final Logger logger = Logger.getLogger(CoreInformation.class.getCanonicalName());
 
 	/** The path (in the EJB module) for the quotes file. */
-	private static final String QUOTES_FILE_PATH = "/META-INF/marvin/quotes.txt";
+	private static final String QUOTES_FILE_PATH = "marvin/quotes.txt";
 
 	/** TODO: document this field. */
 	private static final String DEFAULT_DECORATOR_NAME = "admin-lte";
@@ -75,14 +74,16 @@ public class CoreInformation implements Serializable {
 			systemInstalled = false;
 		}
 
-		// Load quotes.
+		// Load quotes. If anything goes wrong, falls back to a single default quote.
 		quotes = new ArrayList<>();
-		File quotesFile = ResourceUtil.getResourceAsFile(QUOTES_FILE_PATH);
-		try (Scanner scanner = new Scanner(quotesFile)) {
-			while (scanner.hasNextLine())
-				quotes.add(scanner.nextLine().trim());
+		try {
+			InputStream quotesFileStream = ResourceUtil.getResourceAsStream(QUOTES_FILE_PATH);
+			try (Scanner scanner = new Scanner(quotesFileStream)) {
+				while (scanner.hasNextLine())
+					quotes.add(scanner.nextLine().trim());
+			}
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			logger.log(Level.WARNING, "Could not load quotes from path: {0}", QUOTES_FILE_PATH);
 			quotes.add("I didn't ask to be made.");
 		}

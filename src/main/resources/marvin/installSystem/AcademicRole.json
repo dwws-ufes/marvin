@@ -1,0 +1,14 @@
+[
+	{
+		"name": "CourseCord",
+		"descriptionKey": "core.academicrole.coursecoordinator"
+	},
+	{
+		"name": "EnrStudent",
+		"descriptionKey": "core.academicrole.enrolledstudent"
+	},
+	{
+		"name": "Alumni",
+		"descriptionKey": "core.academicrole.alumni"
+	}
+]
