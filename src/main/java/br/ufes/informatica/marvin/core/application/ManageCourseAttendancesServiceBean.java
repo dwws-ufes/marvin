@@ -138,7 +138,7 @@ public class ManageCourseAttendancesServiceBean extends CrudServiceBean<CourseAt
 	@Override
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator) {
 		Map<String, Course> coursesMap = new HashMap<String, Course>();
-		List<Course> courses = courseDAO.retrieveAllSortedByName();
+		List<Course> courses = courseDAO.retrieveAll();
 		for (Course course : courses)
 			coursesMap.put(course.getName(), course);
 		return coursesMap;

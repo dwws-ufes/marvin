@@ -126,7 +126,7 @@ public class ManageCourseCoordinationsServiceBean extends CrudServiceBean<Course
 	@Override
 	public Map<String, Course> retrieveCourses(boolean hasCoordinator) {
 		Map<String, Course> coursesWithoutCoordination = new HashMap<String, Course>();
-		List<Course> courses = courseDAO.retrieveAllSortedByName();
+		List<Course> courses = courseDAO.retrieveAll();
 		if (!hasCoordinator) {
 			for (Course course : courses)
 				if (!courseCoordinationDAO.courseHasActiveCoordinations(course)) coursesWithoutCoordination.put(course.getName(), course);

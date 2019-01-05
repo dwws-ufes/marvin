@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -131,10 +130,17 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 	@Override
 	public List<Academic> retrieveByRole(Role role) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.FINE, "Retrieving the academic whose role is \"{0}\"...", role);
-		// FIXME: use Criteria API and typed query.
-		Query query = entityManager.createQuery("SELECT a FROM Academic a WHERE :role MEMBER OF a.roles ORDER BY a.name");
-		query.setParameter("role", role);
-		return (List<Academic>) query.getResultList();
+		
+		// Constructs the query over the Academic class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Academic> cq = cb.createQuery(Academic.class);
+		Root<Academic> root = cq.from(Academic.class);
+
+		// Filters the query with the role.
+		cq.where(cb.isMember(role, root.get(Academic_.roles)));
+		List<Academic> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieving academics by the role \"{0}\" returned {1} results", new Object[] { role, result.size() });
+		return result;
 	}
 
 }

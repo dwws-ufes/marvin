@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.core.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -7,10 +8,13 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.informatica.marvin.core.domain.Course;
+import br.ufes.informatica.marvin.core.domain.Course_;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Course domain class using JPA2.
@@ -40,12 +44,11 @@ public class CourseJPADAO extends BaseJPADAO<Course> implements CourseDAO {
 		return entityManager;
 	}
 
-	/** Retrieve all course sorted by name.*/
-	@Override
-	public List<Course> retrieveAllSortedByName() {
-		logger.log(Level.FINE, "Retrieving the courses sorted by name");
-		// FIXME: use Criteria API and typed query.
-		Query query = entityManager.createQuery("SELECT c FROM Course c ORDER BY c.name");
-		return (List<Course>) query.getResultList();
+	/** @see br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder, javax.persistence.criteria.Root) */
+	protected List<Order> getOrderList(CriteriaBuilder cb, Root<Course> root) {
+		logger.log(Level.FINE, "Ordering courses by name by default.");
+		List<Order> orderList = new ArrayList<>();
+		orderList.add(cb.asc(root.get(Course_.name)));
+		return orderList;
 	}
 }
