@@ -22,11 +22,11 @@
                     <i class="fa fa-home"></i>
                     <span><h:outputText value="#{msgs['menu.home']}" /></span>
                 </p:link></li>
-            <li class="header">Header</li>
-            <li><p:link outcome="/index" onclick="clearBreadCrumbs()">
-                    <i class="fa fa-calendar"></i>
-                    <span>Blank Link</span>
+            <li><p:link outcome="/core/installSystem/index" rendered="#{not coreInfo.systemInstalled}" onclick="clearBreadCrumbs()">
+                    <i class="fa fa-cogs"></i>
+                    <span><h:outputText value="#{msgsCore['core.menu.installSystem']}" /></span>
                 </p:link></li>
+            <li class="header">Header</li>
         </ul>
     </ui:define>
 

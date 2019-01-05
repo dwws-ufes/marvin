@@ -13,6 +13,10 @@
 			<base-name>br.ufes.informatica.marvin.messages</base-name>
 			<var>msgs</var>
 		</resource-bundle>
+		<resource-bundle>
+			<base-name>br.ufes.informatica.marvin.core.view.messages</base-name>
+			<var>msgsCore</var>
+		</resource-bundle>
 
 		<!-- Defines the default locale. -->
 		<locale-config>
