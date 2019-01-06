@@ -1,6 +1,6 @@
 package br.ufes.informatica.marvin.core.application;
 
-import java.io.File;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Scanner;
@@ -39,7 +39,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	private static final long serialVersionUID = 1L;
 
 	/** The path to the folder that contains the data to be added to the database upon system installation. */
-	private static final String INIT_DATA_PATH = "META-INF/installSystem/";
+	private static final String INIT_DATA_PATH = "marvin/installSystem/";
 
 	/** The name of the file that contains the roles to be added upon system installation. */
 	private static final String INIT_DATA_ROLE_FILE_NAME = "Role.json";
@@ -84,7 +84,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 
 		try {
 			// Creates the roles in the database from a JSON file located in META-INF/installSystem.
-			File jsonFile = ResourceUtil.getResourceAsFile(INIT_DATA_PATH + INIT_DATA_ROLE_FILE_NAME);
+			InputStream jsonFile = ResourceUtil.getResourceAsStream(INIT_DATA_PATH + INIT_DATA_ROLE_FILE_NAME);
 			try (Scanner scanner = new Scanner(jsonFile)) {
 				// Reads the content of the entire file, which contains a JSON array.
 				StringBuilder builder = new StringBuilder();
@@ -100,8 +100,9 @@ public class InstallSystemServiceBean implements InstallSystemService {
 					roleDAO.save(role);
 				}
 			}
+
 			// Creates the academic roles in the database from a JSON file located in META-INF/installSystem.
-			File jsonFile2 = ResourceUtil.getResourceAsFile(INIT_DATA_PATH + INIT_DATA_ACADEMICROLE_FILE_NAME);
+			InputStream jsonFile2 = ResourceUtil.getResourceAsStream(INIT_DATA_PATH + INIT_DATA_ACADEMICROLE_FILE_NAME);
 			try (Scanner scanner = new Scanner(jsonFile2)) {
 				// Reads the content of the entire file, which contains a JSON array.
 				StringBuilder builder = new StringBuilder();

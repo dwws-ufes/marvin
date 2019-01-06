@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsCore['installSystem.title']}" />
+	</ui:define>
+
+	<ui:define name="description">
+		<h:outputText value="#{msgsCore['installSystem.title.description']}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<!-- The form to be filled with information on the configuration. -->
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['installSystem.form.config']}" />
+			<p:focus />
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="institutionAcronym" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.institutionAcronym']}" />
+				<p:inputText id="institutionAcronym" value="#{installSystemController.config.institutionAcronym}" required="true" pt:placeholder="#{msgsCore['installSystem.field.config.institutionAcronym.placeholder']}">
+					<f:ajax event="blur" render="institutionAcronymField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpServerAddress" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpServerAddress']}" />
+				<p:inputText id="smtpServerAddress" value="#{installSystemController.config.smtpServerAddress}" required="true" pt:placeholder="#{msgsCore['installSystem.field.config.smtpServerAddress.placeholder']}">
+					<f:ajax event="blur" render="smtpServerAddressField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpServerPort" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpServerPort']}" />
+				<p:inputText id="smtpServerPort" value="#{installSystemController.config.smtpServerPort}" required="true">
+					<f:ajax event="blur" render="smtpServerPortField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpUsername" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpUsername']}" />
+				<p:inputText id="smtpUsername" value="#{installSystemController.config.smtpUsername}" required="true">
+					<f:ajax event="blur" render="smtpUsernameField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="smtpPassword" />
+				<ui:param name="label" value="#{msgsCore['installSystem.field.config.smtpPassword']}" />
+				<p:password id="smtpPassword" value="#{installSystemController.config.smtpPassword}" required="true" />
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:commandButton action="#{installSystemController.saveConfig}" value="#{msgsCore['installSystem.button.saveConfig']}" update=":messages form" icon="fa fa-fw fa-save" />
+			</ui:decorate>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>

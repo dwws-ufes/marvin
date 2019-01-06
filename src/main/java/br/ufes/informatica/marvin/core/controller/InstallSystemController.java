@@ -119,15 +119,12 @@ public class InstallSystemController extends JSFController {
 	 * 
 	 * @return The path to the web page that shows the first step of the installation process.
 	 */
-	public String begin() {
+	public void begin() {
 		logger.log(Level.FINEST, "Beginning conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
 
 		// Begins the conversation, dropping any previous conversation, if existing.
 		if (!conversation.isTransient()) conversation.end();
 		conversation.begin();
-
-		// Go to the first view.
-		return VIEW_PATH + "index.xhtml?faces-redirect=true";
 	}
 
 	/**
