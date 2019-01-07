@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsCore['login.title']}" />
+	</ui:define>
+
+	<ui:define name="description">
+		<h:outputText value="#{msgsCore['login.title.description']}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsCore['login.title']}" link="index.xhtml"/>
+	
+		<p><h:outputText value="#{msgsCore['login.text.instructions']}" /></p>
+
+		<!-- The form to be filled with authentication information. -->
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" />
+			<ui:param name="formLabel" value="#{msgsCore['login.form']}" />
+			<p:focus />
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="email" />
+				<ui:param name="label" value="#{msgsCore['login.field.email']}" />
+				<p:inputText id="email" value="#{sessionController.email}" required="true" pt:placeholder="#{msgsCore['login.field.email.placeholder']}">
+					<f:ajax event="blur" render="emailField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="password" />
+				<ui:param name="label" value="#{msgsCore['login.field.password']}" />
+				<p:password id="password" value="#{sessionController.password}" required="true" feedback="false" />
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:commandButton id="resetButton" action="/core/changePassword/reset" value="#{msgsCore['changePassword.title.reset']}" immediate="true" icon="fa fa-fw fa-repeat" />
+				<p:commandButton id="loginButton" action="#{sessionController.login}" value="#{msgsCore['login.button.login']}" update=":messages form" icon="fa fa-fw fa-key" />
+				<p:defaultCommand target="loginButton" />
+			</ui:decorate>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>

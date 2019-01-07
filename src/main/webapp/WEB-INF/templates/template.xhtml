@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:p="http://primefaces.org/ui" template="/admin.xhtml">
 
     <ui:define name="head">
@@ -19,6 +21,8 @@
 
     <ui:define name="menu">
         <ul class="sidebar-menu">
+		
+			<!-- System installation and log in. -->
             <li><p:link outcome="/index">
                     <i class="fa fa-home"></i>
                     <span><h:outputText value="#{msgs['menu.home']}" /></span>
@@ -27,12 +31,45 @@
                     <i class="fa fa-cogs"></i>
                     <span><h:outputText value="#{msgsCore['core.menu.installSystem']}" /></span>
                 </p:link></li>
+			<li><p:link outcome="login" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}">
+					<i class="fa fa-key"></i>
+					<span><h:outputText value="#{msgsCore['core.menu.login']}" /></span>
+				</p:link></li>
+
+			<!-- Other menus will follow below... -->
             <li class="header">Header</li>
         </ul>
     </ui:define>
 
     <ui:define name="top-menu">
-
+    	<ul class="nav navbar-nav">
+			<!-- User Account Menu -->
+			<h:panelGroup rendered="#{sessionController.loggedIn}">
+				<li class="dropdown user user-menu">
+					<!-- Menu Toggle Button --> 
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<h:graphicImage name="images/blankAvatar.png" library="marvin" styleClass="user-image" pt:alt="User Image" />
+						<h:outputText value="#{sessionController.currentUser.name}" /><span class="hidden-xs"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<!-- The user image in the menu -->
+						<li class="user-header"><h:graphicImage name="images/blankAvatar.png" library="marvin" styleClass="img-circle" pt:alt="User Image" />
+							<p><h:outputText value="#{sessionController.currentUser.name}" />
+								<small><h:outputFormat value="#{msgs['text.memberSince']}"><f:param value="#{sessionController.currentUser.creationDate}" /></h:outputFormat></small>
+							</p></li>
+						<!-- Menu Footer-->
+						<li class="user-footer">
+							<div class="pull-left">
+								<p:link outcome="/core/editProfile/index" styleClass="btn btn-default btn-flat"><h:outputText value="#{msgs['menu.profile']}" /></p:link>
+							</div>
+							<div class="pull-right">
+								<a href="#{facesContext.externalContext.requestContextPath}/logout" class="btn btn-default btn-flat"><h:outputText value="#{msgs['menu.logout']}" /></a>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</h:panelGroup>
+		</ul>
     </ui:define>
 
     <ui:define name="footer">

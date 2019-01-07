@@ -19,14 +19,23 @@
 		<!-- Clear the breadcrumb. -->
 		<adm:breadcrumb title="" clear="true" />
 
-    	<div align="center" style="margin: 20px;">
+    	<div style="float: left; padding-right: 10px;">
     		<h:outputLink value="http://gooie-duck.deviantart.com/art/Marvin-the-Paranoid-Android-192324294">
     			<h:graphicImage name="images/marvin.jpg" library="marvin" style="border: 1px solid black;" />
     		</h:outputLink>
     	</div>
 
-		<p><h:outputText value="#{msgs['text.home.about01']}" escape="false" /></p>
-
-		<p><h:outputText value="#{msgs['text.home.about02']}" escape="false" /></p>
+		<!-- Shown when the user is not logged in. -->
+		<h:panelGroup rendered="#{not sessionController.loggedIn}">
+			<p><h:outputText value="#{msgs['text.home.about01']}" escape="false" /></p>
+			<p><h:outputText value="#{msgs['text.home.about02']}" escape="false" /></p>
+		</h:panelGroup>
+		
+		<!-- Shown when the user is logged in. -->
+		<h:panelGroup rendered="#{sessionController.loggedIn}">
+			<p><h:outputFormat value="#{msgs['text.home.welcome']}">
+				<f:param value="#{sessionController.currentUser.shortName}" />
+			</h:outputFormat></p>
+		</h:panelGroup>
 	</ui:define>
 </ui:composition>
