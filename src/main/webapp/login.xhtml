@@ -43,10 +43,35 @@
 			</ui:decorate>
 
 			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-				<p:commandButton id="resetButton" action="/core/changePassword/reset" value="#{msgsCore['changePassword.title.reset']}" immediate="true" icon="fa fa-fw fa-repeat" />
-				<p:commandButton id="loginButton" action="#{sessionController.login}" value="#{msgsCore['login.button.login']}" update=":messages form" icon="fa fa-fw fa-key" />
+				<p:commandButton id="resetButton" value="#{msgsCore['changePassword.title.reset']}" icon="fa fa-fw fa-repeat" onclick="PF('resetPasswordDialog').show();" />
+				<p:commandButton id="loginButton" value="#{msgsCore['login.button.login']}" action="#{sessionController.login}" update=":messages form" icon="fa fa-fw fa-key" />
 				<p:defaultCommand target="loginButton" />
 			</ui:decorate>
 		</ui:decorate>
+		
+		<!-- The reset password dialog. -->
+		<p:dialog header="#{msgsCore['changePassword.title.reset']}" widgetVar="resetPasswordDialog" modal="true">
+			<p><h:outputText value="#{msgsCore['changePassword.text.instructions.reset']}" /></p>
+		
+			<!-- The form to be filled with the e-mail in order to reset the password. -->
+			<ui:decorate template="/WEB-INF/templates/form-nobox.xhtml">
+				<ui:param name="formName" value="resetForm" /> 
+				<p:focus />
+
+				<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+					<ui:param name="fieldName" value="email" />
+					<ui:param name="label" value="#{msgsCore['changePassword.field.email']}" />
+					<p:inputText id="email" value="#{changePasswordController.email}" required="true">
+						<f:ajax event="blur" render="emailField" />
+					</p:inputText>
+				</ui:decorate>
+
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton id="cancelButton" value="#{msgsCore['changePassword.button.cancel']}" type="button" onclick="PF('resetPasswordDialog').hide();"  icon="fa fa-fw fa-times-circle" />
+					<p:commandButton id="resetButton" value="#{msgsCore['changePassword.button.reset']}" action="#{changePasswordController.resetPassword}" update=":messages resetForm" icon="fa fa-fw fa-repeat" />
+					<p:defaultCommand target="resetButton" />
+				</ui:decorate>
+			</ui:decorate>			
+		</p:dialog> 
 	</ui:define>
 </ui:composition>

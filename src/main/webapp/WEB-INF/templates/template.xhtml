@@ -31,7 +31,7 @@
                     <i class="fa fa-cogs"></i>
                     <span><h:outputText value="#{msgsCore['core.menu.installSystem']}" /></span>
                 </p:link></li>
-			<li><p:link outcome="login" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}">
+			<li><p:link outcome="/login" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}">
 					<i class="fa fa-key"></i>
 					<span><h:outputText value="#{msgsCore['core.menu.login']}" /></span>
 				</p:link></li>

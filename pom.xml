@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>com.github.adminfaces</groupId>
 			<artifactId>admin-template</artifactId>
-			<version>1.0.0-RC20</version>
+			<version>1.0.0-RC21</version>
 		</dependency>
 		<dependency>
 			<groupId>br.ufes.inf.nemo</groupId>
@@ -44,9 +44,9 @@
 			<version>1.2.7</version>
 		</dependency>
 		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.28</version>
+			<groupId>org.jtwig</groupId>
+			<artifactId>jtwig-core</artifactId>
+			<version>5.87.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -68,3 +68,5 @@
 		</plugins>
 	</build>
 </project>
+
+
