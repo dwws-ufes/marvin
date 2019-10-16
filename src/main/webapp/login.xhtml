@@ -6,72 +6,30 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:adm="http://github.com/adminfaces"
-	template="/WEB-INF/templates/template.xhtml">
-
-	<ui:define name="title">
-		<h:outputText value="#{msgsCore['login.title']}" />
-	</ui:define>
-
-	<ui:define name="description">
-		<h:outputText value="#{msgsCore['login.title.description']}" />
-	</ui:define>
+	template="/WEB-INF/templates/template-login.xhtml">
 
 	<ui:define name="body">
-		<!-- The breadcrumb. -->
-		<adm:breadcrumb title="#{msgsCore['login.title']}" link="index.xhtml"/>
-	
-		<p><h:outputText value="#{msgsCore['login.text.instructions']}" /></p>
+		<h:form>
+			<p class="login-box-msg"><h:outputText value="#{msgsCore['login.text.instructions']}" /></p>
+			<p:messages closable="true" />
 
-		<!-- The form to be filled with authentication information. -->
-		<ui:decorate template="/WEB-INF/templates/form.xhtml">
-			<ui:param name="formName" value="form" />
-			<ui:param name="formLabel" value="#{msgsCore['login.form']}" />
-			<p:focus />
+			<div class="form-group has-feedback">
+				<p:inputText value="#{sessionController.email}" type="email" styleClass="form-control" placeholder="#{msgsCore['login.field.email.placeholder']}" required="true" requiredMessage="#{msgsCore['login.field.email.requiredMessage']}" />
+				<i class="fa fa-envelope form-control-feedback" ></i>
+			</div>
+			<div class="form-group has-feedback">
+				<p:inputText value="#{sessionController.password}" type="password" styleClass="form-control" placeholder="#{msgsCore['login.field.password.placeholder']}" required="true" requiredMessage="#{msgsCore['login.field.password.requiredMessage']}" />
+				<i class="fa fa-lock form-control-feedback" style="font-size: 18px"></i>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p:commandButton id="loginButton" styleClass="btn btn-success btn-block" value="#{msgsCore['login.button.login']}" action="#{sessionController.login}" update="@form" />
+					<p:defaultCommand target="loginButton" />
+				</div>
+			</div>
+		</h:form>
 
-			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-				<ui:param name="fieldName" value="email" />
-				<ui:param name="label" value="#{msgsCore['login.field.email']}" />
-				<p:inputText id="email" value="#{sessionController.email}" required="true" pt:placeholder="#{msgsCore['login.field.email.placeholder']}">
-					<f:ajax event="blur" render="emailField" />
-				</p:inputText>
-			</ui:decorate>
-
-			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-				<ui:param name="fieldName" value="password" />
-				<ui:param name="label" value="#{msgsCore['login.field.password']}" />
-				<p:password id="password" value="#{sessionController.password}" required="true" feedback="false" />
-			</ui:decorate>
-
-			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-				<p:commandButton id="resetButton" value="#{msgsCore['changePassword.title.reset']}" icon="fa fa-fw fa-repeat" onclick="PF('resetPasswordDialog').show();" />
-				<p:commandButton id="loginButton" value="#{msgsCore['login.button.login']}" action="#{sessionController.login}" update=":messages form" icon="fa fa-fw fa-key" />
-				<p:defaultCommand target="loginButton" />
-			</ui:decorate>
-		</ui:decorate>
-		
-		<!-- The reset password dialog. -->
-		<p:dialog header="#{msgsCore['changePassword.title.reset']}" widgetVar="resetPasswordDialog" modal="true">
-			<p><h:outputText value="#{msgsCore['changePassword.text.instructions.reset']}" /></p>
-		
-			<!-- The form to be filled with the e-mail in order to reset the password. -->
-			<ui:decorate template="/WEB-INF/templates/form-nobox.xhtml">
-				<ui:param name="formName" value="resetForm" /> 
-				<p:focus />
-
-				<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-					<ui:param name="fieldName" value="email" />
-					<ui:param name="label" value="#{msgsCore['changePassword.field.email']}" />
-					<p:inputText id="email" value="#{changePasswordController.email}" required="true">
-						<f:ajax event="blur" render="emailField" />
-					</p:inputText>
-				</ui:decorate>
-
-				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-					<p:commandButton id="cancelButton" value="#{msgsCore['changePassword.button.cancel']}" type="button" onclick="PF('resetPasswordDialog').hide();"  icon="fa fa-fw fa-times-circle" />
-					<p:commandButton id="resetButton" value="#{msgsCore['changePassword.button.reset']}" action="#{changePasswordController.resetPassword}" update=":messages resetForm" icon="fa fa-fw fa-repeat" />
-					<p:defaultCommand target="resetButton" />
-				</ui:decorate>
-			</ui:decorate>			
-		</p:dialog> 
+		<a href="javascript:alert('To be implemented...');"><h:outputText value="#{msgsCore['login.text.forgot']}" /></a><br/>
+		<a href="javascript:alert('To be implemented...');" class="text-center"><h:outputText value="#{msgsCore['login.text.register']}" /></a>
 	</ui:define>
 </ui:composition>

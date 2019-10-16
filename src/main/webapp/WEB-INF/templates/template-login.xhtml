@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:adm="http://github.com/adminfaces">
+
+    <h:head>
+		<title>Marvin</title>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+		<meta name="theme-color" content="#444"/>
+		<meta name="mobile-web-app-capable" content="yes"/>
+		<style type="text/css">
+	         body .load-bar {
+	            margin-top: -20px;
+	         }   
+	         /* below css hides growls in small screens and makes messages visible */
+	         @media (max-width: 768px) {
+	
+	             body div.ui-growl {
+	                 display: none;
+	             }
+	
+	             body div.ui-messages {
+	                 display: block;
+	             }
+	
+	         }
+	         
+	        /* below css hides messages in medium/big devices and makes growl visible in such devices */
+	         @media (min-width: 769px) {
+	             body div.ui-growl {
+	                 display: block;
+	             }
+	
+	             body div.ui-messages {
+	                 display: none;
+	             }
+	         }
+	
+	         body.login-page {
+	             background-color: transparent;
+	         }
+	
+	         html {
+	             background: url(#{resource[ 'images:login-bg.jpg' ]}) no-repeat center center fixed;
+	             -webkit-background-size: cover;
+	             -moz-background-size: cover;
+	             -o-background-size: cover;
+	             background-size: cover;
+	         }
+		
+			@media (max-width: 768px) {
+				 html {
+				     background-image: url(#{resource[ 'images:login-bg-mobile.jpeg' ]});
+				 }
+			}
+			
+			body.login-page .login-logo { font-size: 40px; text-align: center; }
+		</style>
+	</h:head>
+
+   <h:body styleClass="hold-transition login-page">
+		<p:growl sticky="true"><p:autoUpdate/></p:growl>
+		<div id="loader" class="load-bar" style="display: none">
+			<div class="bar"></div>
+			<div class="bar"></div>
+			<div class="bar"></div>
+		</div>
+
+		<p:dialog id="adminStatusDialog" modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" responsive="true" showHeader="false" appendTo="@(body)">
+			<p:graphicImage library="images" name="#{adminConfig.loadingImage}"/>
+		</p:dialog>
+
+		<div class="login-box">
+			<div class="login-logo">
+				<p:link href="index.xhtml" style="color: #FFFFFF;"><b>Marvin</b> @ <h:outputText value="#{coreInfo.currentConfig.institutionAcronym}" /></p:link>
+			</div>
+
+			<div class="box login-box-body">
+				<ui:insert name="body" />
+			</div>
+		</div>
+
+		<adm:ripple />
+		<h:outputScript library="js" name="admintemplate.js" target="head"/>
+	</h:body>
+</html>

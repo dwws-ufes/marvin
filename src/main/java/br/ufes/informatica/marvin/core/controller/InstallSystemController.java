@@ -170,7 +170,7 @@ public class InstallSystemController extends JSFController {
 		logger.log(Level.FINEST, "Ending conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
 		if (!conversation.isTransient()) conversation.end();
 
-		// Proceeds to the final view.
-		return VIEW_PATH + "done.xhtml?faces-redirect=true";
+		// Proceeds to the login.
+		return "/login.xhtml?faces-redirect=true";
 	}
 }

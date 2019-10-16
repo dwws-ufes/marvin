@@ -1,17 +1,20 @@
 package br.ufes.informatica.marvin.core.controller;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Specializes;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.omnifaces.util.Faces;
 
 import com.github.adminfaces.template.session.AdminSession;
 
@@ -31,7 +34,8 @@ import br.ufes.informatica.marvin.core.exceptions.LoginFailedException.LoginFail
  */
 @Named
 @SessionScoped
-public class SessionController extends JSFController {
+@Specializes
+public class SessionController extends AdminSession implements Serializable {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -45,10 +49,6 @@ public class SessionController extends JSFController {
 	/** The login service. */
 	@EJB
 	private LoginService loginService;
-	
-	/** AdminFaces' Admin Session bean. */
-	@Inject
-	private AdminSession adminSession;
 
 	/** The authenticated user. */
 	private Academic currentUser;
@@ -58,13 +58,17 @@ public class SessionController extends JSFController {
 
 	/** Input: password for authentication. */
 	private String password;
-
-	/** Initializer method, called when the bean is created. */
-	@Inject
-	public void init() {
-		// If the system has already been installed, tells AdminFaces that the user is *not* logged in.
-		if (coreInformation.getSystemInstalled()) adminSession.setIsLoggedIn(false);
-	}
+	
+	/** Circumventing the fact that this controller cannot inherit from JButler's JSFController. */
+	private class MyJSFController extends JSFController {
+		private static final long serialVersionUID = 1L;
+		void addMessage(String bundleName, FacesMessage.Severity severity, String summaryKey, String detailKey) {
+			addGlobalI18nMessage(bundleName, severity, summaryKey, detailKey);
+		}
+		void addMessage(String bundleName, FacesMessage.Severity severity, String summaryKey, Object[] summaryParams, String detailKey, Object[] detailParams) {
+			addGlobalI18nMessage(bundleName, severity, summaryKey, summaryParams, detailKey, detailParams);
+		}
+	};
 
 	/** Getter for email. */
 	public String getEmail() {
@@ -87,21 +91,22 @@ public class SessionController extends JSFController {
 	}
 
 	/**
-	 * Indicates if the user has already been identified.
+	 * Indicates if the user has already been identified. Overrides AdminFaces' AdminSession.
 	 * 
 	 * @return <code>true</code> if the user is logged in, <code>false</code> otherwise.
 	 */
+	@Override
 	public boolean isLoggedIn() {
-		return currentUser != null;
+		return (! coreInformation.getSystemInstalled()) || currentUser != null;
 	}
-
+	
 	/**
 	 * Indicates if the user is an administrator.
 	 * 
 	 * @return <code>true</code> if the user has the Admin role, <code>false</code> otherwise.
 	 */
 	public boolean isAdmin() {
-		return getExternalContext().isUserInRole(Role.SYSADMIN_ROLE_NAME);
+		return Faces.isUserInRole(Role.SYSADMIN_ROLE_NAME);
 	}
 
 	/**
@@ -110,7 +115,7 @@ public class SessionController extends JSFController {
 	 * @return <code>true</code> if the user has the Professor role, <code>false</code> otherwise.
 	 */
 	public boolean isProfessor() {
-		return getExternalContext().isUserInRole(Role.PROFESSOR_ROLE_NAME);
+		return Faces.isUserInRole(Role.PROFESSOR_ROLE_NAME);
 	}
 
 	/**
@@ -119,7 +124,7 @@ public class SessionController extends JSFController {
 	 * @return <code>true</code> if the user has the Staff role, <code>false</code> otherwise.
 	 */
 	public boolean isStaff() {
-		return getExternalContext().isUserInRole(Role.STAFF_ROLE_NAME);
+		return Faces.isUserInRole(Role.STAFF_ROLE_NAME);
 	}
 
 	/**
@@ -128,7 +133,7 @@ public class SessionController extends JSFController {
 	 * @return <code>true</code> if the user has the Student role, <code>false</code> otherwise.
 	 */
 	public boolean isStudent() {
-		return getExternalContext().isUserInRole(Role.STUDENT_ROLE_NAME);
+		return Faces.isUserInRole(Role.STUDENT_ROLE_NAME);
 	}
 
 	/**
@@ -137,7 +142,7 @@ public class SessionController extends JSFController {
 	 * @return <code>true</code> if the user has the Visitor role, <code>false</code> otherwise.
 	 */
 	public boolean isVisitor() {
-		return getExternalContext().isUserInRole(Role.VISITOR_ROLE_NAME);
+		return Faces.isUserInRole(Role.VISITOR_ROLE_NAME);
 	}
 
 	/**
@@ -211,19 +216,16 @@ public class SessionController extends JSFController {
 			case UNKNOWN_USERNAME:
 				// Normal login exception (invalid usernaem or password). Report the error to the user.
 				logger.log(Level.INFO, "Login failed for \"{0}\". Reason: \"{1}\"", new Object[] { email, e.getReason() });
-				addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_ERROR, "login.error.nomatch.summary", "login.error.nomatch.detail");
+				new MyJSFController().addMessage("msgsCore", FacesMessage.SEVERITY_ERROR, "login.error.nomatch.summary", "login.error.nomatch.detail");
 				return null;
 
 			default:
 				// System failure exception. Report a fatal error and ask the user to contact the administrators.
 				logger.log(Level.INFO, "System failure during login. Email: \"" + email + "\"; reason: \"" + e.getReason() + "\"", e);
-				addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_FATAL, "login.error.fatal.summary", new Object[0], "login.error.fatal.detail", new Object[] { new Date(System.currentTimeMillis()) });
+				new MyJSFController().addMessage("msgsCore", FacesMessage.SEVERITY_FATAL, "login.error.fatal.summary", new Object[0], "login.error.fatal.detail", new Object[] { new Date(System.currentTimeMillis()) });
 				return null;
 			}
 		}
-		
-		// Tells AdminFaces that the user is logged in.
-		adminSession.setIsLoggedIn(true);
 
 		// If everything is OK, stores the current user and redirects back to the home screen.
 		currentUser = loginService.getCurrentUser();
