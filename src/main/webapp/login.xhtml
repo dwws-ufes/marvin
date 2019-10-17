@@ -12,6 +12,7 @@
 		<h:form>
 			<p class="login-box-msg"><h:outputText value="#{msgsCore['login.text.instructions']}" /></p>
 			<p:messages closable="true" />
+			<p:focus />
 
 			<div class="form-group has-feedback">
 				<p:inputText value="#{sessionController.email}" type="email" styleClass="form-control" placeholder="#{msgsCore['login.field.email.placeholder']}" required="true" requiredMessage="#{msgsCore['login.field.email.requiredMessage']}" />
@@ -24,7 +25,6 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<p:commandButton id="loginButton" styleClass="btn btn-success btn-block" value="#{msgsCore['login.button.login']}" action="#{sessionController.login}" update="@form" />
-					<p:defaultCommand target="loginButton" />
 				</div>
 			</div>
 		</h:form>
