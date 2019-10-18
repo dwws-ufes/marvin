@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.0
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = { "/public/servlet/changePassword/*" })
+@WebServlet(name = "ChangePasswordServlet", urlPatterns = { "/servlet/changePassword/*" })
 public class ChangePasswordServlet extends HttpServlet {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** Path to the folder where the view files (web pages) for this action are placed. */
-	private static final String CHANGE_PASSWORD_VIEW_URL = "/public/changePassword/index.xhtml";
+	private static final String CHANGE_PASSWORD_VIEW_URL = "/core/changePassword/index.xhtml";
 
 	/**
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,

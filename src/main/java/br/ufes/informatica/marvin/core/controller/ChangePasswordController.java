@@ -210,7 +210,7 @@ public class ChangePasswordController extends JSFController {
 		if (!conversation.isTransient()) conversation.end();
 
 		// Redirects to the conclusion if everything went fine.
-		if (validCode) return "done.xhtml";
+		if (validCode) return "done.xhtml?faces-redirect=true";
 		return null;
 	}
 

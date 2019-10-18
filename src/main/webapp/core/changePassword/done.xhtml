@@ -19,7 +19,7 @@
   	<ui:define name="body">
 		<p><h:outputText value="#{msgsCore['changePassword.text.done']}" /></p>
 		
-		<p align="center"><p:link outcome="/login"><h:outputText value="#{msgsCore['core.menu.login']}" /></p:link></p>
+		<center><h:form><p:button id="loginButton" value="#{msgsCore['core.menu.login']}" outcome="/login.xhtml" icon="fa fa-fw fa-key" /></h:form></center>
 	</ui:define>
 </ui:composition>
 

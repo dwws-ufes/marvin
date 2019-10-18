@@ -24,8 +24,27 @@
   	<ui:define name="body">
 		<!-- Shown if the password code is invalid. -->
 		<h:panelGroup id="invalidCodePanel" rendered="#{not changePasswordController.validCode}">
-			<p><h:outputFormat value="#{msgsCore['changePassword.text.invalidCode']}"><f:param value="#{changePasswordController.passwordCode}" /></h:outputFormat></p>
-			<p align="center"><h:link outcome="/login"><h:outputText value="#{msgsCore['core.menu.login']}" /></h:link></p>
+			<p><h:outputText value="#{msgsCore['changePassword.text.instructions.reset']}" /></p>
+		
+			<!-- The form to be filled with the e-mail in order to reset the password. -->
+			<ui:decorate template="/WEB-INF/templates/form.xhtml">
+				<ui:param name="formName" value="resetForm" /> 
+				<ui:param name="formLabel" value="#{msgsCore['changePassword.form.reset']}" />
+				<p:focus />
+
+				<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+					<ui:param name="fieldName" value="email" />
+					<ui:param name="label" value="#{msgsCore['changePassword.field.email']}" />
+					<p:inputText id="email" value="#{changePasswordController.email}" required="true">
+						<f:ajax event="blur" render="emailField" />
+					</p:inputText>
+				</ui:decorate>
+
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:button id="cancelButton" value="#{msgsCore['changePassword.button.cancel']}" outcome="/login.xhtml" icon="fa fa-fw fa-times-circle" />
+					<p:commandButton id="resetButton" value="#{msgsCore['changePassword.button.reset']}" action="#{changePasswordController.resetPassword}" update=":messages :info-messages resetForm" icon="fa fa-fw fa-repeat" />
+				</ui:decorate>
+			</ui:decorate>			
 		</h:panelGroup>
 
 		<!-- Shown if the password code is valid. -->
@@ -54,8 +73,7 @@
 
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 					<p:button id="cancelButton" value="#{msgsCore['changePassword.button.cancel']}" icon="fa fa-fw fa-times-circle" outcome="/login" />
-					<p:commandButton id="newPasswordButton" action="#{changePasswordController.setNewPassword}" value="#{msgsCore['changePassword.button.new']}" update=":messages :validCodePanel :invalidCodePanel" icon="fa fa-fw fa-save" />
-					<p:defaultCommand target="newPasswordButton" />
+					<p:commandButton id="newPasswordButton" action="#{changePasswordController.setNewPassword}" value="#{msgsCore['changePassword.button.new']}" update=":messages :info-messages :validCodePanel :invalidCodePanel" icon="fa fa-fw fa-save" />
 				</ui:decorate>
 			</ui:decorate>
 		</h:panelGroup>
