@@ -32,6 +32,8 @@ import br.ufes.informatica.marvin.core.persistence.RoleDAO;
 
 /**
  * TODO: document this type.
+ * 
+ * FIXME: shouldn't we validate create to check if the e-mail is already in use?
  *
  * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.0
@@ -39,29 +41,29 @@ import br.ufes.informatica.marvin.core.persistence.RoleDAO;
 @Stateless
 @RolesAllowed("SysAdmin")
 public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implements ManageAcademicsService {
-	/** TODO: document this field. */
+	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(ManageAcademicsServiceBean.class.getCanonicalName());
 
-	/** TODO: document this field. */
+	/** DAO for Academic objects. */
 	@EJB
 	private AcademicDAO academicDAO;
 
-	/** TODO: document this field. */
+	/** DAO for Role objects. */
 	@EJB
 	private RoleDAO roleDAO;
 
-	/** TODO: document this field. */
+	/** DAO for AcademicRole objects. */
 	@EJB
 	private AcademicRoleDAO academicRoleDAO;
 
-	/** TODO: document this field. */
+	/** DAO for CourseCoordination objects. */
 	@EJB
 	private CourseCoordinationDAO courseCoordinationDAO;
 
-	/** TODO: document this field. */
+	/** Service class that holds information on the system's current installation. */
 	@EJB
 	private CoreInformation coreInformation;
 
@@ -111,7 +113,7 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 		// Possibly throwing a CRUD Exception to indicate validation error.
 		CrudException crudException = null;
 		String email = entity.getEmail();
-		String crudExceptionMessage = "The academic \"" + entity.getName() + "(" + email + ")\" cannot be updated due to validation errors.";
+		String crudExceptionMessage = "The academic \"" + entity.getName() + "(" + email + ")\" cannot be deleted due to validation errors.";
 
 		// Validates business rules.
 		// Rule 1: cannot delete an admin.
@@ -136,8 +138,7 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 			}
 		}
 		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, "Problem retrieving role " + Role.SYSADMIN_ROLE_NAME + " while validating an academic deletion!", e);
 		}
 
 		// Rule 3: cannot delete a academic that is linked to a disabled course coordination.

@@ -11,6 +11,7 @@ import javax.enterprise.inject.Specializes;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -205,8 +206,8 @@ public class SessionController extends AdminSession implements Serializable {
 				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 				request.login(email, password);
 			}
-			catch (Exception e) {
-				throw new LoginFailedException(e, LoginFailedReason.NO_HTTP_REQUEST);
+			catch (ServletException e) {
+				throw new LoginFailedException(e, LoginFailedReason.INFRASTRUCTURE_PROBLEMS);
 			}
 		}
 		catch (LoginFailedException e) {

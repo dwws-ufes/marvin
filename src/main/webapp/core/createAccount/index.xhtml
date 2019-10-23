@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsCore['createAccount.title']}" />
+	</ui:define>
+
+	<ui:define name="description">
+		<h:outputText value="#{msgsCore['createAccount.title.description']}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<!-- Begin the conversation. -->
+		<f:metadata>
+		    <f:viewAction action="#{createAccountController.begin}" />
+		</f:metadata>
+
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsCore['createAccount.title']}" link="index.xhtml"/>
+
+		<!-- The form to be filled with information on the new user. -->
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['createAccount.form.title']}" />
+			<p:focus />
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsCore['createAccount.field.name']}" />
+				<p:inputText id="name" value="#{createAccountController.academic.name}" required="true" pt:placeholder="#{msgsCore['createAccount.field.name.placeholder']}">
+					<f:ajax event="blur" render="nameField shortNameField" listener="#{createAccountController.suggestShortName}" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="email" />
+				<ui:param name="label" value="#{msgsCore['createAccount.field.email']}" />
+				<p:inputText id="email" value="#{createAccountController.academic.email}" required="true" pt:placeholder="#{msgsCore['createAccount.field.email.placeholder']}">
+					<f:ajax event="blur" render="emailField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="shortName" />
+				<ui:param name="label" value="#{msgsCore['createAccount.field.shortName']}" />
+				<p:inputText id="shortName" value="#{createAccountController.academic.shortName}" required="true" pt:placeholder="#{msgsCore['createAccount.field.shortName.placeholder']}">
+					<f:ajax event="blur" render="shortNameField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="cpf" />
+				<ui:param name="label" value="#{msgsCore['createAccount.field.cpf']}" />
+				<p:inputMask id="cpf" mask="#{msgs['jbutler.format.taxCode.primefaces']}" value="#{createAccountController.academic.cpf}" required="true" pt:placeholder="#{msgsCore['createAccount.field.cpf.placeholder']}">
+					<f:ajax event="blur" render="cpfField" />
+				</p:inputMask>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:button id="cancelButton" value="#{msgsCore['createAccount.button.cancel']}" outcome="/login.xhtml" icon="fa fa-fw fa-times-circle" />
+				<p:commandButton action="#{createAccountController.register}" value="#{msgsCore['createAccount.button.register']}" update=":messages" icon="fa fa-fw fa-save" />
+			</ui:decorate>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>

@@ -116,8 +116,6 @@ public class InstallSystemController extends JSFController {
 
 	/**
 	 * Begins the installation process.
-	 * 
-	 * @return The path to the web page that shows the first step of the installation process.
 	 */
 	public void begin() {
 		logger.log(Level.FINEST, "Beginning conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });

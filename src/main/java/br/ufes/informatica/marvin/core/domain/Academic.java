@@ -37,6 +37,7 @@ public class Academic extends Person {
 
 	/** Electronic address, which also serves as username for identification. */
 	@Basic
+	@NotNull
 	@Size(max = 100)
 	private String email;
 

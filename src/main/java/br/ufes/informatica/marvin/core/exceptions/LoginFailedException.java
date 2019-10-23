@@ -56,7 +56,7 @@ public class LoginFailedException extends Exception {
 		/**
 		 * Marvin could not check with the container if the authentication is OK because the HTTP request doesn't exist.
 		 */
-		NO_HTTP_REQUEST("noHttpRequest");
+		INFRASTRUCTURE_PROBLEMS("infrastructureProblems");
 
 		/** A unique identifier for the reason. */
 		private String id;
