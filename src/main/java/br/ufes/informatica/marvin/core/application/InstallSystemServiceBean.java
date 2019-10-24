@@ -18,12 +18,10 @@ import org.primefaces.json.JSONObject;
 import br.ufes.inf.nemo.jbutler.ResourceUtil;
 import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.informatica.marvin.core.domain.Academic;
-import br.ufes.informatica.marvin.core.domain.AcademicRole;
 import br.ufes.informatica.marvin.core.domain.MarvinConfiguration;
 import br.ufes.informatica.marvin.core.domain.Role;
 import br.ufes.informatica.marvin.core.exceptions.OperationFailedException;
 import br.ufes.informatica.marvin.core.persistence.AcademicDAO;
-import br.ufes.informatica.marvin.core.persistence.AcademicRoleDAO;
 import br.ufes.informatica.marvin.core.persistence.MarvinConfigurationDAO;
 import br.ufes.informatica.marvin.core.persistence.RoleDAO;
 
@@ -44,9 +42,6 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** The name of the file that contains the roles to be added upon system installation. */
 	private static final String INIT_DATA_ROLE_FILE_NAME = "Role.json";
 
-	/** The name of the file that contains the academic roles to be added upon system installation. */
-	private static final String INIT_DATA_ACADEMICROLE_FILE_NAME = "AcademicRole.json";
-
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(InstallSystemServiceBean.class.getCanonicalName());
 
@@ -61,10 +56,6 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** The DAO for Role objects. */
 	@EJB
 	private RoleDAO roleDAO;
-
-	/** The DAO for Academic Role objects. */
-	@EJB
-	private AcademicRoleDAO academicRoleDAO;
 
 	/** Global information about the application. */
 	@EJB
@@ -98,24 +89,6 @@ public class InstallSystemServiceBean implements InstallSystemService {
 					Role role = new Role(obj.getString("name"), obj.getString("descriptionKey"));
 					logger.log(Level.FINE, "Persisting role: {0}", role.getName());
 					roleDAO.save(role);
-				}
-			}
-
-			// Creates the academic roles in the database from a JSON file located in META-INF/installSystem.
-			InputStream jsonFile2 = ResourceUtil.getResourceAsStream(INIT_DATA_PATH + INIT_DATA_ACADEMICROLE_FILE_NAME);
-			try (Scanner scanner = new Scanner(jsonFile2)) {
-				// Reads the content of the entire file, which contains a JSON array.
-				StringBuilder builder = new StringBuilder();
-				while (scanner.hasNextLine())
-					builder.append(scanner.nextLine());
-
-				// Instantiates the JSON array and reads the objects.
-				JSONArray array = new JSONArray(builder.toString());
-				for (int i = 0; i < array.length(); i++) {
-					JSONObject obj = array.getJSONObject(i);
-					AcademicRole academicRole = new AcademicRole(obj.getString("name"), obj.getString("descriptionKey"));
-					logger.log(Level.FINE, "Persisting academic role: {0}", academicRole.getName());
-					academicRoleDAO.save(academicRole);
 				}
 			}
 		}

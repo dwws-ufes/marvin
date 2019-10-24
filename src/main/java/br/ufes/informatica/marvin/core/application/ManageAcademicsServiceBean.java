@@ -23,11 +23,8 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.informatica.marvin.core.domain.Academic;
-import br.ufes.informatica.marvin.core.domain.AcademicRole;
 import br.ufes.informatica.marvin.core.domain.Role;
 import br.ufes.informatica.marvin.core.persistence.AcademicDAO;
-import br.ufes.informatica.marvin.core.persistence.AcademicRoleDAO;
-import br.ufes.informatica.marvin.core.persistence.CourseCoordinationDAO;
 import br.ufes.informatica.marvin.core.persistence.RoleDAO;
 
 /**
@@ -55,14 +52,6 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	@EJB
 	private RoleDAO roleDAO;
 
-	/** DAO for AcademicRole objects. */
-	@EJB
-	private AcademicRoleDAO academicRoleDAO;
-
-	/** DAO for CourseCoordination objects. */
-	@EJB
-	private CourseCoordinationDAO courseCoordinationDAO;
-
 	/** Service class that holds information on the system's current installation. */
 	@EJB
 	private CoreInformation coreInformation;
@@ -77,9 +66,6 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 
 	/** TODO: document this field. */
 	private PersistentObjectConverterFromId<Role> roleConverter;
-
-	/** TODO: document this field. */
-	private PersistentObjectConverterFromId<AcademicRole> academicRoleConverter;
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
@@ -128,25 +114,6 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 			logger.log(Level.SEVERE, "Problem retrieving role " + Role.SYSADMIN_ROLE_NAME + " while validating an academic deletion!", e);
 		}
 
-		// Rule 2: cannot delete a coordinator that is linked to a course coordination (activated).
-		AcademicRole coordinator;
-		try {
-			coordinator = academicRoleDAO.retrieveByName(AcademicRole.COURSECOORDINATOR_ROLE_NAME);
-			if (entity.getAcademicRoles().contains(coordinator)) {
-				logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 2: acadmic has CourseCoordinator role", new Object[] { email });
-				crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageAcademics.error.deleteCurrentCoordinator", email);
-			}
-		}
-		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
-			logger.log(Level.SEVERE, "Problem retrieving role " + Role.SYSADMIN_ROLE_NAME + " while validating an academic deletion!", e);
-		}
-
-		// Rule 3: cannot delete a academic that is linked to a disabled course coordination.
-		if (courseCoordinationDAO.academicWasCoordinator(entity)) {
-			logger.log(Level.INFO, "Deletion of academic \"{0}\" violates validation rule 3: the academic was coordinator of some course coordination", new Object[] { email });
-			crudException = addGlobalValidationError(crudException, crudExceptionMessage, "manageAcademics.error.deleteOldCoordinator", email);
-		}
-
 		// If one of the rules was violated, throw the exception.
 		if (crudException != null) throw crudException;
 	}
@@ -188,18 +155,5 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	@Override
 	public List<Role> findRoleByName(String name) {
 		return roleDAO.findByName(name);
-	}
-
-	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#getRoleConverter() */
-	@Override
-	public PersistentObjectConverterFromId<AcademicRole> getAcademicRoleConverter() {
-		if (academicRoleConverter == null) academicRoleConverter = new PersistentObjectConverterFromId<AcademicRole>(academicRoleDAO);
-		return academicRoleConverter;
-	}
-
-	/** @see br.ufes.inf.nemo.marvin.core.application.ManageAcademicsService#findRoleByName(java.lang.String) */
-	@Override
-	public List<AcademicRole> findAcademicRoleByName(String name) {
-		return academicRoleDAO.findByName(name);
 	}
 }

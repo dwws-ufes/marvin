@@ -63,10 +63,6 @@ public class Academic extends Person {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles;
 
-	/** Academic Roles for this user. */
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<AcademicRole> academicRoles;
-
 	/** The timestamp of the moment this academic was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -151,16 +147,6 @@ public class Academic extends Person {
 		this.roles = roles;
 	}
 
-	/** Getter for academic roles. */
-	public Set<AcademicRole> getAcademicRoles() {
-		return academicRoles;
-	}
-
-	/** Setter for academic roles. */
-	public void setAcademicRoles(Set<AcademicRole> academicRoles) {
-		this.academicRoles = academicRoles;
-	}
-
 	/** Getter for creationDate. */
 	public Date getCreationDate() {
 		return creationDate;
@@ -203,21 +189,12 @@ public class Academic extends Person {
 	}
 
 	/**
-	 * Assigns a academic role to an academic, i.e., adds the academic role to the set of academic roles.
+	 * Revokes a role from an academic, i.e., removes the role from the set of roles.
 	 * 
-	 * @param academicRole
-	 *          The academic role to assign.
+	 * @param role
+	 *          The role to revoke.
 	 */
-	public void assignAcademicRole(AcademicRole academicRole) {
-		if (academicRoles == null) academicRoles = new HashSet<>();
-		academicRoles.add(academicRole);
-	}
-
 	public void unassignRole(Role role) {
 		if (roles.contains(role)) roles.remove(role);
-	}
-
-	public void unassignAcademicRole(AcademicRole academicRole) {
-		if (academicRoles.contains(academicRole)) academicRoles.remove(academicRole);
 	}
 }
