@@ -16,7 +16,14 @@ import br.ufes.informatica.marvin.core.application.exceptions.EmailAlreadyInUseE
 import br.ufes.informatica.marvin.core.domain.Academic;
 
 /**
- * TODO: document this type.
+ * Controller for the "Create Account" use case.
+ * 
+ * This use case allows any user to create a new account in Marvin, becoming an Academic. The user supplies basic
+ * information (name, e-mail, etc.) and Marvin sends an e-mail with a code so the new Academic sets her password
+ * (through the "Change Password" use case), thus activating the account.
+ * 
+ * This controller is conversation scoped, beginning the conversation in method begin() and ending in method end(),
+ * which should be called explicitly by the web pages.
  *
  * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.0
@@ -44,19 +51,6 @@ public class CreateAccountController extends JSFController {
 	/** Input: the academic being registered. */
 	private Academic academic = new Academic();
 
-	/** Input: the repeated password for the registration. */
-	private String repeatPassword;
-
-	/** Getter for repeatPassword. */
-	public String getRepeatPassword() {
-		return repeatPassword;
-	}
-
-	/** Setter for repeatPassword. */
-	public void setRepeatPassword(String repeatPassword) {
-		this.repeatPassword = repeatPassword;
-	}
-
 	/** Getter for academic. */
 	public Academic getAcademic() {
 		return academic;
@@ -81,35 +75,12 @@ public class CreateAccountController extends JSFController {
 	}
 
 	/**
-	 * Checks if both password fields have the same value.
-	 * 
-	 * This method is intended to be used with AJAX.
-	 */
-	public void ajaxCheckPasswords() {
-		checkPasswords();
-	}
-
-	/**
-	 * Checks if the contents of the password fields match.
-	 * 
-	 * @return <code>true</code> if the passwords match, <code>false</code> otherwise.
-	 */
-	private boolean checkPasswords() {
-		if (((repeatPassword != null) && (!repeatPassword.equals(academic.getPassword()))) || ((repeatPassword == null) && (academic.getPassword() != null))) {
-			logger.log(Level.INFO, "Password and repeated password are not the same");
-			addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_WARN, "installSystem.error.passwordsDontMatch.summary", "installSystem.error.passwordsDontMatch.detail");
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Begins the registration process.
 	 */
 	public void begin() {
 		logger.log(Level.FINEST, "Beginning conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
 
-		// Begins the conversation, dropping any previous conversation, if existing.
+		// Begin the conversation, dropping any previous conversation, if existing.
 		if (!conversation.isTransient()) conversation.end();
 		conversation.begin();
 	}
@@ -120,7 +91,7 @@ public class CreateAccountController extends JSFController {
 	public void end() {
 		logger.log(Level.FINEST, "Ending conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
 
-		// Ends the conversation.
+		// End the conversation.
 		if (!conversation.isTransient()) conversation.end();
 	}
 
@@ -132,9 +103,6 @@ public class CreateAccountController extends JSFController {
 	public String register() {
 		logger.log(Level.FINEST, "Received input data:\n\t- academic.name = {0}\n\t- academic.email = {1}", new Object[] { academic.getName(), academic.getEmail() });
 
-		// Check if passwords don't match. Add an error in that case.
-		if (!checkPasswords()) return null;
-
 		// Register the new academic, checking if the e-mail is already in use.
 		try {
 			createAccountService.createAccount(academic);
@@ -144,7 +112,7 @@ public class CreateAccountController extends JSFController {
 			return null;
 		}
 
-		// Proceeds to the final view.
+		// Proceed to the final view.
 		return VIEW_PATH + "done.xhtml?faces-redirect=true";
 	}
 }

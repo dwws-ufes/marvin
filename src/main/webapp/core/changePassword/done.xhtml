@@ -17,6 +17,11 @@
     </ui:define>
 
   	<ui:define name="body">
+		<!-- End the conversation. -->
+		<f:metadata>
+		    <f:viewAction action="#{changePasswordController.end}" />
+		</f:metadata>
+
 		<p><h:outputText value="#{msgsCore['changePassword.text.done']}" /></p>
 		
 		<center><h:form><p:button id="loginButton" value="#{msgsCore['core.menu.login']}" outcome="/login.xhtml" icon="fa fa-fw fa-key" /></h:form></center>
