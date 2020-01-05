@@ -204,6 +204,7 @@ public class SessionController extends AdminSession implements Serializable {
 			// FIXME: is there a way to do this at the application package (in the EJB)?
 			try {
 				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+				request.logout();
 				request.login(email, password);
 			}
 			catch (ServletException e) {

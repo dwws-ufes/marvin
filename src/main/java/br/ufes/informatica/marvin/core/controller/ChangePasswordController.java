@@ -66,6 +66,9 @@ public class ChangePasswordController extends JSFController {
 
 	/** The academic object associated with the given password code. */
 	private Academic academic;
+	
+	/** The password code after it has been validated. */
+	private String validatedPasswordCode;
 
 	/** Getter for academic. */
 	public Academic getAcademic() {
@@ -129,6 +132,7 @@ public class ChangePasswordController extends JSFController {
 		if (validCode) try {
 			// Attempt to find the academic with the given password code.
 			academic = changePasswordService.retrieveAcademicByPasswordCode(passwordCode);
+			validatedPasswordCode = passwordCode;
 
 			// If all went well, begin the conversation (if one hasn't begun already).
 			logger.log(Level.INFO, "Beginning conversation. Current conversation transient? -> {0}", new Object[] { conversation.isTransient() });
@@ -197,14 +201,14 @@ public class ChangePasswordController extends JSFController {
 	 * @return The path to the web page that shows that the operation completed successfully.
 	 */
 	public String setNewPassword() {
-		logger.log(Level.INFO, "Setting new password for academic {0} (password code {1})", new Object[] { academic, passwordCode });
+		logger.log(Level.INFO, "Setting new password for academic {0} (password code {1})", new Object[] { academic, validatedPasswordCode });
 
 		// Check if the passwords match.
 		if (!checkPasswords()) return null;
 
 		// Change the password.
 		try {
-			changePasswordService.setNewPassword(passwordCode, password);
+			changePasswordService.setNewPassword(validatedPasswordCode, password);
 		}
 		catch (OperationFailedException e) {
 			logger.log(Level.SEVERE, "Change password threw exception", e);
