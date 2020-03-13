@@ -20,6 +20,46 @@
 		<!-- The breadcrumb. -->
 		<adm:breadcrumb title="#{msgsCore['editProfile.title']}" link="index.xhtml"/>
 	
-		
+		<!-- The form to be filled with information on the authenticated user. -->
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsCore['editProfile.form.basic.title']}" />
+			<p:focus />
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsCore['editProfile.field.name']}" />
+				<p:inputText id="name" value="#{editProfileController.academic.name}" required="true" pt:placeholder="#{msgsCore['editProfile.field.name.placeholder']}">
+					<f:ajax event="blur" render="nameField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="email" />
+				<ui:param name="label" value="#{msgsCore['editProfile.field.email']}" />
+				<p:inputText id="email" value="#{editProfileController.academic.email}" readonly="true" />
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="shortName" />
+				<ui:param name="label" value="#{msgsCore['editProfile.field.shortName']}" />
+				<p:inputText id="shortName" value="#{editProfileController.academic.shortName}" required="true" pt:placeholder="#{msgsCore['editProfile.field.shortName.placeholder']}">
+					<f:ajax event="blur" render="shortNameField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="cpf" />
+				<ui:param name="label" value="#{msgsCore['editProfile.field.cpf']}" />
+				<p:inputMask id="cpf" mask="#{msgs['jbutler.format.taxCode.primefaces']}" value="#{editProfileController.academic.cpf}" required="true" pt:placeholder="#{msgsCore['editProfile.field.cpf.placeholder']}">
+					<f:ajax event="blur" render="cpfField" />
+				</p:inputMask>
+			</ui:decorate>
+
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:button id="backButton" value="#{msgsCore['editProfile.button.back']}" outcome="/index" icon="fa fa-fw fa-arrow-circle-left" />
+				<p:commandButton action="#{editProfileController.save}" value="#{msgsCore['editProfile.button.save']}" update=":messages" icon="fa fa-fw fa-save" />
+			</ui:decorate>
+		</ui:decorate>		
 	</ui:define>
 </ui:composition>
