@@ -53,6 +53,11 @@
 			<artifactId>commons-email</artifactId>
 			<version>1.5</version>
 		</dependency>
+		<dependency>
+		     <groupId>org.webjars</groupId>
+		     <artifactId>font-awesome</artifactId>
+		     <version>5.13.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>marvin</finalName>
