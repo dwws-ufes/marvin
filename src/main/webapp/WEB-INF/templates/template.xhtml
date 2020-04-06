@@ -33,6 +33,11 @@
                     <i class="fa fa-cogs"></i>
                     <span><h:outputText value="#{msgsCore['menu.installSystem']}" /></span>
                 </p:link></li>
+
+			<!-- Include menus from modules. -->
+			<h:panelGroup rendered="#{coreInfo.systemInstalled}">
+            	<ui:include src="menus/admin.xhtml" />
+            </h:panelGroup>
         </ul>
     </ui:define>
 
