@@ -12,8 +12,8 @@ import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
-import org.primefaces.json.JSONArray;
-import org.primefaces.json.JSONObject;
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
 import br.ufes.inf.nemo.jbutler.ResourceUtil;
 import br.ufes.inf.nemo.jbutler.TextUtils;

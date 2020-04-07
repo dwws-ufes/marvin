@@ -23,6 +23,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>8.0</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
@@ -36,12 +41,12 @@
 		<dependency>
 			<groupId>com.github.adminfaces</groupId>
 			<artifactId>admin-template</artifactId>
-			<version>1.0.2</version>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>br.ufes.inf.nemo</groupId>
 			<artifactId>jbutler-wp</artifactId>
-			<version>1.2.7</version>
+			<version>1.2.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jtwig</groupId>
