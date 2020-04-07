@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsAdmin['manageAcademics.title.create']}" rendered="#{(! manageAcademicsController.readOnly) and (manageAcademicsController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsAdmin['manageAcademics.title.update']}" rendered="#{(! manageAcademicsController.readOnly) and (manageAcademicsController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsAdmin['manageAcademics.title.retrieve']}" rendered="#{manageAcademicsController.readOnly}" />
+	</ui:define>
+
+	<ui:define name="description">
+		<h:outputText value="#{msgsAdmin['manageAcademics.title.create.description']}" rendered="#{(! manageAcademicsController.readOnly) and (manageAcademicsController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsAdmin['manageAcademics.title.update.description']}" rendered="#{(! manageAcademicsController.readOnly) and (manageAcademicsController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsAdmin['manageAcademics.title.retrieve.description']}" rendered="#{manageAcademicsController.readOnly}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsAdmin['manageAcademics.title']}" link="index.xhtml" />
+	
+		<!-- The form to be filled with information on the academic. -->
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsAdmin['manageAcademics.form.title']}" />
+			<p:focus />
+
+			<!-- Field: name. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.name']}" />
+				<p:inputText id="name" value="#{manageAcademicsController.selectedEntity.name}" required="true" pt:placeholder="#{msgsAdmin['manageAcademics.field.name.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="nameField shortNameField" listener="#{manageAcademicsController.suggestShortName}" />
+				</p:inputText>
+			</ui:decorate>
+
+			<!-- Field: email. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="email" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.email']}" />
+				<p:inputText id="email" value="#{manageAcademicsController.selectedEntity.email}" required="true" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="emailField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<!-- Field: shortName. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="shortName" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.shortName']}" />
+				<p:inputText id="shortName" value="#{manageAcademicsController.selectedEntity.shortName}" required="true" pt:placeholder="#{msgsAdmin['manageAcademics.field.shortName.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="shortNameField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<!-- Field: cpf. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="cpf" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.cpf']}" />
+				<p:inputMask id="cpf" mask="#{msgs['jbutler.format.taxCode.primefaces']}" value="#{manageAcademicsController.selectedEntity.cpf}" required="true" disabled="#{manageAcademicsController.readOnly}">
+						<f:ajax event="blur" render="cpfField" />
+				</p:inputMask>
+			</ui:decorate>
+			
+			<!-- Field: IdentityCard. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="identityCard" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.identityCard']}" />
+				<p:inputMask id="identityCard" mask="#{msgs['jbutler.regex.identityCard']}" maxlength="9" validatorMessage="jbutler.regex.identityCard.message" pt:placeholder="#{msgsAdmin['manageAcademics.field.identityCard.placeholder']}" value="#{manageAcademicsController.selectedEntity.identityCard}" required="false" disabled="#{manageAcademicsController.readOnly}">
+						<f:ajax event="blur" render="identityCardField" />
+				</p:inputMask>
+			</ui:decorate>
+			
+			<!-- Field: BirthCity. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="birthCity" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.birthCity']}" />
+				<p:inputText id="birthCity" value="#{manageAcademicsController.selectedEntity.birthCity}" required="false" pt:placeholder="#{msgsAdmin['manageAcademics.field.birthCity.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="birthCityField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<!-- Field: Nationality. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="nationality" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.nationality']}" />
+				<p:inputText id="nationality" value="#{manageAcademicsController.selectedEntity.nationality}" required="false" pt:placeholder="#{msgsAdmin['manageAcademics.field.nationality.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="nationalityField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<!-- Field: birthDate. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="birthDate" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.birthDate']}" />
+				<p:inputMask id="birthDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{manageAcademicsController.selectedEntity.birthDate}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="birthDateField" />
+					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+				</p:inputMask>
+				<h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
+			</ui:decorate>
+
+			<!-- Field: roles. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="roles" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.roles']}" />
+				<p:autoComplete id="roles" multiple="true" value="#{manageAcademicsController.selectedRoles}" completeMethod="#{manageAcademicsController.completeRoles}" var="role" itemLabel="#{role.name}" itemValue="#{role}" converter="#{manageAcademicsController.roleConverter}" forceSelection="true" disabled="#{manageAcademicsController.readOnly}">
+					<p:column>
+						<h:outputText value="#{role.name}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{msgsCore[role.descriptionKey]}" />
+					</p:column>
+				</p:autoComplete>			
+			</ui:decorate>
+			
+			<!-- Field: lattesId. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="lattesId" />
+				<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.lattesId']}" />
+				<p:inputText id="lattesId" value="#{manageAcademicsController.selectedEntity.lattesId}" required="false" pt:placeholder="#{msgsAdmin['manageAcademics.field.lattesId.placeholder']}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="lattesIdField" />
+				</p:inputText>
+			</ui:decorate>
+
+			<!-- Field: creationDate. -->
+			<h:panelGroup rendered="#{manageAcademicsController.readOnly}">
+				<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+					<ui:param name="fieldName" value="creationDate" />
+					<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.creationDate']}" />
+					<p:inputText id="creationDate" value="#{manageAcademicsController.selectedEntity.creationDate}" disabled="true">
+						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+					</p:inputText>
+				</ui:decorate>
+			</h:panelGroup>
+
+			<!-- Field: lastUpdateDate. -->
+			<h:panelGroup rendered="#{manageAcademicsController.readOnly}">
+				<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+					<ui:param name="fieldName" value="lastUpdateDate" />
+					<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.lastUpdateDate']}" />
+					<p:inputText id="lastUpdateDate" value="#{manageAcademicsController.selectedEntity.lastUpdateDate}" disabled="true">
+						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+					</p:inputText>
+				</ui:decorate>
+			</h:panelGroup>
+
+			<!-- Field: lastLoginDate. -->
+			<h:panelGroup rendered="#{manageAcademicsController.readOnly}">
+				<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+					<ui:param name="fieldName" value="lastLoginDate" />
+					<ui:param name="label" value="#{msgsAdmin['manageAcademics.field.lastLoginDate']}" />
+					<p:inputText id="lastLoginDate" value="#{manageAcademicsController.selectedEntity.lastLoginDate}" disabled="true">
+						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+					</p:inputText>
+				</ui:decorate>
+			</h:panelGroup>
+
+			<!-- Buttons shown below the form. -->
+			<h:panelGroup rendered="#{! manageAcademicsController.readOnly}">
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton id="cancelButton" action="#{manageAcademicsController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
+					<p:commandButton id="saveButton" action="#{manageAcademicsController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
+					<p:defaultCommand target="saveButton" />
+				</ui:decorate>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{manageAcademicsController.readOnly}">
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton id="backButton" action="#{manageAcademicsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
+				</ui:decorate>
+			</h:panelGroup>
+		</ui:decorate>		
+	</ui:define>
+</ui:composition>
