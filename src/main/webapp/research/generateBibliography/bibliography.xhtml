@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsResearch['generateBibliography.title']}" />
+	</ui:define>
+    
+    <ui:define name="description">
+    	<h:outputText value="#{msgsResearch['generateBibliography.title.description']}" />
+    </ui:define>
+
+  	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsResearch['generateBibliography.title']}" link="index.xhtml"/>
+
+		<!-- A form so the results can be downloaded. -->
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsResearch['generateBibliography.form.result']}" />
+			<ui:param name="formFileUpload" value="true" /> 
+			
+			<!-- Description of the results and what can be done with it. -->	
+			<p><h:outputText value="#{msgsResearch['generateBibliography.text.result']}" /></p>
+
+			<!-- The generated bibliography in a scroll pane. -->
+			<p:scrollPanel mode="native" style="width: 100%; height: 400px">
+				<h:outputText value="#{generateBibliographyController.bibliography}" style="font-family: monospace; white-space: pre-wrap;" />
+			</p:scrollPanel>
+
+			<!-- Buttons below the form, allowing the generated bibliography to the downloaded. -->
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:commandButton id="backButton" action="#{generateBibliographyController.back}" value="#{msgsResearch['generateBibliography.button.back']}" icon="fa fa-fw fa-arrow-left" />
+				<p:commandButton id="downloadButton" ajax="false" value="#{msgsResearch['generateBibliography.button.download']}" icon="fa fa-fw fa-download">
+					<p:fileDownload value="#{generateBibliographyController.bibliographyFile}" />
+				</p:commandButton>
+			</ui:decorate>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>
+
+	

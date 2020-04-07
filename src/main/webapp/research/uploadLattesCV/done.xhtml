@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsResearch['uploadLattesCV.title']}" />
+	</ui:define>
+    
+    <ui:define name="description">
+    	<h:outputText value="#{msgsResearch['uploadLattesCV.title.description']}" />
+    </ui:define>
+
+  	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsResearch['uploadLattesCV.title']}" link="index.xhtml"/>
+
+		<ui:decorate template="/WEB-INF/templates/form-nobox.xhtml">
+			<ui:param name="formName" value="form" />
+
+			<!-- Success message. -->
+			<p><h:outputFormat value="#{msgsResearch['uploadLattesCV.text.instructions.success']}">
+				<f:param value="#{flash.uploadLattesCVController.publications.size()}" />
+				<f:param value="#{flash.uploadLattesCVController.researcher.name}" />
+			</h:outputFormat></p>
+
+			<!-- Buttons to take the user to possible next steps. -->	
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:commandButton action="#{uploadLattesCVController.cancel}" value="#{msgsResearch['uploadLattesCV.button.uploadAnother']}" icon="fa fa-fw fa-plus" />
+			</ui:decorate>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>

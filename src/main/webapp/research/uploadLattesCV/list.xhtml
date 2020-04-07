@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsResearch['uploadLattesCV.title']}" />
+	</ui:define>
+    
+    <ui:define name="description">
+    	<h:outputText value="#{msgsResearch['uploadLattesCV.title.description']}" />
+    </ui:define>
+
+  	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsResearch['uploadLattesCV.title']}" link="index.xhtml"/>
+
+		<!-- Instructions to confirm that the publications should be associated with the academic. -->
+		<p><h:outputFormat value="#{msgsResearch['uploadLattesCV.text.instructions.confirm']}">
+			<f:param value="#{uploadLattesCVController.researcher.name}" />
+			<f:param value="#{uploadLattesCVController.previousQuantity}" />
+			<f:param value="#{uploadLattesCVController.publications.size()}" />
+		</h:outputFormat></p>
+	
+		<!-- The listing form. -->
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="listingForm" />
+			<ui:param name="formLabel" value="#{msgsResearch['uploadLattesCV.form.publications']}" />
+
+			<!-- List of publications extracted from the CV file. -->
+			<p:dataTable
+				widgetVar="listingTable"
+				value="#{uploadLattesCVController.publications}" 
+				var="entity" 
+				selectionMode="single" 
+				selection="#{uploadLattesCVController.selectedPublication}" 
+				rowKey="#{entity.uuid}"
+				emptyMessage="#{msgsResearch['uploadLattesCV.text.noPublications']}"
+				reflow="true">
+
+				<p:column headerText="#{msgsResearch['uploadLattesCV.field.type']}" styleClass="ui-grid-col-2">
+					<c:set var="typeKey" value="uploadLattesCV.field.type.#{entity.class.simpleName.toLowerCase()}" />
+					<h:outputText value="#{msgsResearch[typeKey]}" />
+				</p:column>
+
+				<p:column headerText="#{msgsResearch['uploadLattesCV.field.title']}" styleClass="ui-grid-col-9">
+					<h:outputText value="#{entity.title}" />
+				</p:column>
+
+				<p:column headerText="#{msgsResearch['uploadLattesCV.field.year']}" styleClass="ui-grid-col-1">
+					<h:outputText value="#{entity.year}" />
+				</p:column>
+			</p:dataTable>
+
+			<!-- Buttons shown below the listing. -->
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:commandButton action="#{uploadLattesCVController.cancel}" value="#{msgsResearch['uploadLattesCV.button.cancel']}" icon="fa fa-fw fa-ban" />
+				<p:commandButton action="#{uploadLattesCVController.confirm}" value="#{msgsResearch['uploadLattesCV.button.confirm']}" icon="fa fa-fw fa-check" />
+			</ui:decorate>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>

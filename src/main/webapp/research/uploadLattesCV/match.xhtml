@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsResearch['uploadLattesCV.title']}" />
+	</ui:define>
+    
+    <ui:define name="description">
+    	<h:outputText value="#{msgsResearch['uploadLattesCV.title.description']}" />
+    </ui:define>
+
+  	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsResearch['uploadLattesCV.title']}" link="index.xhtml"/>
+
+		<!-- Instructions on venue matching. -->
+		<p><h:outputFormat value="#{msgsResearch['uploadLattesCV.text.instructions.match']}">
+			<f:param value="#{uploadLattesCVController.publications.size()}" />
+			<f:param value="#{uploadLattesCVController.researcher.name}" />
+		</h:outputFormat></p>
+	
+		<!-- The listing form. -->
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="listingForm" />
+			<ui:param name="formLabel" value="#{msgsResearch['uploadLattesCV.form.publications']}" />
+
+			<p:dataTable
+				widgetVar="listingTable"
+				value="#{uploadLattesCVController.papers}" 
+				var="entity" 
+				selectionMode="single" 
+				selection="#{uploadLattesCVController.selectedPublication}" 
+				rowKey="#{entity.uuid}"
+				emptyMessage="#{msgsResearch['uploadLattesCV.text.noPublications']}"
+				reflow="true" editable="true" editMode="cell">
+
+				<p:column headerText="#{msgsResearch['uploadLattesCV.field.year']}" styleClass="ui-grid-col-1">
+					<h:outputText value="#{entity.year}" />
+				</p:column>
+
+				<p:column headerText="#{msgsResearch['uploadLattesCV.field.title']}" styleClass="ui-grid-col-4">
+					<h:outputText value="#{entity.title}" />
+				</p:column>
+
+				<p:column headerText="#{msgsResearch['uploadLattesCV.field.venueString']}" styleClass="ui-grid-col-4">
+					<h:outputText value="#{entity.venueString}" />
+				</p:column>
+
+				<p:column headerText="#{msgsResearch['uploadLattesCV.field.venue']}" styleClass="ui-grid-col-3">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{msgsResearch['uploadLattesCV.text.noVenue']}" rendered="#{entity.venue == null}" />
+							<h:outputText value="#{entity.venue.name}" rendered="#{entity.venue != null}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:autoComplete id="venue" value="#{entity.venue}" completeMethod="#{uploadLattesCVController.completeVenues}" var="venue" itemLabel="#{venue.name}" itemValue="#{venue}" converter="#{uploadLattesCVController.venueConverter}" forceSelection="true" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+			</p:dataTable>
+
+			<!-- Buttons shown below the listing. -->
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:commandButton action="#{uploadLattesCVController.cancel}" value="#{msgsResearch['uploadLattesCV.button.cancel']}" icon="fa fa-fw fa-ban" />
+				<p:commandButton action="#{uploadLattesCVController.match}" value="#{msgsResearch['uploadLattesCV.button.confirm']}" icon="fa fa-fw fa-check" />
+			</ui:decorate>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>
