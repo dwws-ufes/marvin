@@ -18,15 +18,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import br.ufes.informatica.marvin.core.application.ChangePasswordService;
 import br.ufes.informatica.marvin.core.controller.ChangePasswordController;
-import br.ufes.informatica.marvin.core.controller.SessionController;
 import br.ufes.informatica.marvin.core.domain.Academic;
 import br.ufes.informatica.marvin.core.exceptions.InvalidPasswordCodeException;
 
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
 public class ChangePasswordControllerTest {
-	
-	@Mock
-	private SessionController sessionController;
 	
 	@Mock
 	private ChangePasswordService changepasswordservice;
@@ -42,7 +38,6 @@ public class ChangePasswordControllerTest {
 	private String expectedPwdCode;
 	private Field field;
 
-	
 	@Before
 	public void setup() throws NoSuchFieldException, SecurityException {
 		academic = new Academic();
