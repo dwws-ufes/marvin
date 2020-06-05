@@ -16,9 +16,9 @@ import javax.inject.Inject;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
-import br.ufes.informatica.marvin.core.application.exceptions.EmailAlreadyInUseException;
 import br.ufes.informatica.marvin.core.domain.Academic;
 import br.ufes.informatica.marvin.core.domain.Role;
+import br.ufes.informatica.marvin.core.exceptions.EmailAlreadyInUseException;
 import br.ufes.informatica.marvin.core.persistence.AcademicDAO;
 import br.ufes.informatica.marvin.core.persistence.RoleDAO;
 

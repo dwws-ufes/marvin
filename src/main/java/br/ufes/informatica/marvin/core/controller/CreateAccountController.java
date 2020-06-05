@@ -12,8 +12,8 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.informatica.marvin.core.application.CreateAccountService;
-import br.ufes.informatica.marvin.core.application.exceptions.EmailAlreadyInUseException;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.core.exceptions.EmailAlreadyInUseException;
 
 /**
  * Controller for the "Create Account" use case.

@@ -1,4 +1,4 @@
-package br.ufes.informatica.marvin.core.application.exceptions;
+package br.ufes.informatica.marvin.core.exceptions;
 
 /**
  * Exception thrown by service classes when there is an attempt to register an academic with an e-mail address already
