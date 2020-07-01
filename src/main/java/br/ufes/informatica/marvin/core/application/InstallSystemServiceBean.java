@@ -48,23 +48,27 @@ public class InstallSystemServiceBean implements InstallSystemService {
   /** The name of the file that contains the roles to be added upon system installation. */
   private static final String INIT_DATA_ROLE_FILE_NAME = "Role.json";
 
-  /** The DAO for Academic objects. */
+  /** The Academic DAO is used to save the administrator that is registered during installation. */
   @EJB
   private AcademicDAO academicDAO;
 
-  /** The DAO for MarvinConfiguration objects. */
+  /** The MarvinConfiguration DAO is used to save the configuration set during installation. */
   @EJB
   private MarvinConfigurationDAO marvinConfigurationDAO;
 
-  /** The DAO for Role objects. */
+  /** The Role DAO is used to create the preconfigured roles and set the admin role. */
   @EJB
   private RoleDAO roleDAO;
 
-  /** Global information about the application. */
+  /** The CoreInformation bean needs to be notified of system installation to reinitialize. */
   @EJB
   private CoreInformation coreInformation;
 
-  /** Call Qualis Registration */
+  /**
+   * An event for system installation that notifies eventual observers. This event could be observed
+   * by different modules in order to perform their own installation procedures, decoupling from the
+   * core module.
+   */
   @Inject
   private Event<InstallEvent> installEvent;
 
@@ -131,6 +135,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
       logger.log(Level.FINER, "Reloading core information...");
       coreInformation.init();
 
+      // Notifies eventual observers that could be performing their own installation procedures.
       installEvent.fire(new InstallEvent());
     } catch (NoSuchAlgorithmException e) {
       // Logs and rethrows the exception for the controller to display the error to the user.
