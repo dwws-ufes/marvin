@@ -1,12 +1,16 @@
 package br.ufes.informatica.marvin.core.application;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.core.exceptions.OperationFailedException;
 import br.ufes.informatica.marvin.core.persistence.AcademicDAO;
 
 /**
@@ -35,5 +39,22 @@ public class EditProfileServiceBean implements EditProfileService {
 		// Saves the object, then merges with the current session to return the updated object.
 		academicDAO.save(academic);
 		return academicDAO.merge(academic);
+	}
+	
+	public Academic updatePassword(Academic academic, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, OperationFailedException {
+		
+		try {
+		// Sets a new password to academic
+		academic.setPassword(TextUtils.produceBase64EncodedMd5Hash(password));
+		// Saves the academic.
+		academicDAO.save(academic);
+		
+		return academicDAO.merge(academic);
+		}
+		catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			// Logs and rethrows the exception for the controller to display the error to the user.
+			logger.log(Level.SEVERE, "Could not find MD5 algorithm for password encription!", e);
+			throw new OperationFailedException(e);
+		}
 	}
 }

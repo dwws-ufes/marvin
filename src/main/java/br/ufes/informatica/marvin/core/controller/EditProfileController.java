@@ -1,5 +1,7 @@
 package br.ufes.informatica.marvin.core.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +14,7 @@ import javax.inject.Named;
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.informatica.marvin.core.application.EditProfileService;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.core.exceptions.OperationFailedException;
 
 /**
  * Controller for the "Edit Profile" use case.
@@ -57,6 +60,26 @@ public class EditProfileController extends JSFController {
 
 	/** Input: the academic whose profile is being edited. */
 	private Academic academic;
+	
+	/** Input: the password data whose profile is being edited. */
+	private String password;
+	private String confirmPassword;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 
 	/** Getter for academic. Returns the currently authenticated user. */
 	public Academic getAcademic() {
@@ -74,5 +97,27 @@ public class EditProfileController extends JSFController {
 		
 		// Shows a confirmation message.
 		addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_INFO, "editProfile.info.updateSuccess.summary", "editProfile.info.updateSuccess.detail");
+	}
+	
+	public void savePassword() throws NoSuchAlgorithmException, UnsupportedEncodingException, OperationFailedException {
+		
+		logger.log(Level.INFO, "Saving password from academic: {0}", new Object[] { academic });
+		
+		if(checkPasswords()) {
+			//Updates academic's password.
+			academic = editProfileService.updatePassword(academic, password);
+			// Shows a confirmation message.
+			addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_INFO, "editProfile.info.updateSuccess.summary", "editProfile.info.updateSuccess.detail");
+		} else {
+			addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_ERROR, "editProfile.info.updateFail.summary", "editProfile.info.updatePasswordFail.detail");
+		}
+	}
+	
+	private boolean checkPasswords() {
+		if (confirmPassword == null || password == null || (!confirmPassword.equals(password))) {
+			logger.log(Level.INFO, "Password and repeated password are null or don't match!");
+			return false;
+		}
+		return true;
 	}
 }

@@ -1,10 +1,13 @@
 package br.ufes.informatica.marvin.core.application;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.ejb.Local;
 
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.core.exceptions.OperationFailedException;
 
 /**
  * TODO: document this type.
@@ -20,4 +23,5 @@ public interface EditProfileService extends Serializable {
 	 * @return
 	 */
 	Academic update(Academic academic);
+	Academic updatePassword(Academic academic, String password) throws UnsupportedEncodingException, OperationFailedException, NoSuchAlgorithmException, UnsupportedEncodingException, OperationFailedException;
 }

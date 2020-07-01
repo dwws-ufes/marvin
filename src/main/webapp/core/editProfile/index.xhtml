@@ -61,5 +61,33 @@
 				<p:commandButton action="#{editProfileController.save}" value="#{msgsCore['editProfile.button.save']}" update=":messages" icon="fa fa-fw fa-save" />
 			</ui:decorate>
 		</ui:decorate>		
+		
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="formPassword" /> 
+			<ui:param name="formLabel" value="#{msgsCore['editProfile.form.password.title']}" />
+			<p:focus />
+			
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="password" />
+				<ui:param name="label" value="#{msgsCore['editProfile.field.password']}" />
+				<p:password id="password" redisplay="true" value="#{editProfileController.password}" required="true" pt:placeholder="#{msgsCore['editProfile.field.password.placeholder']}">
+					<f:ajax event="blur" render="passwordField" />
+				</p:password>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="confirmPassword" />
+				<ui:param name="label" value="#{msgsCore['editProfile.field.confirmPassword']}" />
+				<p:password id="confirmPassword" redisplay= "true" value="#{editProfileController.confirmPassword}" required="true" pt:placeholder="#{msgsCore['editProfile.field.confirmPassword.placeholder']}">
+					<f:ajax event="blur" render="confirmPasswordField" />
+				</p:password>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+				<p:button id="backButton" value="#{msgsCore['editProfile.button.back']}" outcome="/index" icon="fa fa-fw fa-arrow-circle-left" />
+				<p:commandButton action="#{editProfileController.savePassword}" value="#{msgsCore['editProfile.button.save']}" update=":messages" icon="fa fa-fw fa-save" render="@form"/>
+			</ui:decorate>
+			
+		</ui:decorate>		
 	</ui:define>
 </ui:composition>
