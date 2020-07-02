@@ -23,5 +23,5 @@ public interface EditProfileService extends Serializable {
 	 * @return
 	 */
 	Academic update(Academic academic);
-	Academic updatePassword(Academic academic, String password) throws UnsupportedEncodingException, OperationFailedException, NoSuchAlgorithmException, UnsupportedEncodingException, OperationFailedException;
+	Academic updatePassword(Academic academic, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, OperationFailedException;
 }

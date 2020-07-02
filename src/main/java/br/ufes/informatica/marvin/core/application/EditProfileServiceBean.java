@@ -41,7 +41,7 @@ public class EditProfileServiceBean implements EditProfileService {
 		return academicDAO.merge(academic);
 	}
 	
-	public Academic updatePassword(Academic academic, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, OperationFailedException {
+    public Academic updatePassword(Academic academic, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, OperationFailedException {
 		
 		try {
 		// Sets a new password to academic

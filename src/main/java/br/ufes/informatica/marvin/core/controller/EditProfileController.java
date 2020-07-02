@@ -64,7 +64,7 @@ public class EditProfileController extends JSFController {
 	/** Input: the password data whose profile is being edited. */
 	private String password;
 	private String confirmPassword;
-
+	
 	public String getPassword() {
 		return password;
 	}

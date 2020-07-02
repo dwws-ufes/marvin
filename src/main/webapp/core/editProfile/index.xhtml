@@ -60,7 +60,7 @@
 				<p:button id="backButton" value="#{msgsCore['editProfile.button.back']}" outcome="/index" icon="fa fa-fw fa-arrow-circle-left" />
 				<p:commandButton action="#{editProfileController.save}" value="#{msgsCore['editProfile.button.save']}" update=":messages" icon="fa fa-fw fa-save" />
 			</ui:decorate>
-		</ui:decorate>		
+		</ui:decorate>	
 		
 		<ui:decorate template="/WEB-INF/templates/form.xhtml">
 			<ui:param name="formName" value="formPassword" /> 
@@ -88,6 +88,6 @@
 				<p:commandButton action="#{editProfileController.savePassword}" value="#{msgsCore['editProfile.button.save']}" update=":messages" icon="fa fa-fw fa-save" render="@form"/>
 			</ui:decorate>
 			
-		</ui:decorate>		
+		</ui:decorate>			
 	</ui:define>
 </ui:composition>
