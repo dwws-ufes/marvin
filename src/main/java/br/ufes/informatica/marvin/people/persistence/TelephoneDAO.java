@@ -1,21 +1,20 @@
 package br.ufes.informatica.marvin.people.persistence;
 
 import javax.ejb.Local;
-
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.people.domain.Telephone;
 
 /**
  * Interface for a DAO for objects of the Telephone domain class.
  * 
- * Using a mini CRUD framework for EJB3, basic DAO operation definitions are inherited from the superclass, whereas
- * operations that are specific to the managed domain class (if any) are specified in this class.
+ * Using a mini CRUD framework for EJB3, basic DAO operation definitions are inherited from the
+ * superclass, whereas operations that are specific to the managed domain class (if any) are
+ * specified in this class.
  * 
- * <i>This class is part of the Engenho de Software "Legal Entity" mini framework for EJB3 (Java EE 6).</i>
+ * <i>This class is part of a "Legal Entity" mini framework for EJB3.</i>
  * 
- * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- * @see org.feees.sigme.people.persistence.Telephone
- * @see br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO
+ * @author Vítor E. Silva Souza (https://github.com/vitorsouza/)
  */
 @Local
-public interface TelephoneDAO extends BaseDAO<Telephone> {}
+public interface TelephoneDAO extends BaseDAO<Telephone> {
+}

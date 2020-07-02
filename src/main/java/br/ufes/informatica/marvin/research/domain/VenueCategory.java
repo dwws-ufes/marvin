@@ -1,22 +1,29 @@
 package br.ufes.informatica.marvin.research.domain;
 
-/** Venue category */
+/**
+ * TODO: document this type.
+ *
+ * @author Vítor E. Silva Souza (https://github.com/vitorsouza/)
+ */
 public enum VenueCategory {
-	CONFERENCE("Conference"), JOURNAL("Journal");
+  CONFERENCE("Conference"), 
+  JOURNAL("Journal");
 
-	String name;
+  /** TODO: document this field. */
+  String name;
 
-	/** Getter for category name. */
-	public String getName() {
-		return name;
-	}
+  /** Getter for category name. */
+  public String getName() {
+    return name;
+  }
 
-	/** Setter for category name. */
-	public void setName(String name) {
-		this.name = name;
-	}
+  /** Setter for category name. */
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	VenueCategory(String name) {
-		this.name = name;
-	}
+  /** Constructor. */
+  VenueCategory(String name) {
+    this.name = name;
+  }
 }
