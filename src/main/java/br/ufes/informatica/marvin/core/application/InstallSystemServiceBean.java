@@ -72,7 +72,8 @@ public class InstallSystemServiceBean implements InstallSystemService {
   @Override
   public void installSystem(MarvinConfiguration config, Academic admin)
       throws OperationFailedException {
-    logger.log(Level.FINER, "Installing system...");
+    logger.log(Level.INFO, "Installing system for {0} administered by {1}...",
+        new Object[] {config.getInstitutionAcronym(), admin.getEmail()});
 
     try {
       // Creates the roles in the database from a JSON file located in META-INF/installSystem.
