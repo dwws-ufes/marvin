@@ -51,7 +51,7 @@ public class AcademicJPADAOTest {
 
   /** TODO: document this field. */
   @InjectMocks
-  AcademicJPADAO academicjpadao;
+  AcademicJPADAO academicJPADAO;
 
   /**
    * TODO: document this method.
@@ -60,24 +60,24 @@ public class AcademicJPADAOTest {
    * @throws MultiplePersistentObjectsFoundException
    */
   @Test
-  public void retrieveByPasswordCodeTest()
+  public void testRetrieveByPasswordCode()
       throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 
     // Setup
-    String pwdcode = "83997689-22b6-4a7e-a801";
+    String passwordCode = "83997689-22b6-4a7e-a801";
     Academic academic = new Academic();
-    academic.setPasswordCode(pwdcode);
+    academic.setPasswordCode(passwordCode);
 
     // Tells the query behavior
     when(entityManager.getCriteriaBuilder()).thenReturn(cb);
     when(cb.createQuery(Academic.class)).thenReturn(cq);
     when(cq.from(Academic.class)).thenReturn(root);
-    when(cq.where(cb.equal(root.get(Academic_.passwordCode), pwdcode))).thenReturn(cq);
+    when(cq.where(cb.equal(root.get(Academic_.passwordCode), passwordCode))).thenReturn(cq);
     when(entityManager.createQuery(cq)).thenReturn((query));
     when(query.getSingleResult()).thenReturn(academic);
 
     // Call the testing function
-    academicjpadao.retrieveByPasswordCode(pwdcode);
+    academicJPADAO.retrieveByPasswordCode(passwordCode);
 
     // Evaluation
     verify(entityManager, times(1)).getCriteriaBuilder();
@@ -86,7 +86,7 @@ public class AcademicJPADAOTest {
     verify(cq, times(1)).where(cb.isNotNull(root.get(Academic_.lattesId)));
     verify(entityManager, times(1)).createQuery(cq);
     verify(query, times(1)).getSingleResult();
-    assertEquals(pwdcode, academic.getPasswordCode());
+    assertEquals(passwordCode, academic.getPasswordCode());
     assertTrue(academic instanceof Academic);
   }
 
@@ -97,19 +97,19 @@ public class AcademicJPADAOTest {
    * @throws MultiplePersistentObjectsFoundException
    */
   @Test(expected = PersistentObjectNotFoundException.class)
-  public void getSingleResultFailTest()
+  public void testGetSingleResultFail()
       throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 
-    String pwdcode = "83997689-22b6-4a7e-a801";
+    String passwordCode = "83997689-22b6-4a7e-a801";
 
     when(entityManager.getCriteriaBuilder()).thenReturn(cb);
     when(cb.createQuery(Academic.class)).thenReturn(cq);
     when(cq.from(Academic.class)).thenReturn(root);
-    when(cq.where(cb.equal(root.get(Academic_.passwordCode), pwdcode))).thenReturn(cq);
+    when(cq.where(cb.equal(root.get(Academic_.passwordCode), passwordCode))).thenReturn(cq);
     when(entityManager.createQuery(cq)).thenReturn((query));
 
     doThrow(new NoResultException()).when(query).getSingleResult();
 
-    academicjpadao.retrieveByPasswordCode(pwdcode);
+    academicJPADAO.retrieveByPasswordCode(passwordCode);
   }
 }

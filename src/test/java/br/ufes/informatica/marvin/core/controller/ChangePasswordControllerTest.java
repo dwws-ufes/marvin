@@ -1,6 +1,9 @@
 package br.ufes.informatica.marvin.core.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,7 +28,7 @@ import br.ufes.informatica.marvin.core.exceptions.InvalidPasswordCodeException;
 public class ChangePasswordControllerTest {
   /** TODO: document this field. */
   @Mock
-  private ChangePasswordService changepasswordservice;
+  private ChangePasswordService changePasswordService;
 
   /** TODO: document this field. */
   @Mock
@@ -33,7 +36,7 @@ public class ChangePasswordControllerTest {
 
   /** TODO: document this field. */
   @InjectMocks
-  private ChangePasswordController changepasswordcontroller;
+  private ChangePasswordController changePasswordController;
 
   /** TODO: document this field. */
   private Academic academic;
@@ -42,7 +45,7 @@ public class ChangePasswordControllerTest {
   private String passwordCode;
 
   /** TODO: document this field. */
-  private String expectedPwdCode;
+  private String expectedPasswordCode;
 
   /** TODO: document this field. */
   private Field field;
@@ -57,7 +60,8 @@ public class ChangePasswordControllerTest {
   public void setup() throws NoSuchFieldException, SecurityException {
     academic = new Academic();
     passwordCode = "a4bn6-sd5465-br4fd";
-    changepasswordcontroller.setPasswordCode(passwordCode);
+    changePasswordController.setPasswordCode(passwordCode);
+
     // Using reflection, we can get the value of "validatedPasswordCode", that is a private field.
     field = ChangePasswordController.class.getDeclaredField("validatedPasswordCode");
     field.setAccessible(true);
@@ -71,22 +75,23 @@ public class ChangePasswordControllerTest {
    * @throws IllegalAccessException
    */
   @Test
-  public void checkCodeSuccesfully()
+  public void testCheckCodeSuccessWithTransientConversation()
       throws InvalidPasswordCodeException, IllegalArgumentException, IllegalAccessException {
 
     // Behavior of methods
-    when(changepasswordservice.retrieveAcademicByPasswordCode(passwordCode)).thenReturn(academic);
+    when(changePasswordService.retrieveAcademicByPasswordCode(passwordCode)).thenReturn(academic);
     when(conversation.isTransient()).thenReturn(true);
 
-    // Calling our testing method
-    changepasswordcontroller.checkCode();
+    // Calling the method being tested
+    changePasswordController.checkCode();
 
     // getting the value of "validatedPasswordCode", should be after the testing method
-    expectedPwdCode = (String) field.get(changepasswordcontroller);
+    expectedPasswordCode = (String) field.get(changePasswordController);
 
     // Evaluation
-    assertEquals(passwordCode, expectedPwdCode);
-    verify(changepasswordservice, times(1)).retrieveAcademicByPasswordCode(passwordCode);
+    assertEquals(passwordCode, expectedPasswordCode);
+    assertTrue(changePasswordController.isValidCode());
+    verify(changePasswordService, times(1)).retrieveAcademicByPasswordCode(passwordCode);
     verify(conversation, times(1)).begin();
   }
 
@@ -98,22 +103,51 @@ public class ChangePasswordControllerTest {
    * @throws IllegalAccessException
    */
   @Test
-  public void checkCodeFailed()
+  public void testCheckCodeSuccessWithLongRunningConversation()
       throws InvalidPasswordCodeException, IllegalArgumentException, IllegalAccessException {
 
     // Behavior of methods
-    when(changepasswordservice.retrieveAcademicByPasswordCode(passwordCode)).thenReturn(academic);
+    when(changePasswordService.retrieveAcademicByPasswordCode(passwordCode)).thenReturn(academic);
     when(conversation.isTransient()).thenReturn(false);
 
-    // Calling our testing method
-    changepasswordcontroller.checkCode();
+    // Calling the method being tested
+    changePasswordController.checkCode();
 
     // getting the value of "validatedPasswordCode", should be after the testing method
-    expectedPwdCode = (String) field.get(changepasswordcontroller);
+    expectedPasswordCode = (String) field.get(changePasswordController);
 
     // Evaluation
-    assertEquals(passwordCode, expectedPwdCode);
-    verify(changepasswordservice, times(1)).retrieveAcademicByPasswordCode(passwordCode);
+    assertEquals(passwordCode, expectedPasswordCode);
+    assertTrue(changePasswordController.isValidCode());
+    verify(changePasswordService, times(1)).retrieveAcademicByPasswordCode(passwordCode);
+    verify(conversation, times(0)).begin();
+  }
+
+  /**
+   * TODO: document this method.
+   * 
+   * @throws InvalidPasswordCodeException
+   * @throws IllegalArgumentException
+   * @throws IllegalAccessException
+   */
+  @Test
+  public void testCheckCodeFailWithInvalidCode()
+      throws InvalidPasswordCodeException, IllegalArgumentException, IllegalAccessException {
+
+    // Behavior of methods
+    when(changePasswordService.retrieveAcademicByPasswordCode(passwordCode))
+        .thenThrow(new InvalidPasswordCodeException(passwordCode));
+
+    // Calling the method being tested
+    changePasswordController.checkCode();
+
+    // getting the value of "validatedPasswordCode", should be after the testing method
+    expectedPasswordCode = (String) field.get(changePasswordController);
+
+    // Evaluation
+    assertNull(expectedPasswordCode);
+    assertFalse(changePasswordController.isValidCode());
+    verify(changePasswordService, times(1)).retrieveAcademicByPasswordCode(passwordCode);
     verify(conversation, times(0)).begin();
   }
 }

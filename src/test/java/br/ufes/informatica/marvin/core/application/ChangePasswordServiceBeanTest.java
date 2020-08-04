@@ -32,13 +32,13 @@ public class ChangePasswordServiceBeanTest {
 
   /** TODO: document this field. */
   @InjectMocks
-  private ChangePasswordServiceBean changepasswordservicebean;
+  private ChangePasswordServiceBean changePasswordServiceBean;
 
   /** TODO: document this field. */
-  private String passwd = "senha";
+  private String password = "senha";
 
   /** TODO: document this field. */
-  private String passwdcode = "83997689-22b6-4a7e-a801";
+  private String passwordCode = "83997689-22b6-4a7e-a801";
 
   /**
    * TODO: document this method.
@@ -51,7 +51,7 @@ public class ChangePasswordServiceBeanTest {
    * @throws UnsupportedEncodingException
    */
   @Test
-  public void testSuccessfullyChangePassword()
+  public void testSetNewPasswordSuccess()
       throws InvalidPasswordCodeException, OperationFailedException,
       PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException,
       NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -59,20 +59,19 @@ public class ChangePasswordServiceBeanTest {
     // Create a simulated academic on database
     Academic academic = new Academic();
     academic.setPassword("oldpasswd");
-    academic.setPasswordCode(passwdcode);
+    academic.setPasswordCode(passwordCode);
 
     // Expected password
-    String expectedPwd;
-    expectedPwd = TextUtils.produceBase64EncodedMd5Hash(passwd);
+    String expectedPassword = TextUtils.produceBase64EncodedMd5Hash(password);
 
     // Tells how "retrieveByPasswordCode should behave itself
-    when(academicDAO.retrieveByPasswordCode(passwdcode)).thenReturn(academic);
+    when(academicDAO.retrieveByPasswordCode(passwordCode)).thenReturn(academic);
 
     // Calls testing method
-    changepasswordservicebean.setNewPassword(passwdcode, passwd);
+    changePasswordServiceBean.setNewPassword(passwordCode, password);
 
     // Evaluation
-    assertEquals(expectedPwd, academic.getPassword());
+    assertEquals(expectedPassword, academic.getPassword());
     assertEquals(null, academic.getPasswordCode());
     verify(academicDAO, times(1)).save(academic);
   }

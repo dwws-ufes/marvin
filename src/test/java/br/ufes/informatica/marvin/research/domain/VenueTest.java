@@ -25,13 +25,9 @@ public class VenueTest {
    * TODO: document this method.
    */
   @Test
-  public void setCategoryTest1() {
-
-    String category;
-    category = "Conference";
-
+  public void testSetCategoryToConference() {
+    String category = "Conference";
     venue.setCategory(category);
-
     assertEquals(VenueCategory.CONFERENCE, venue.getCategory());
   }
 
@@ -39,13 +35,9 @@ public class VenueTest {
    * TODO: document this method.
    */
   @Test
-  public void setCategoryTest2() {
-
-    String category;
-    category = "Not a conference!";
-
+  public void testSetCategoryToJournal() {
+    String category = "Not a conference!";
     venue.setCategory(category);
-
     assertEquals(VenueCategory.JOURNAL, venue.getCategory());
   }
 }
