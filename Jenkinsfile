@@ -18,7 +18,7 @@ pipeline {
                     sh 'unzip -o marvin.war -d /home/luan/wildfly-19.0.0.Final/standalone/deployments/marvin.war'    
                 }
                 dir("/home/luan/wildfly-19.0.0.Final/standalone/deployments") {
-                    touch marvin.war.dodeploy   
+                    sh 'touch marvin.war.dodeploy'  
                 }
             }
         }
