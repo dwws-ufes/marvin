@@ -26,7 +26,7 @@ pipeline {
     post {
         success {
             slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#jenkins-pipeline-demo', color: 'good', message: 'Build succesful!!', teamDomain: 'Workspace do luan', tokenCredentialId: 'slack-demo'
-            slackUploadFile channel: '#jenkins-pipeline-demo', filePath: "${JENKINS_URL}/job/${JOB_NAME}/lastBuild/consoleText", credentialId: 'slack-demo'
+            slackUploadFile channel: '#jenkins-pipeline-demo', filePath: "$http://localhost:80803/job/${JOB_NAME}/lastBuild/consoleText", credentialId: 'slack-demo'
         }
     }
 }
