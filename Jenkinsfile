@@ -15,9 +15,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir("/var/lib/jenkins/workspace/marvin/target") {
-                    sh 'unzip -o marvin.war -d /home/luan/wildfly-19.0.0.Final/standalone/deployments/marvin.war'    
+                    sh 'unzip -o marvin.war -d /opt/wildfly/standalone/deployments/marvin.war'    
                 }
-                dir("/home/luan/wildfly-19.0.0.Final/standalone/deployments") {
+                dir("/opt/wildfly/standalone/deployments") {
                     sh 'touch marvin.war.dodeploy'  
                 }
             }
