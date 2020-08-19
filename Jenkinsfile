@@ -25,7 +25,10 @@ pipeline {
     }
     post {
         success {
-            slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#jenkins-pipeline-demo', color: 'good', message: 'Build succesful!!', teamDomain: 'Workspace do luan', tokenCredentialId: 'slack-demo'
+            slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#jenkins', color: 'good', message: 'Build Succesfull!', teamDomain: 'Marvin', tokenCredentialId: 'slack-token'
+        }
+        failure {
+            slackSend baseUrl: 'https://hooks.slack.com/services/', channel: '#jenkins', color: 'danger', message: 'Build Failed!', teamDomain: 'Marvin', tokenCredentialId: 'slack-token'   
         }
     }
 }
