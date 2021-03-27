@@ -44,7 +44,7 @@ public class EditProfileController extends JSFController {
       Logger.getLogger(EditProfileController.class.getCanonicalName());
 
   /** Path to the folder where the view files (web pages) for this action are placed. */
-  private static final String VIEW_PATH = "/core/editProfile/";
+  // private static final String VIEW_PATH = "/core/editProfile/";
 
   /** The "Edit Profile" service. */
   @EJB
