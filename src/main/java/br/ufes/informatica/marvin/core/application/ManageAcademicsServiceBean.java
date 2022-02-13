@@ -118,7 +118,6 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic>
   public void create(Academic entity) {
     // Performs the method as inherited (create the academic).
     super.create(entity);
-
     try {
       // Retrieves the current user, i.e., the admin.
       Academic admin = academicDAO.retrieveByEmail(sessionContext.getCallerPrincipal().getName());

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsResearch['manageVenues.title']}" />
+	</ui:define>
+    
+    <ui:define name="description">
+    	<h:outputText value="#{msgsResearch['manageVenues.description']}" />
+    </ui:define>
+
+  	<ui:define name="body" template="/WEB-INF/templates/form-nobox.xhtml">
+		<h:panelGroup>
+			<p><h:outputText value="#{msgsResearch['manageVenues.instructions']}" /></p>
+			<p:dataTable
+				widgetVar="listingTable"
+				value="#{manageVenueController.lazyEntities}" 
+				var="entity" 
+				rows="#{manageVenueController.maxDataTableRowsPerPage}" 
+				rowsPerPageTemplate="#{manageVenueController.halfMaxDataTableRowsPerPage},#{manageVenueController.maxDataTableRowsPerPage},#{manageVenueController.doubleMaxDataTableRowsPerPage}"
+				lazy="true" 
+				paginator="true" 
+				paginatorPosition="bottom" 
+				emptyMessage="#{msgsResearch['manageVenues.text.noEntities']}">
+				
+				<p:column headerText="#{msgsResearch['manageVenues.type']}">
+					<h:outputText value="#{entity.category.getName()}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsResearch['manageVenues.name']}">
+					<h:outputText value="#{entity.name}" />
+				</p:column>
+
+				<p:column headerText="#{msgsResearch['manageVenues.issn']}">
+					<h:outputText value="#{entity.issn}" />
+				</p:column>
+			</p:dataTable>	
+			
+			<!-- Buttons shown below the listing. -->
+			<h:form>
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton action="#{manageVenueController.teste}" value="#{msgsResearch['manageVenueController.button.upload']}" icon="fa fa-fw fa-plus" />
+				</ui:decorate>
+			</h:form>		
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
