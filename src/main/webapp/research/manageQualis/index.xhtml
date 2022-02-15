@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:adm="http://github.com/adminfaces"
+    template="/WEB-INF/templates/template.xhtml">
+
+    <ui:define name="title">
+	<h:outputText value="#{msgsCore['manageQualis.title']}" />
+</ui:define>
+
+<ui:define name="description">
+	<h:outputText value="#{msgsCore['manageQualis.title.description']}" />
+</ui:define>
+
+<ui:define name="body">
+	<adm:breadcrumb link="/core/manageQualis/index" title="#{msgsCore['manageQualis.title']}" />
+	<h:form id="listingForm">
+		<p:dataTable id="entitiesDataTable" var="entity" value="#{manageQualisController.lazyEntities}"
+			selection="#{manageQualisController.selectedEntity}" selectionMode="single" paginator="true"
+			rows="#{manageQualisController.maxDataTableRowsPerPage}"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="#{manageQualisController.halfMaxDataTableRowsPerPage},#{manageQualisController.maxDataTableRowsPerPage},#{manageQualisController.doubleMaxDataTableRowsPerPage}"
+			lazy="true" paginatorPosition="bottom" emptyMessage="#{msgsCore['manageQualis.text.noEntities']}">
+			<p:ajax event="rowSelect" update="buttonsGroup" />
+			<p:ajax event="rowUnselect" update="buttonsGroup" />
+			<f:facet name="header">
+				<h:outputText value="#{msgsCore['manageQualis.text.entities']}" />
+			</f:facet>
+			<p:column headerText="#{msgsCore['manageQualis.field.year']}">
+				<h:outputText value="#{entity.year}" />
+			</p:column>
+			<p:column headerText="#{msgsCore['manageQualis.field.name']}">
+				<h:outputText value="#{entity.name}" />
+			</p:column>
+			<p:column headerText="#{msgsCore['manageQualis.field.submissionDeadline']}">
+				<h:outputText value="#{entity.submissionDeadline}">
+					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+				</h:outputText>
+			</p:column>
+			<f:facet name="footer">
+				<h:panelGroup id="buttonsGroup">
+					<p:commandButton action="#{manageQualisController.create}" icon="fa fa-plus" value="#{msgs['jbutler.crud.button.create']}" />
+					<p:commandButton action="#{manageQualisController.retrieve}" icon="fa fa-search" value="#{msgs['jbutler.crud.button.retrieve']}"
+						disabled="#{manageQualisController.selectedEntity == null}" />
+					<p:commandButton action="#{manageQualisController.update}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
+						disabled="#{manageQualisController.selectedEntity == null}" />
+					<p:commandButton action="#{manageQualisController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}"
+						disabled="#{manageQualisController.selectedEntity == null}" update=":listingForm:trashGroup" />
+				</h:panelGroup>
+			</f:facet>
+		</p:dataTable>
+		<h:panelGroup id="trashGroup">
+			<hr />
+			<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" toggleable="true" toggleSpeed="500"
+				rendered="#{not empty manageQualisController.trashCan}">
+				<p:dataTable id="trashDataTable" var="entity" value="#{manageQualisController.trashCan}">
+					<p:column headerText="#{msgsCore['manageQualis.field.year']}">
+						<h:outputText value="#{entity.year}" />
+					</p:column>
+					<p:column headerText="#{msgsCore['manageQualis.field.name']}">
+						<h:outputText value="#{entity.name}" />
+					</p:column>
+					<p:column headerText="#{msgsCore['manageQualis.field.submissionDeadline']}">
+						<h:outputText value="#{entity.submissionDeadline}">
+							<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+						</h:outputText>
+					</p:column>
+					<f:facet name="footer">
+						<p:commandButton action="#{manageQualisController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}"
+							icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+						<p:commandButton action="#{manageQualisController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}"
+							icon="fa fa-fw fa-trash-o" process="@this" update=":listingForm" />
+					</f:facet>
+				</p:dataTable>
+			</p:panel>
+		</h:panelGroup>
+	</h:form>
+</ui:define>
+
+</ui:composition>
