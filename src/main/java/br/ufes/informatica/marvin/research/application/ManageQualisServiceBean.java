@@ -30,7 +30,7 @@ public class ManageQualisServiceBean extends CrudServiceBean<Qualis> implements 
 	@Override
 	public void uploadQualisCSV(InputStream inputStream) throws Exception {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-		String line = null;
+		String line = reader.readLine();
 		while (line != null) {
 			String[] info = line.split(";");
 			Qualis obj = new Qualis(info[0], Float.parseFloat(info[1]));

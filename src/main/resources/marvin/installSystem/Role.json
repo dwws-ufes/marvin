@@ -18,5 +18,13 @@
 	{
 		"name": "Visitor",
 		"descriptionKey": "core.role.visitor"
+	},
+	{
+		"name": "Master",
+		"descriptionKey": "core.role.master"
+	},
+	{
+		"name": "Doctoral",
+		"descriptionKey": "core.role.doctoral"
 	}
 ]

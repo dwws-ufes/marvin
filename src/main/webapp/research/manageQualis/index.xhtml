@@ -8,35 +8,35 @@
     template="/WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">
-	<h:outputText value="#{msgsCore['manageQualis.title']}" />
+	<h:outputText value="#{msgsResearch['manageQualis.title']}" />
 </ui:define>
 
 <ui:define name="description">
-	<h:outputText value="#{msgsCore['manageQualis.title.description']}" />
+	<h:outputText value="#{msgsResearch['manageQualis.title.description']}" />
 </ui:define>
 
 <ui:define name="body">
-	<adm:breadcrumb link="/core/manageQualis/index" title="#{msgsCore['manageQualis.title']}" />
+	<adm:breadcrumb link="/core/manageQualis/index" title="#{msgsResearch['manageQualis.title']}" />
 	<h:form id="listingForm">
 		<p:dataTable id="entitiesDataTable" var="entity" value="#{manageQualisController.lazyEntities}"
 			selection="#{manageQualisController.selectedEntity}" selectionMode="single" paginator="true"
 			rows="#{manageQualisController.maxDataTableRowsPerPage}"
 			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 			rowsPerPageTemplate="#{manageQualisController.halfMaxDataTableRowsPerPage},#{manageQualisController.maxDataTableRowsPerPage},#{manageQualisController.doubleMaxDataTableRowsPerPage}"
-			lazy="true" paginatorPosition="bottom" emptyMessage="#{msgsCore['manageQualis.text.noEntities']}">
+			lazy="true" paginatorPosition="bottom" emptyMessage="#{msgsResearch['manageQualis.text.noEntities']}">
 			<p:ajax event="rowSelect" update="buttonsGroup" />
 			<p:ajax event="rowUnselect" update="buttonsGroup" />
 			<f:facet name="header">
-				<h:outputText value="#{msgsCore['manageQualis.text.entities']}" />
+				<h:outputText value="#{msgsResearch['manageQualis.text.entities']}" />
 			</f:facet>
-			<p:column headerText="#{msgsCore['manageQualis.field.year']}">
-				<h:outputText value="#{entity.year}" />
-			</p:column>
-			<p:column headerText="#{msgsCore['manageQualis.field.name']}">
+			<p:column headerText="#{msgsResearch['manageQualis.field.name']}">
 				<h:outputText value="#{entity.name}" />
 			</p:column>
-			<p:column headerText="#{msgsCore['manageQualis.field.submissionDeadline']}">
-				<h:outputText value="#{entity.submissionDeadline}">
+			<p:column headerText="#{msgsResearch['manageQualis.field.value']}">
+				<h:outputText value="#{entity.value}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageQualis.field.dtValidityEnd']}">
+				<h:outputText value="#{entity.dtStart}">
 					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
 				</h:outputText>
 			</p:column>
@@ -57,13 +57,13 @@
 			<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" toggleable="true" toggleSpeed="500"
 				rendered="#{not empty manageQualisController.trashCan}">
 				<p:dataTable id="trashDataTable" var="entity" value="#{manageQualisController.trashCan}">
-					<p:column headerText="#{msgsCore['manageQualis.field.year']}">
+					<p:column headerText="#{msgsResearch['manageQualis.field.year']}">
 						<h:outputText value="#{entity.year}" />
 					</p:column>
-					<p:column headerText="#{msgsCore['manageQualis.field.name']}">
+					<p:column headerText="#{msgsResearch['manageQualis.field.name']}">
 						<h:outputText value="#{entity.name}" />
 					</p:column>
-					<p:column headerText="#{msgsCore['manageQualis.field.submissionDeadline']}">
+					<p:column headerText="#{msgsResearch['manageQualis.field.submissionDeadline']}">
 						<h:outputText value="#{entity.submissionDeadline}">
 							<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
 						</h:outputText>
