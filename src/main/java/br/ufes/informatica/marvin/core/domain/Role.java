@@ -47,7 +47,7 @@ public class Role extends PersistentObjectSupport {
 	private String descriptionKey;
 
 	/** Default constructor for JPA. */
-	protected Role() {
+	public Role() {
 	}
 
 	/** Constructor. */

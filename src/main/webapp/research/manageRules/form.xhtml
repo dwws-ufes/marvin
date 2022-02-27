@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:adm="http://github.com/adminfaces"
+    template="/WEB-INF/templates/template.xhtml">
+
+   <ui:define name="title">
+	<h:outputText value="#{msgsResearch['manageRules.title.create']}"
+		rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id == null)}" />
+	<h:outputText value="#{msgsResearch['manageRules.title.update']}"
+		rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id != null)}" />
+	<h:outputText value="#{msgsResearch['manageRules.title.retrieve']}" rendered="#{manageRulesController.readOnly}" />
+</ui:define>
+
+<ui:define name="description">
+	<h:outputText value="#{msgsResearch['manageRules.title.create.description']}"
+		rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id == null)}" />
+	<h:outputText value="#{msgsResearch['manageRules.title.update.description']}"
+		rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id != null)}" />
+	<h:outputText value="#{msgsResearch['manageRules.title.retrieve.description']}" rendered="#{manageRulesController.readOnly}" />
+</ui:define>
+
+<ui:define name="body">
+	<h:form id="entitiesForm">
+		<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
+			<p:outputLabel for="total" value="#{msgsResearch['manageRules.field.total']}" />
+			<p:inputText id="total" value="#{manageRulesController.selectedEntity.total}" style="width: 100%;" />
+			<p:outputLabel for="qtdPassYears" value="#{msgsResearch['manageRules.field.qtdPassYears']} " />
+			<p:inputText id="qtdPassYears" value="#{manageRulesController.selectedEntity.qtdPassYears}" style="width: 100%;" />
+			<p:outputLabel for="scoreJournal" value="#{msgsResearch['manageRules.field.scoreJournal']}" />
+			<p:inputText id="scoreJournal" value="#{manageRulesController.selectedEntity.scoreJournal}" style="width: 100%;" />
+			<p:outputLabel for="dtStart" value="#{msgsResearch['manageRules.field.dtStart']}" />
+			<p:calendar id="dtStart" value="#{manageRulesController.selectedEntity.dtStart}" showOn="button"
+				pattern="dd/MM/yyyy" mask="true" style="width: 100%;" />
+			<p:outputLabel for="dtEnd" value="#{msgsResearch['manageRules.field.dtEnd']}" />
+			<p:calendar id="dtEnd" value="#{manageRulesController.selectedEntity.dtEnd}" showOn="button" pattern="dd/MM/yyyy"
+				mask="true" style="width: 100%;" />
+			<p:outputLabel for="role" value="#{msgsResearch['manageRules.field.role']}" />	
+			<p:selectOneMenu id="role" value="#{manageRulesController.selectedRole}"> 
+			   <f:selectItems var="roleName" value="#{manageRulesController.roleList}" itemValue="#{roleName}" />
+			   <p:ajax event="itemSelect" update="role"/>
+			</p:selectOneMenu> 
+		</p:panelGrid>
+		<p:commandButton id="cancelButton" value="#{msgs['jbutler.crud.button.cancel']}" icon="fa fa-close"
+			action="#{manageRulesController.list}" immediate="true" rendered="#{! manageRulesController.readOnly}" />
+		<p:commandButton id="saveButton" value="#{msgs['jbutler.crud.button.save']}" icon="fa fa-save" action="#{manageRulesController.saveRule}"
+			rendered="#{! manageRulesController.readOnly}" />
+		<p:defaultCommand target="saveButton" />
+		<p:commandButton id="backButton" value="#{msgs['jbutler.crud.button.back']}" icon="fa fa-arrow-circle-left"
+			action="#{manageRulesController.list}" immediate="true" rendered="#{manageRulesController.readOnly}" />
+	</h:form>
+</ui:define>
+
+
+</ui:composition>
