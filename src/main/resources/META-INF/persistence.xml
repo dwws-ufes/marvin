@@ -8,7 +8,7 @@
     <jta-data-source>java:jboss/datasources/marvin</jta-data-source>
     <class>br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport</class>
     <properties>
-      <property name="hibernate.hbm2ddl.auto" value="update" />
+      <property name="hibernate.hbm2ddl.auto" value="update" />      
     </properties>
   </persistence-unit>
 </persistence>

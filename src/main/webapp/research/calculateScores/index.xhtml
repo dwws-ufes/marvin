@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:adm="http://github.com/adminfaces"
+    template="/WEB-INF/templates/template.xhtml">
+
+    <ui:define name="title">
+	<h:outputText value="#{msgsResearch['calculateScores.title']}" />
+</ui:define>
+
+<ui:define name="description">
+	<h:outputText value="#{msgsResearch['calculateScores.title.description']}" />
+</ui:define>
+
+<ui:define name="body">
+	<adm:breadcrumb link="/core/calculateScores/index" title="#{msgsResearch['calculateScores.title']}" />
+	<h:form id="listingForm">
+		<p:dataTable id="entitiesDataTable" var="entity" value="#{calculateScoresController.lazyEntities}"
+			selection="#{calculateScoresController.selectedEntity}" selectionMode="single" paginator="true"
+			rows="#{calculateScoresController.maxDataTableRowsPerPage}"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="#{calculateScoresController.halfMaxDataTableRowsPerPage},#{calculateScoresController.maxDataTableRowsPerPage},#{calculateScoresController.doubleMaxDataTableRowsPerPage}"
+			lazy="true" paginatorPosition="bottom" emptyMessage="#{msgsResearch['calculateScores.text.noEntities']}">
+			<p:ajax event="rowSelect" update="buttonsGroup" />
+			<p:ajax event="rowUnselect" update="buttonsGroup" />
+			<f:facet name="header">
+				<h:outputText value="#{msgsResearch['calculateScores.text.entities']}" />
+			</f:facet>
+			<p:column headerText="#{msgsResearch['calculateScores.field.name']}">
+				<h:outputText value="#{entity.name}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['calculateScores.field.role']}">
+				<h:outputText value="#{calculateScoresController.translateRole(entity.roles)}" />
+			</p:column>
+			<f:facet name="footer">
+				<h:panelGroup id="buttonsGroup">
+					<p:commandButton action="#{calculateScoresController.calculate}" icon="fa fa-plus" value="#{msgsResearch['calculateScores.button.calculate']}" />
+				</h:panelGroup>
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</ui:define>
+
+</ui:composition>

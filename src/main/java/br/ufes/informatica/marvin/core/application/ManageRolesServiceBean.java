@@ -41,6 +41,19 @@ public class ManageRolesServiceBean extends CrudServiceBean<Role> implements Man
 		return obj;
 	}
 
+	public List<String> getStringRolesbyName(String[] names) {
+		List<String> obj = new ArrayList<String>();
+
+		for (String name : names) {
+			List<Role> roles = roleDAO.findByName(name);
+			for (Role role : roles) {
+				obj.add(role.getName());
+			}
+		}
+
+		return obj;
+	}
+
 	public Role findFirstByName(String role) {
 		return roleDAO.findByName(role).get(0);
 	}

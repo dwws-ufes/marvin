@@ -13,4 +13,6 @@ public interface ManageRolesService extends CrudService<Role> {
 	public List<String> getRoleForRule();
 
 	public Role findFirstByName(String role);
+
+	public List<String> getStringRolesbyName(String[] names);
 }

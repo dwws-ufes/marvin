@@ -29,14 +29,31 @@
 			<f:facet name="header">
 				<h:outputText value="#{msgsResearch['manageRules.text.entities']}" />
 			</f:facet>
-			<p:column headerText="#{msgsResearch['manageRules.field.name']}">
-				<h:outputText value="#{entity.name}" />
+			<p:column headerText="#{msgsResearch['manageRules.field.role']}">
+				<h:outputText value="#{entity.role}" />
 			</p:column>
-			<p:column headerText="#{msgsResearch['manageRules.field.value']}">
-				<h:outputText value="#{entity.value}" />
+			<p:column headerText="#{msgsResearch['manageRules.field.total']}">
+				<h:outputText value="#{entity.total}" />
 			</p:column>
-			<p:column headerText="#{msgsResearch['manageRules.field.dtValidityEnd']}">
+			<p:column headerText="#{msgsResearch['manageRules.field.qtdPassYears']}">
+				<h:outputText value="#{entity.qtdPassYears}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageRules.field.scoreJournal']}">
+				<h:outputText value="#{entity.scoreJournal}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageRules.field.scoreRestricted']}">
+				<h:outputText value="#{entity.scoreRestricted}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageRules.field.scoreJournalRestricted']}">
+				<h:outputText value="#{entity.scoreJournalRestricted}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageRules.field.dtStart']}">
 				<h:outputText value="#{entity.dtStart}">
+					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageRules.field.dtEnd']}">
+				<h:outputText value="#{entity.dtEnd}">
 					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
 				</h:outputText>
 			</p:column>
