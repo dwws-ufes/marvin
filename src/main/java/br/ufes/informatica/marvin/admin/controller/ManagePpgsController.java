@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -9,6 +10,7 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
+import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.informatica.marvin.core.application.ManageAcademicsService;
 import br.ufes.informatica.marvin.core.application.ManagePpgsService;
 import br.ufes.informatica.marvin.core.application.ManageRolesService;
@@ -25,7 +27,7 @@ public class ManagePpgsController extends CrudController<Ppg> {
 	private ManagePpgsService managePpgsService;
 
 	@EJB
-	private ManageAcademicsService manageAdacemicsService;
+	private ManageAcademicsService manageAcademicsService;
 
 	@EJB
 	private ManageRolesService manageRolesService;
@@ -34,7 +36,7 @@ public class ManagePpgsController extends CrudController<Ppg> {
 
 	private Role selectedRole;
 
-	private List<String> roleList;
+	private List<Role> roleList;
 
 	@Override
 	protected CrudService<Ppg> getCrudService() {
@@ -58,7 +60,7 @@ public class ManagePpgsController extends CrudController<Ppg> {
 		return this.selectedAcademic;
 	}
 
-	public void setSelectedacademic(Academic selectedAcademic) {
+	public void setSelectedAcademic(Academic selectedAcademic) {
 		this.selectedAcademic = selectedAcademic;
 	}
 
@@ -70,21 +72,40 @@ public class ManagePpgsController extends CrudController<Ppg> {
 		this.selectedRole = selectedRole;
 	}
 
-	public List<String> getRoleList() {
+	public List<Role> getRoleList() {
 		return roleList;
 	}
 
-	public void setRoleList(List<String> roleList) {
+	public void setRoleList(List<Role> roleList) {
 		this.roleList = roleList;
 	}
 
 	public List<Academic> completeAcademic(String query) {
-		return manageAdacemicsService.getDAO().retrieveAll();
+		return manageAcademicsService.findByNameEmail(query);
 	}
 
 	public String administrators() {
 		String[] roles = { "Secretary", "Coordinato" };
-		this.roleList = manageRolesService.getStringRolesbyName(roles);
-		return VIEW_PATH + "administrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
+		this.roleList = new ArrayList<Role>();
+		for (String role : roles) {
+			this.roleList.add(manageRolesService.findFirstByName(role));
+		}
+		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
+	}
+
+	public String saveAdministrator() {
+		Academic academic = manageAcademicsService.retrieve(this.selectedAcademic.getId());
+		Role role = manageRolesService.retrieve(this.selectedRole.getId());
+		Ppg ppg = managePpgsService.retrieve(selectedEntity.getId());
+		manageAcademicsService.savePpgAdminstrator(academic, role, ppg);
+		return VIEW_PATH + "index.xhtml" + "?faces-redirect=" + getFacesRedirect();
+	}
+
+	public PersistentObjectConverterFromId<Academic> getAcademicConverter() {
+		return manageAcademicsService.getAcademicConverter();
+	}
+
+	public PersistentObjectConverterFromId<Role> getRoleConverter() {
+		return manageAcademicsService.getRoleConverter();
 	}
 }

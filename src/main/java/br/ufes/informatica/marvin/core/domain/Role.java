@@ -39,7 +39,7 @@ public class Role extends PersistentObjectSupport {
 
 	/** The name that identifies the role across the system. */
 	@Basic
-	@Size(max = 10)
+	@Size(max = 11)
 	private String name;
 
 	/** Resource bundle key to the human-readable description of the role. */

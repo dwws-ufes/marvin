@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.core.domain.Ppg;
+import br.ufes.informatica.marvin.core.persistence.AcademicDAO;
 import br.ufes.informatica.marvin.core.persistence.PpgDAO;
 
 @Stateless
@@ -16,6 +17,9 @@ public class ManagePpgsServiceBean extends CrudServiceBean<Ppg> implements Manag
 
 	@EJB
 	private PpgDAO ppgDAO;
+
+	@EJB
+	private AcademicDAO academicDAO;
 
 	@Override
 	public BaseDAO<Ppg> getDAO() {

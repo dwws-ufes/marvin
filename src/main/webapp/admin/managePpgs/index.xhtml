@@ -38,7 +38,7 @@
 			<f:facet name="footer">
 				<h:panelGroup id="buttonsGroup">
 					<p:commandButton action="#{managePpgsController.create}" icon="fa fa-plus" value="#{msgs['jbutler.crud.button.create']}" />
-					<p:commandButton action="#{managePpgsController.administrators}" icon="fa fa-search" value="#{msgsAdmin['managePpgs.button.administrators']}" />
+					<p:commandButton action="#{managePpgsController.administrators}" icon="fa fa-search" value="#{msgsAdmin['managePpgs.button.administrators']}" disabled="#{managePpgsController.selectedEntity == null}" />
 					<p:commandButton action="#{managePpgsController.update}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
 						disabled="#{managePpgsController.selectedEntity == null}" />
 					<p:commandButton action="#{managePpgsController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}"

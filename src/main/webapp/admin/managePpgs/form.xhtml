@@ -30,6 +30,15 @@
 			<p:inputText id="name" value="#{managePpgsController.selectedEntity.name}" style="width: 100%;" />
 			<p:outputLabel for="acronymField" value="#{msgsAdmin['managePpgs.field.acronym']}" />
 			<p:inputText id="acronymField" value="#{managePpgsController.selectedEntity.acronym}" style="width: 100%;" />
+			<p:outputLabel for="academic" value="#{msgsAdmin['managePpgs.field.coordinator']}" />
+			<p:autoComplete id="academic" value="#{managePpgsController.selectedAcademic}" completeMethod="#{managePpgsController.completeAcademic}" var="academic" itemLabel="#{academic.name}" itemValue="#{academic}" converter="#{managePpgsController.academicConverter}" forceSelection="true" tyle="width: 100%;" >
+					<p:column>
+						<h:outputText value="#{academic.name}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{academic.email}" />
+					</p:column>
+			</p:autoComplete>
 		</p:panelGrid>
 		<p:commandButton id="cancelButton" value="#{msgs['jbutler.crud.button.cancel']}" icon="fa fa-close"
 			action="#{managePpgsController.list}" immediate="true" rendered="#{! managePpgsController.readOnly}" />
