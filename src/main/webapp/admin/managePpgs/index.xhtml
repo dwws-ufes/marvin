@@ -41,8 +41,20 @@
 					<p:commandButton action="#{managePpgsController.administrators}" icon="fa fa-search" value="#{msgsAdmin['managePpgs.button.administrators']}" disabled="#{managePpgsController.selectedEntity == null}" />
 					<p:commandButton action="#{managePpgsController.update}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
 						disabled="#{managePpgsController.selectedEntity == null}" />
-					<p:commandButton action="#{managePpgsController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}"
+					<p:commandButton action="#{managePpgsController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}" process="@this" update="trashGroup"
 						disabled="#{managePpgsController.selectedEntity == null}" />
+				</h:panelGroup>
+				<!-- The trash panel: shows entities that have been selected for deletion. -->
+				<h:panelGroup id="trashGroup">
+					<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty managePpgsController.trashCan}" style="margin-top: 20px">
+						<p:dataList value="#{managePpgsController.trashCan}" var="entity" type="ordered">
+			            	#{entity.name} (#{entity.acronym})
+			            </p:dataList>
+						<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+							<p:commandButton action="#{managePpgsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+							<p:commandButton action="#{managePpgsController.deletePPG}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":messages :info-messages :listingForm" />
+						</ui:decorate>
+					</p:panel>
 				</h:panelGroup>
 			</f:facet>
 		</p:dataTable>

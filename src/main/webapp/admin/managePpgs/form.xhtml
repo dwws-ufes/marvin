@@ -42,7 +42,7 @@
 		</p:panelGrid>
 		<p:commandButton id="cancelButton" value="#{msgs['jbutler.crud.button.cancel']}" icon="fa fa-close"
 			action="#{managePpgsController.list}" immediate="true" rendered="#{! managePpgsController.readOnly}" />
-		<p:commandButton id="saveButton" value="#{msgs['jbutler.crud.button.save']}" icon="fa fa-save" action="#{managePpgsController.save}"
+		<p:commandButton id="saveButton" value="#{msgs['jbutler.crud.button.save']}" icon="fa fa-save" action="#{managePpgsController.savePPG}"
 			rendered="#{! managePpgsController.readOnly}" />
 		<p:defaultCommand target="saveButton" />
 		<p:commandButton id="backButton" value="#{msgs['jbutler.crud.button.back']}" icon="fa fa-arrow-circle-left"

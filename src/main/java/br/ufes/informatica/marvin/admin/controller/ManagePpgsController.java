@@ -8,7 +8,12 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.Criterion;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.CriterionType;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.Filter;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.informatica.marvin.core.application.ManageAcademicsService;
@@ -85,19 +90,34 @@ public class ManagePpgsController extends CrudController<Ppg> {
 	}
 
 	public String administrators() {
-		String[] roles = { "Secretary", "Coordinato" };
+		String[] roles = { "Secretary", "Coordinator" };
 		this.roleList = new ArrayList<Role>();
 		for (String role : roles) {
 			this.roleList.add(manageRolesService.findFirstByName(role));
 		}
+		setSelectedAcademic(null);
 		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
+	}
+
+	public String savePPG() throws CrudException {
+		managePpgsService.validateCreate(selectedEntity, selectedAcademic);
+		managePpgsService.create(selectedEntity);
+
+		Academic academic = manageAcademicsService.retrieve(this.selectedAcademic.getId());
+		Role role = manageRolesService.findFirstByName("Coordinator");
+
+		manageAcademicsService.savePpgAdminstrator(academic, role, selectedEntity);
+		setSelectedAcademic(null);
+		return list();
 	}
 
 	public String saveAdministrator() {
 		Academic academic = manageAcademicsService.retrieve(this.selectedAcademic.getId());
 		Role role = manageRolesService.retrieve(this.selectedRole.getId());
 		Ppg ppg = managePpgsService.retrieve(selectedEntity.getId());
+
 		manageAcademicsService.savePpgAdminstrator(academic, role, ppg);
+
 		return VIEW_PATH + "index.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 
@@ -107,5 +127,19 @@ public class ManagePpgsController extends CrudController<Ppg> {
 
 	public PersistentObjectConverterFromId<Role> getRoleConverter() {
 		return manageAcademicsService.getRoleConverter();
+	}
+
+	public void deletePPG() {
+		for (Ppg delete : trashCan) {
+			Criterion cri = new Criterion("ppg", CriterionType.EQUALS, delete);
+			Filter<Void> filter = new SimpleFilter("ppg", "ppg", "ppg", cri);
+			int[] inteval = { 0, 100 };
+			List<Academic> list = manageAcademicsService.filter(filter, "ppg", inteval);
+
+			for (Academic academic : list) {
+				academic.setPpg(null);
+			}
+		}
+		delete();
 	}
 }
