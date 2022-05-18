@@ -67,14 +67,4 @@ public interface AcademicDAO extends BaseDAO<Academic> {
 	 */
 	List<Academic> retrieveByRole(Role role)
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
-
-	/**
-	 * TODO: document this method.
-	 * 
-	 * @param search
-	 * @return List<Academic>
-	 * @throws PersistentObjectNotFoundException
-	 * @throws MultiplePersistentObjectsFoundException
-	 */
-	List<Academic> retriveByNameEmail(String search) throws PersistentObjectNotFoundException;
 }

@@ -7,7 +7,6 @@ import javax.ejb.Local;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.informatica.marvin.core.domain.Academic;
-import br.ufes.informatica.marvin.core.domain.Ppg;
 import br.ufes.informatica.marvin.core.domain.Role;
 
 /**
@@ -32,27 +31,4 @@ public interface ManageAcademicsService extends CrudService<Academic> {
 	 */
 	List<Role> findRoleByName(String name);
 
-	/**
-	 * TODO: document this method.
-	 * 
-	 * @param search
-	 * @return
-	 */
-	List<Academic> findByNameEmail(String search);
-
-	/**
-	 * TODO: document this method.
-	 * 
-	 * 
-	 * @return
-	 */
-	PersistentObjectConverterFromId<Academic> getAcademicConverter();
-
-	/**
-	 * TODO: document this method.
-	 * 
-	 * 
-	 * @return
-	 */
-	public void savePpgAdminstrator(Academic academic, Role role, Ppg ppg);
 }

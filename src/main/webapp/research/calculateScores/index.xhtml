@@ -32,15 +32,36 @@
 			<p:column headerText="#{msgsResearch['calculateScores.field.name']}">
 				<h:outputText value="#{entity.name}" />
 			</p:column>
-			<p:column headerText="#{msgsResearch['calculateScores.field.role']}">
+			<p:column headerText="#{msgsResearch['calculateScores.field.member']}">
 				<h:outputText value="#{calculateScoresController.translateRole(entity.roles)}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['calculateScores.field.occupation']}">
+				<h:outputText value="#{calculateScoresController.translateRole2(entity.roles)}" />
 			</p:column>
 			<f:facet name="footer">
 				<h:panelGroup id="buttonsGroup">
 					<p:commandButton action="#{calculateScoresController.calculate}" icon="fa fa-plus" value="#{msgsResearch['calculateScores.button.calculate']}" />
+					<p:commandButton action="#{calculateScoresController.trash}" icon="fa fa-plus" value="#{msgsResearch['calculateScores.button.indicate']}" />
 				</h:panelGroup>
 			</f:facet>
 		</p:dataTable>
+		<h:panelGroup id="trashGroup">
+					<p:panel id="trashPanel" header="#{msgsResearch['calculateScores.indicate']}" rendered="#{not empty calculateScoresController.trashCan}" style="margin-top: 20px">
+						<p:dataList value="#{calculateScoresController.trashCan}" var="entity" type="ordered">
+			            	<p:outputLabel for="name" value="#{msgsResearch['calculateScores.field.name']}" />
+							<p:inputText id="name" value="#{entity.name}" style="width: 25%;margin-left: 10px;/" />
+							<p:outputLabel for="name" value="#{msgsResearch['calculateScores.field.occupation']}" style="margin-left: 10px;/" />
+					        <p:selectOneMenu id="role" value="#{calculateScoresController.selectedRole}" style="display: inline-block;width: 25%;margin-left: 10px;/"> 
+							   <f:selectItem itemLabel="Master" itemValue="Master"/>
+							   <p:ajax event="itemSelect" update="role"/>
+							</p:selectOneMenu> 
+			            </p:dataList>
+						<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+							<p:commandButton action="#{calculateScoresController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+							<p:commandButton action="#{calculateScoresController.delete}" value="#{msgsResearch['calculateScores.indicate.button']}" icon="fa fa-fw fa-close" process="@this" update=":messages :info-messages :listingForm" />
+						</ui:decorate>
+					</p:panel>
+				</h:panelGroup>
 	</h:form>
 </ui:define>
 

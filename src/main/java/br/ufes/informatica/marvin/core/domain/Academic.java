@@ -9,7 +9,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -81,10 +80,6 @@ public class Academic extends Person {
 	/** The last time the user logged in the system. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLoginDate;
-
-	/** PPG. */
-	@ManyToOne
-	private Ppg ppg;
 
 	/** Getter for shortName. */
 	public String getShortName() {
@@ -184,14 +179,6 @@ public class Academic extends Person {
 	/** Setter for lastLoginDate. */
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
-	}
-
-	public Ppg getPpg() {
-		return ppg;
-	}
-
-	public void setPpg(Ppg ppg) {
-		this.ppg = ppg;
 	}
 
 	/**

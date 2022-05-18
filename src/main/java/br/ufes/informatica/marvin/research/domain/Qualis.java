@@ -23,10 +23,16 @@ public class Qualis extends PersistentObjectSupport implements Comparable<Qualis
 
 	/** TODO: document this field. */
 	@NotNull
-	private Float value;
+	private Float scoreConference;
+
+	@NotNull
+	private Float scoreJournal;
 
 	@NotNull
 	private Date dtStart;
+
+	@NotNull
+	private boolean restrito;
 
 	private Date dtEnd;
 
@@ -35,10 +41,12 @@ public class Qualis extends PersistentObjectSupport implements Comparable<Qualis
 	}
 
 	/** Constructor. */
-	public Qualis(String name, Float value) {
+	public Qualis(String name, Float scoreConference, Float scoreJournal, boolean restrito) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
-		this.value = value;
+		this.scoreConference = scoreConference;
+		this.scoreJournal = scoreJournal;
+		this.restrito = restrito;
 	}
 
 	/** Getter for name. */
@@ -49,14 +57,6 @@ public class Qualis extends PersistentObjectSupport implements Comparable<Qualis
 	/** Setter for name. */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Float getValue() {
-		return value;
-	}
-
-	public void setValue(Float value) {
-		this.value = value;
 	}
 
 	public Date getDtStart() {
@@ -73,6 +73,30 @@ public class Qualis extends PersistentObjectSupport implements Comparable<Qualis
 
 	public void setDtEnd(Date dtEnd) {
 		this.dtEnd = dtEnd;
+	}
+
+	public Float getScoreConference() {
+		return scoreConference;
+	}
+
+	public void setScoreConference(Float scoreConference) {
+		this.scoreConference = scoreConference;
+	}
+
+	public Float getScoreJournal() {
+		return scoreJournal;
+	}
+
+	public void setScoreJournal(Float scoreJournal) {
+		this.scoreJournal = scoreJournal;
+	}
+
+	public boolean isRestrito() {
+		return restrito;
+	}
+
+	public void setRestrito(boolean restrito) {
+		this.restrito = restrito;
 	}
 
 	@Override

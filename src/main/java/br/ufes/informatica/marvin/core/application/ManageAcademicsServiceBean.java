@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +23,6 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.informatica.marvin.core.domain.Academic;
-import br.ufes.informatica.marvin.core.domain.Ppg;
 import br.ufes.informatica.marvin.core.domain.Role;
 import br.ufes.informatica.marvin.core.persistence.AcademicDAO;
 import br.ufes.informatica.marvin.core.persistence.RoleDAO;
@@ -67,9 +65,6 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 
 	/** TODO: document this field. */
 	private PersistentObjectConverterFromId<Role> roleConverter;
-
-	/** TODO: document this field. */
-	private PersistentObjectConverterFromId<Academic> academicConverter;
 
 	@Override
 	public BaseDAO<Academic> getDAO() {
@@ -151,42 +146,8 @@ public class ManageAcademicsServiceBean extends CrudServiceBean<Academic> implem
 	}
 
 	@Override
-	public PersistentObjectConverterFromId<Academic> getAcademicConverter() {
-		if (academicConverter == null)
-			academicConverter = new PersistentObjectConverterFromId<Academic>(academicDAO);
-		return academicConverter;
-	}
-
-	@Override
 	public List<Role> findRoleByName(String name) {
 		return roleDAO.findByName(name);
-	}
-
-	public List<Academic> findByNameEmail(String search) {
-		try {
-			return this.academicDAO.retriveByNameEmail(search);
-		} catch (PersistentObjectNotFoundException e) {
-			return null;
-		}
-	}
-
-	@Override
-	public void savePpgAdminstrator(Academic academic, Role role, Ppg ppg) {
-
-		if (academic == null || role == null || ppg == null) {
-			throw new NullPointerException();
-		}
-
-		Set<Role> roles = academic.getRoles();
-		for (Role interator : roles) {
-			if (interator.getName().equals("Secretary") || interator.getName().equals("Coordinato")) {
-				roles.remove(interator);
-			}
-		}
-		roles.add(role);
-		academic.setRoles(roles);
-		academic.setPpg(ppg);
-		academicDAO.save(academic);
 	}
 
 }

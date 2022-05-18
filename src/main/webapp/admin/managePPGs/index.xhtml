@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:adm="http://github.com/adminfaces"
+    template="/WEB-INF/templates/template.xhtml">
+
+    <ui:define name="title">
+	<h:outputText value="#{msgsAdmin['managePPGs.title']}" />
+</ui:define>
+
+<ui:define name="description">
+	<h:outputText value="#{msgsAdmin['managePPGs.title.description']}" />
+</ui:define>
+
+<ui:define name="body">
+	<adm:breadcrumb link="/core/managePPGs/index" title="#{msgsAdmin['managePPGs.title']}" />
+	<h:form id="listingForm">
+		<p:dataTable id="entitiesDataTable" var="entity" value="#{managePPGsController.lazyEntities}"
+			selection="#{managePPGsController.selectedEntity}" selectionMode="single" paginator="true"
+			rows="#{managePPGsController.maxDataTableRowsPerPage}"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="#{managePPGsController.halfMaxDataTableRowsPerPage},#{managePPGsController.maxDataTableRowsPerPage},#{managePPGsController.doubleMaxDataTableRowsPerPage}"
+			lazy="true" paginatorPosition="bottom" emptyMessage="#{msgsAdmin['managePPGs.text.noEntities']}">
+			<p:ajax event="rowSelect" update="buttonsGroup" />
+			<p:ajax event="rowUnselect" update="buttonsGroup" />
+			<p:column headerText="#{msgsAdmin['managePPGs.field.id']}">
+				<h:outputText value="#{entity.id}" />
+			</p:column>
+			<p:column headerText="#{msgsAdmin['managePPGs.field.name']}">
+				<h:outputText value="#{entity.name}" />
+			</p:column>
+			<p:column headerText="#{msgsAdmin['managePPGs.field.acronym']}">
+				<h:outputText value="#{entity.acronym}" />
+			</p:column>
+			<f:facet name="footer">
+				<h:panelGroup id="buttonsGroup">
+					<p:commandButton action="#{managePPGsController.createPPG}" icon="fa fa-plus" value="#{msgs['jbutler.crud.button.create']}" />
+					<p:commandButton action="#{managePPGsController.administrators}" icon="fa fa-search" value="#{msgsAdmin['managePPGs.button.administrators']}" disabled="#{managePPGsController.selectedEntity == null}" />
+					<p:commandButton action="#{managePPGsController.updatePPG}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
+						disabled="#{managePPGsController.selectedEntity == null}" />
+					<p:commandButton action="#{managePPGsController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}" process="@this" update="trashGroup"
+						disabled="#{managePPGsController.selectedEntity == null}" />
+				</h:panelGroup>
+				<!-- The trash panel: shows entities that have been selected for deletion. -->
+				<h:panelGroup id="trashGroup">
+					<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty managePPGsController.trashCan}" style="margin-top: 20px">
+						<p:dataList value="#{managePPGsController.trashCan}" var="entity" type="ordered">
+			            	#{entity.name} (#{entity.acronym})
+			            </p:dataList>
+						<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+							<p:commandButton action="#{managePPGsController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+							<p:commandButton action="#{managePPGsController.deletePPG}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":messages :info-messages :listingForm" />
+						</ui:decorate>
+					</p:panel>
+				</h:panelGroup>
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</ui:define>
+
+</ui:composition>

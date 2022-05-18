@@ -29,7 +29,7 @@
 			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
 				<ui:param name="fieldName" value="academic" />
 				<ui:param name="label" value="#{msgsAdmin['managePpgs.field.academics']}" />
-				<p:autoComplete id="academic" value="#{managePpgsController.selectedAcademic}" completeMethod="#{managePpgsController.completeAcademic}" var="academic" itemLabel="#{academic.name}" itemValue="#{academic}" converter="#{managePpgsController.academicConverter}" forceSelection="true" >
+				<p:autoComplete id="academic" value="#{managePPGsController.selectedAcademic}" completeMethod="#{managePPGsController.completeAcademic}" var="academic" itemLabel="#{academic.name}" itemValue="#{academic}" converter="#{managePPGsController.academicConverter}" forceSelection="true" >
 					<p:column>
 						<h:outputText value="#{academic.name}" />
 					</p:column>
@@ -42,16 +42,16 @@
 			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
 				<ui:param name="fieldName" value="role" />
 				<ui:param name="label" value="#{msgsAdmin['managePpgs.field.role']}" />
-				<p:selectOneMenu id="role" converter="#{managePpgsController.roleConverter}" value="#{managePpgsController.selectedRole}"> 
-				   <f:selectItems var="roleName" value="#{managePpgsController.roleList}" itemValue="#{roleName}"  />
+				<p:selectOneMenu id="role" converter="#{managePPGsController.roleConverter}" value="#{managePPGsController.selectedRole}"> 
+				   <f:selectItems var="roleName" value="#{managePPGsController.roleList}" itemValue="#{roleName}"  />
 				   <p:ajax event="itemSelect" update="role"/>
 				</p:selectOneMenu> 
 			</ui:decorate>
 			<!-- Buttons shown below the form. -->
 			<h:panelGroup >
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-					<p:commandButton id="cancelButton" action="#{managePpgsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-close" />
-					<p:commandButton id="saveButton" action="#{managePpgsController.saveAdministrator}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
+					<p:commandButton id="cancelButton" action="#{managePPGsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-close" />
+					<p:commandButton id="saveButton" action="#{managePPGsController.saveAdministrator}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
 					<p:defaultCommand target="saveButton" />
 				</ui:decorate>
 			</h:panelGroup>

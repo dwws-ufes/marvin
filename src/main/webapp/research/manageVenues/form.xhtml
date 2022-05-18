@@ -29,6 +29,26 @@
 			<ui:param name="formLabel" value="#{msgsResearch['manageVenues.form.upload']}" />
 			<ui:param name="formFileUpload" value="true" /> 
 			<p:focus />
+			
+			<!-- Field: birthDate. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="birthDate" />
+				<ui:param name="label" value="#{msgsResearch['manageVenues.field.dtStart']}" />
+				<p:inputMask id="birthDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{manageAcademicsController.selectedEntity.birthDate}" disabled="#{manageAcademicsController.readOnly}">
+					<p:ajax event="blur" update="birthDateField" />
+					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+				</p:inputMask>
+			</ui:decorate>
+			
+			<!-- Field: birthDate. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="dtEnd" />
+				<ui:param name="label" value="#{msgsResearch['manageVenues.field.dtEnd']}" />
+				<p:inputMask id="dtEnd" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{dtEnd}" >
+					<p:ajax event="blur" update="dtEnd" />
+					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+				</p:inputMask>
+			</ui:decorate>
 
 			<!-- File chooser field. -->
 			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">

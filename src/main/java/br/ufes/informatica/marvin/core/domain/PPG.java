@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 @Entity
-public class Ppg extends PersistentObjectSupport implements Comparable<Ppg> {
+public class PPG extends PersistentObjectSupport implements Comparable<PPG> {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
@@ -33,7 +33,7 @@ public class Ppg extends PersistentObjectSupport implements Comparable<Ppg> {
 	}
 
 	@Override
-	public int compareTo(Ppg o) {
+	public int compareTo(PPG o) {
 		int cmp = 0;
 		cmp = o.name.compareTo(name);
 		return cmp;

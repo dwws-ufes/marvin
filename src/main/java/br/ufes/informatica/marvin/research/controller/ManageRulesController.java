@@ -9,8 +9,6 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import br.ufes.informatica.marvin.core.application.ManageRolesService;
-import br.ufes.informatica.marvin.core.domain.Role;
 import br.ufes.informatica.marvin.research.application.ManageRulesService;
 import br.ufes.informatica.marvin.research.domain.Rule;
 
@@ -21,9 +19,6 @@ public class ManageRulesController extends CrudController<Rule> {
 
 	@EJB
 	private ManageRulesService manageRulesService;
-
-	@EJB
-	private ManageRolesService manageRolesService;
 
 	private List<String> roleList;
 
@@ -41,7 +36,6 @@ public class ManageRulesController extends CrudController<Rule> {
 
 	@PostConstruct
 	public void init() {
-		roleList = manageRolesService.getRoleForRule();
 	}
 
 	public List<String> getRoleList() {
@@ -61,8 +55,6 @@ public class ManageRulesController extends CrudController<Rule> {
 	}
 
 	public String saveRule() {
-		Role role = manageRolesService.findFirstByName(selectedRole);
-		selectedEntity.setRole(role);
 		return this.save();
 	}
 

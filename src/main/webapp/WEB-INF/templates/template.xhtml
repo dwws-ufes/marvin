@@ -3,6 +3,11 @@
   xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
   template="/admin.xhtml">
+  
+   
+<h:head>
+
+</h:head>
 
   <ui:define name="head">
     <h:outputStylesheet library="webjars" name="font-awesome/5.15.3/css/all-jsf.css" />
@@ -40,7 +45,7 @@
 
       <!-- Include menus from modules. -->
       <h:panelGroup rendered="#{coreInfo.systemInstalled}">
-        <ui:include src="menus/admin.xhtml" />
+        <ui:include src="menus/admin.xhtml" /> 
         <ui:include src="menus/research.xhtml" />
       </h:panelGroup>
     </ul>

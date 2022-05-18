@@ -35,8 +35,8 @@
 					<h:outputText value="#{entity.category.getName()}" />
 				</p:column>
 				
-				<p:column headerText="#{msgsResearch['manageVenues.name']}">
-					<h:outputText value="#{entity.name}" />
+				<p:column headerText="#{msgsResearch['manageVenues.acronym']}">
+					<h:outputText value="#{entity.acronym}" />
 				</p:column>
 
 				<p:column headerText="#{msgsResearch['manageVenues.issn']}">
@@ -47,7 +47,7 @@
 			<!-- Buttons shown below the listing. -->
 			<h:form>
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-					<p:commandButton action="#{manageVenueController.teste}" value="#{msgsResearch['manageVenueController.button.upload']}" icon="fa fa-fw fa-plus" />
+					<p:commandButton action="#{manageVenueController.create}" value="#{msgsResearch['manageVenueController.button.upload']}" icon="fa fa-fw fa-plus" />
 				</ui:decorate>
 			</h:form>		
 		</h:panelGroup>

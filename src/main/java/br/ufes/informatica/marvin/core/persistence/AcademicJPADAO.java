@@ -141,22 +141,4 @@ public class AcademicJPADAO extends BaseJPADAO<Academic> implements AcademicDAO 
 		return result;
 	}
 
-	public List<Academic> retriveByNameEmail(String search) throws PersistentObjectNotFoundException {
-
-		logger.log(Level.FINE, "Retrieving the academic whose e-mail or name is \"{0}\"...", search);
-
-		// Constructs the query over the Academic class.
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Academic> cq = cb.createQuery(Academic.class);
-		Root<Academic> root = cq.from(Academic.class);
-
-		// Filters the query with the email.
-		cq.where(cb.or(cb.like(root.get(Academic_.email), "%" + search + "%"),
-				cb.like(root.get(Academic_.name), "%" + search + "%")));
-		List<Academic> result = entityManager.createQuery(cq).getResultList();
-		logger.log(Level.INFO, "Retrieve academic by the e-mail or name \"{0}\" returned \"{1}\"",
-				new Object[] { search, result });
-		return result;
-	}
-
 }

@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:adm="http://github.com/adminfaces">
+	xmlns:adm="http://github.com/adminfaces" rendered="#{sessionController.isAdmin}">
 
 	<!-- TODO: show menus depending on user authorization (role-based access control). -->
 	<li class="header"><h:outputText value="#{msgsAdmin['menu.admin']}" /></li>
@@ -16,9 +16,9 @@
 	</p:link></li>
 	
 	<!-- Manage Ppgs -->
-	<li><p:link outcome="/admin/managePpgs/index">
+	<li><p:link outcome="/admin/managePPGs/index">
 		<i class="fa fa-chalkboard-teacher"></i>
-		<span><h:outputText value="#{msgsAdmin['menu.admin.managePpgs']}" /></span>
+		<span><h:outputText value="#{msgsAdmin['menu.admin.managePPGs']}" /></span>
 	</p:link></li>
 
 </ui:composition>

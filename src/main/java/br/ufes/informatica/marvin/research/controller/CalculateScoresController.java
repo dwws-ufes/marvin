@@ -38,6 +38,10 @@ public class CalculateScoresController extends CrudController<Academic> {
 
 	private List<Academic> academics;
 
+	private List<String> roleList;
+
+	private String selectedRole;
+
 	@EJB
 	private CalculateScoresService calculateScoresService;
 
@@ -52,6 +56,9 @@ public class CalculateScoresController extends CrudController<Academic> {
 
 	@Override
 	protected CrudService<Academic> getCrudService() {
+		this.roleList = new ArrayList<String>();
+		this.roleList.add("Master");
+		this.roleList.add("Doctoral");
 		return calculateScoresService;
 	}
 
@@ -72,6 +79,15 @@ public class CalculateScoresController extends CrudController<Academic> {
 		return "Não";
 	}
 
+	public String translateRole2(Set<Role> roles) {
+		for (Role role : roles) {
+			if (role.getName().equals("Doctoral") || role.getName().equals("Master")) {
+				return role.getName();
+			}
+		}
+		return "";
+	}
+
 	public String calculate() {
 		try {
 			this.academics = this.calculateScoresService.findAcademicQualified();
@@ -87,6 +103,22 @@ public class CalculateScoresController extends CrudController<Academic> {
 		} catch (MultiplePersistentObjectsFoundException e) {
 			return "";
 		}
+	}
+
+	public List<String> getRolelist() {
+		return roleList;
+	}
+
+	public void setRolelist(List<String> rolelist) {
+		this.roleList = rolelist;
+	}
+
+	public String getSelectedRole() {
+		return selectedRole;
+	}
+
+	public void setSelectedRole(String selectedRole) {
+		this.selectedRole = selectedRole;
 	}
 
 }

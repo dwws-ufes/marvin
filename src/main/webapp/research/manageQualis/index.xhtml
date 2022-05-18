@@ -32,11 +32,22 @@
 			<p:column headerText="#{msgsResearch['manageQualis.field.name']}">
 				<h:outputText value="#{entity.name}" />
 			</p:column>
-			<p:column headerText="#{msgsResearch['manageQualis.field.value']}">
-				<h:outputText value="#{entity.value}" />
+			<p:column headerText="#{msgsResearch['manageQualis.field.scoreConference']}">
+				<h:outputText value="#{entity.scoreConference}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageQualis.field.scoreJournal']}">
+				<h:outputText value="#{entity.scoreJournal}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageQualis.field.restrito']}">
+				<h:outputText value="#{entity.restrito ? 'Sim' : 'Não'}" />
+			</p:column>
+			<p:column headerText="#{msgsResearch['manageQualis.field.dtValidityStart']}">
+				<h:outputText value="#{entity.dtStart}">
+					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+				</h:outputText>
 			</p:column>
 			<p:column headerText="#{msgsResearch['manageQualis.field.dtValidityEnd']}">
-				<h:outputText value="#{entity.dtStart}">
+				<h:outputText value="#{entity.dtEnd}">
 					<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
 				</h:outputText>
 			</p:column>
