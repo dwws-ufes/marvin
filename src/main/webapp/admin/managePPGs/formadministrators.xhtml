@@ -9,52 +9,92 @@
     template="/WEB-INF/templates/template.xhtml">
 
    <ui:define name="title">
-   <h:outputText value="#{msgsAdmin['managePpgs.title.administrators']}" />
+   <h:outputText value="#{msgsAdmin['managePPGs.title.administrators']}" />
 </ui:define>
 
 <ui:define name="description">
-	<h:outputText value="#{msgsAdmin['managePpgs.title.administrators.description']}" />
+	<h:outputText value="#{msgsAdmin['managePPGs.title.administrators.description']}" />
 </ui:define>
 
 <ui:define name="body">
 		<!-- The breadcrumb. -->
-		<adm:breadcrumb title="#{msgsAdmin['manageAcademics.title']}" link="index.xhtml" />
+		<adm:breadcrumb title="#{msgsAdmin['managePPGs.title']}" link="index.xhtml" />
 	
 		<!-- The form to be filled with information on the academic. -->
 		<ui:decorate template="/WEB-INF/templates/form.xhtml">
 			<ui:param name="formName" value="form" /> 
-			<ui:param name="formLabel" value="#{msgsAdmin['managePpgs.title.administrators']}" />
+			<ui:param name="formLabel" value="#{msgsAdmin['managePPGs.title.administrators']}" />
 			<p:focus />
-			<!-- Field: academic. -->
+			
+			<!-- Field: coordinators. -->
 			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-				<ui:param name="fieldName" value="academic" />
-				<ui:param name="label" value="#{msgsAdmin['managePpgs.field.academics']}" />
-				<p:autoComplete id="academic" value="#{managePPGsController.selectedAcademic}" completeMethod="#{managePPGsController.completeAcademic}" var="academic" itemLabel="#{academic.name}" itemValue="#{academic}" converter="#{managePPGsController.academicConverter}" forceSelection="true" >
-					<p:column>
-						<h:outputText value="#{academic.name}" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{academic.email}" />
-					</p:column>
-				</p:autoComplete>			
-			</ui:decorate>
-			<!-- Field: Role. -->
-			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-				<ui:param name="fieldName" value="role" />
-				<ui:param name="label" value="#{msgsAdmin['managePpgs.field.role']}" />
-				<p:selectOneMenu id="role" converter="#{managePPGsController.roleConverter}" value="#{managePPGsController.selectedRole}"> 
-				   <f:selectItems var="roleName" value="#{managePPGsController.roleList}" itemValue="#{roleName}"  />
-				   <p:ajax event="itemSelect" update="role"/>
+				<ui:param name="fieldName" value="typeAdmin" />
+				<ui:param name="label" value="#{msgsAdmin['managePPGs.field.typeAdmin']}" />
+				<p:selectOneMenu style="width: 300px;" id="typeAdmin" value="#{managePPGsController.typeAdmin}"> 
+				    <f:selectItem itemLabel="" itemValue=""/>
+                    <f:selectItem itemLabel="Coordinator" itemValue="Coordinator"/>
+                    <f:selectItem itemLabel="Secretary" itemValue="Secretary"/>
 				</p:selectOneMenu> 
+			</ui:decorate>
+			
+			<!-- Field: coordinators. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="coordinators" />
+				<ui:param name="label" value="#{msgsAdmin['managePPGs.field.coordinators']}" />
+				<p:autoComplete style="width: 300px;" id="coordinators" required="true" value="#{managePPGsController.coordinators}" completeMethod="#{managePPGsController.completeCoordinators}" var="coordinators" itemLabel="#{coordinators.shortName}" itemValue="#{coordinators}" converter="#{managePPGsController.coordinatorConverter}" forceSelection="true" >
+					<p:column>
+						<h:outputText value="#{coordinators.name}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{coordinators.email}" />
+					</p:column>
+				</p:autoComplete>
 			</ui:decorate>
 			<!-- Buttons shown below the form. -->
 			<h:panelGroup >
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 					<p:commandButton id="cancelButton" action="#{managePPGsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-close" />
-					<p:commandButton id="saveButton" action="#{managePPGsController.saveAdministrator}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
-					<p:defaultCommand target="saveButton" />
+					<p:commandButton id="searchButton" action="#{managePPGsController.search}" value="#{msgsAdmin['managePPGs.button.search']}" update=":form :messages :info-messages" icon="fa fa-fw fa-search" />
+					<p:commandButton action="#{managePPGsController.updatePPG}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}" disabled="#{managePPGsController.selectedOccupation == null}" />
+					<p:commandButton action="#{managePPGsController.saveAdministrator}" value="#{msgsAdmin['managePPGs.button.add']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
+					<p:defaultCommand target="searchButton" />
 				</ui:decorate>
 			</h:panelGroup>
 		</ui:decorate>		
+		
+			<h:panelGroup>
+				<p:dataTable
+					widgetVar="listingTable"
+					value="#{managePPGsController.listAdmins}" 
+					var="entity" 
+					rowKey="#{entity.id}"
+					selection="#{managePPGsController.selectedOccupation}"
+					selectionMode="single"
+					rows="#{mmanagePPGsController.maxDataTableRowsPerPage}" 
+					rowsPerPageTemplate="#{managePPGsController.halfMaxDataTableRowsPerPage},#{managePPGsController.maxDataTableRowsPerPage},#{managePPGsController.doubleMaxDataTableRowsPerPage}"
+					lazy="true" 
+					paginator="true" 
+					paginatorPosition="bottom" 
+					emptyMessage="#{msgsAdmin['managePPGs.occupation.noEntities']}">
+					
+					<p:column headerText="#{msgsAdmin['managePPGs.occupation.name']}">
+						<h:outputText value="#{entity.academic.getName()}" />
+					</p:column>
+					
+					<p:column headerText="#{msgsAdmin['managePPGs.occupation.ppg']}">
+						<h:outputText value="#{entity.ppg.acronym}" />
+					</p:column>
+	
+					<p:column headerText="#{msgsAdmin['managePPGs.occupation.coordinator']}">
+						<h:outputText value="#{entity.coordinator ? 'SIM' : 'NÃO' }" />
+					</p:column>
+					
+					<p:column headerText="#{msgsAdmin['managePPGs.occupation.secretary']}">
+						<h:outputText value="#{entity.secretary ? 'SIM' : 'NÃO'}" />
+					</p:column>
+				</p:dataTable>	
+					
+			</h:panelGroup>		
+		
 	</ui:define>
 </ui:composition>

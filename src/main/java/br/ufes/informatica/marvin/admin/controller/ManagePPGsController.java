@@ -11,10 +11,6 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.Criterion;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.CriterionType;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.Filter;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.informatica.marvin.core.application.ManageAcademicsService;
@@ -41,6 +37,12 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	private List<Academic> coordinators;
 
+	private List<Occupation> listAdmins;
+
+	private Occupation selectedOccupation;
+
+	private String typeAdmin;
+
 	@Override
 	protected CrudService<PPG> getCrudService() {
 		return managePPGsService;
@@ -53,10 +55,26 @@ public class ManagePPGsController extends CrudController<PPG> {
 	 * Path to the folder where the view files (web pages) for this action are
 	 * placed.
 	 */
-	private static final String VIEW_PATH = "/admin/managePpgs/";
+	private static final String VIEW_PATH = "/admin/managePPGs/";
 
 	@Override
 	protected void initFilters() {
+	}
+
+	public Occupation getSelectedOccupation() {
+		return selectedOccupation;
+	}
+
+	public void setSelectedOccupation(Occupation selectedOccupation) {
+		this.selectedOccupation = selectedOccupation;
+	}
+
+	public List<Occupation> getListAdmins() {
+		return listAdmins;
+	}
+
+	public void setListAdmins(List<Occupation> listAdmins) {
+		this.listAdmins = listAdmins;
 	}
 
 	public List<Academic> getCoordinators() {
@@ -65,6 +83,14 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	public void setCoordinators(List<Academic> coordinators) {
 		this.coordinators = coordinators;
+	}
+
+	public String getTypeAdmin() {
+		return typeAdmin;
+	}
+
+	public void setTypeAdmin(String typeAdmin) {
+		this.typeAdmin = typeAdmin;
 	}
 
 	public List<Academic> completeCoordinators(String query) {
@@ -76,10 +102,7 @@ public class ManagePPGsController extends CrudController<PPG> {
 	}
 
 	public String administrators() {
-//		String[] roles = { "Secretary", "Coordinator" };
-//		this.roleList = new ArrayList<Role>();
-//
-//		setselectedCoordinator(null);
+		setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
 		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 
@@ -163,15 +186,17 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	public void deletePPG() {
 		for (PPG delete : trashCan) {
-			Criterion cri = new Criterion("ppg", CriterionType.EQUALS, delete);
-			Filter<Void> filter = new SimpleFilter("ppg", "ppg_id", "ppg", cri);
-			int[] inteval = { 0, 100 };
-			List<Academic> list = manageAcademicsService.filter(filter, delete.getId().toString(), inteval);
-
-			for (Academic academic : list) {
-				manageAcademicsService.getDAO().save(academic);
+			List<Occupation> list = manageOccupationsService.findOccupationsByPPG(delete.getId());
+			for (Occupation occupation : list) {
+				manageOccupationsService.delete(occupation);
 			}
+
 		}
 		delete();
+	}
+
+	public String search(String query) {
+		setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
+		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 }
