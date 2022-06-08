@@ -31,9 +31,9 @@
 				<ui:param name="fieldName" value="typeAdmin" />
 				<ui:param name="label" value="#{msgsAdmin['managePPGs.field.typeAdmin']}" />
 				<p:selectOneMenu style="width: 300px;" id="typeAdmin" value="#{managePPGsController.typeAdmin}"> 
-				    <f:selectItem itemLabel="" itemValue=""/>
-                    <f:selectItem itemLabel="Coordinator" itemValue="Coordinator"/>
-                    <f:selectItem itemLabel="Secretary" itemValue="Secretary"/>
+				    <f:selectItem itemLabel="" itemValue="all"/>
+                    <f:selectItem itemLabel="Coordinator" itemValue="coordinator"/>
+                    <f:selectItem itemLabel="Secretary" itemValue="secretary"/>
 				</p:selectOneMenu> 
 			</ui:decorate>
 			
@@ -41,7 +41,7 @@
 			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
 				<ui:param name="fieldName" value="coordinators" />
 				<ui:param name="label" value="#{msgsAdmin['managePPGs.field.coordinators']}" />
-				<p:autoComplete style="width: 300px;" id="coordinators" required="true" value="#{managePPGsController.coordinators}" completeMethod="#{managePPGsController.completeCoordinators}" var="coordinators" itemLabel="#{coordinators.shortName}" itemValue="#{coordinators}" converter="#{managePPGsController.coordinatorConverter}" forceSelection="true" >
+				<p:autoComplete style="width: 300px;" id="coordinators" value="#{managePPGsController.selectedAdmin}" completeMethod="#{managePPGsController.completeCoordinators}" var="coordinators" itemLabel="#{coordinators.shortName}" itemValue="#{coordinators}" converter="#{managePPGsController.coordinatorConverter}" forceSelection="true" >
 					<p:column>
 						<h:outputText value="#{coordinators.name}" />
 					</p:column>
@@ -64,6 +64,7 @@
 		
 			<h:panelGroup>
 				<p:dataTable
+				
 					widgetVar="listingTable"
 					value="#{managePPGsController.listAdmins}" 
 					var="entity" 
@@ -82,15 +83,15 @@
 					</p:column>
 					
 					<p:column headerText="#{msgsAdmin['managePPGs.occupation.ppg']}">
-						<h:outputText value="#{entity.ppg.acronym}" />
+						<h:outputText value="#{entity.ppg == null ? 'IS NOT ASSOCIATED' :  entity.ppg.acronym}" />
 					</p:column>
 	
 					<p:column headerText="#{msgsAdmin['managePPGs.occupation.coordinator']}">
-						<h:outputText value="#{entity.coordinator ? 'SIM' : 'NÃO' }" />
+						<h:outputText value="#{entity.coordinator ? 'YES' : 'NO' }" />
 					</p:column>
 					
 					<p:column headerText="#{msgsAdmin['managePPGs.occupation.secretary']}">
-						<h:outputText value="#{entity.secretary ? 'SIM' : 'NÃO'}" />
+						<h:outputText value="#{entity.secretary ? 'YES' : 'NO'}" />
 					</p:column>
 				</p:dataTable>	
 					

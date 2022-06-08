@@ -85,4 +85,18 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 		}
 	}
 
+	public List<Occupation> findAcademicsByOccupation(String type) {
+		try {
+			List<Occupation> occupations = null;
+
+			if (type != null && type.length() > 0) {
+				occupations = this.OccupationDAO.retriveOccupationsByType(type);
+			}
+
+			return occupations;
+		} catch (PersistentObjectNotFoundException e) {
+			return null;
+		}
+	}
+
 }

@@ -87,4 +87,36 @@ public class OccupationJPADAO extends BaseJPADAO<Occupation> implements Occupati
 
 		return result;
 	}
+
+	public List<Occupation> retriveOccupationsByType(String type) throws PersistentObjectNotFoundException {
+
+		List<Occupation> result = null;
+
+		logger.log(Level.FINE, "Retrieving academics who has the position of \"{0}\" in the PPG...", type);
+
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Occupation> cq = cb.createQuery(Occupation.class);
+		Root<Occupation> occupation = cq.from(Occupation.class);
+
+		occupation.join(Occupation_.academic);
+
+		cq.select(occupation);
+
+		if (type.equals("coordinator")) {
+			cq.where(cb.equal(occupation.get(Occupation_.coordinator), true));
+		} else if (type.equals("secretary")) {
+			cq.where(cb.equal(occupation.get(Occupation_.secretary), true));
+		} else if (type.equals("doctoral")) {
+			cq.where(cb.equal(occupation.get(Occupation_.doctoral_supervisor), true));
+		} else if (type.equals("master")) {
+			cq.where(cb.equal(occupation.get(Occupation_.member), true));
+		} else {
+			return null;
+		}
+
+		result = entityManager.createQuery(cq).getResultList();
+
+		return result;
+
+	}
 }

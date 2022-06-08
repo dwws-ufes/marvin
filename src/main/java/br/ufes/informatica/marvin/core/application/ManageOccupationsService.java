@@ -20,4 +20,6 @@ public interface ManageOccupationsService extends CrudService<Occupation> {
 	public List<Occupation> findOccupationsByPPG(Long idPPG);
 
 	public List<Academic> findAcademicsByPPG(Long idPPG);
+
+	public List<Occupation> findAcademicsByOccupation(String type);
 }

@@ -26,4 +26,6 @@ public interface OccupationDAO extends BaseDAO<Occupation> {
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
 	List<Occupation> retriveOccupationsByPPG(Long idPPG) throws PersistentObjectNotFoundException;
+
+	List<Occupation> retriveOccupationsByType(String type) throws PersistentObjectNotFoundException;
 }

@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,6 +38,8 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	private List<Academic> coordinators;
 
+	private Academic selectedAdmin;
+
 	private List<Occupation> listAdmins;
 
 	private Occupation selectedOccupation;
@@ -59,6 +62,14 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	@Override
 	protected void initFilters() {
+	}
+
+	public Academic getSelectedAdmin() {
+		return selectedAdmin;
+	}
+
+	public void setSelectedAdmin(Academic selectedAdmin) {
+		this.selectedAdmin = selectedAdmin;
 	}
 
 	public Occupation getSelectedOccupation() {
@@ -174,10 +185,24 @@ public class ManagePPGsController extends CrudController<PPG> {
 	}
 
 	public String saveAdministrator() {
-//		Academic academic = manageAcademicsService.retrieve(this.selectedCoordinator.getId());
-//		PPG ppg = managePPGsService.retrieve(selectedEntity.getId());
 
-		return VIEW_PATH + "index.xhtml" + "?faces-redirect=" + getFacesRedirect();
+		Occupation newOccupation = new Occupation();
+		newOccupation.setAcademic(selectedAdmin);
+		if (typeAdmin.equals("coordinator")) {
+			newOccupation.setSecretary(false);
+			newOccupation.setCoordinator(true);
+		} else if (typeAdmin.equals("secretary")) {
+			newOccupation.setSecretary(true);
+			newOccupation.setCoordinator(false);
+		}
+		newOccupation.setDoctoral_supervisor(false);
+		newOccupation.setMember(true);
+		newOccupation.setPpg(selectedEntity);
+		manageOccupationsService.create(newOccupation);
+
+		setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
+
+		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 
 	public PersistentObjectConverterFromId<Role> getRoleConverter() {
@@ -195,8 +220,26 @@ public class ManagePPGsController extends CrudController<PPG> {
 		delete();
 	}
 
-	public String search(String query) {
-		setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
+	public String search() {
+		List<Occupation> occupations = new ArrayList<Occupation>();
+		if (selectedAdmin != null) {
+			Occupation occupation = manageOccupationsService.findOccupationByAcademic(selectedAdmin.getId());
+			if (occupation == null) {
+				occupation = new Occupation();
+				occupation.setAcademic(selectedAdmin);
+				occupation.setCoordinator(false);
+				occupation.setSecretary(false);
+				occupation.setDoctoral_supervisor(false);
+				occupation.setMember(true);
+				occupation.setPpg(null);
+				occupation.setId(0l);
+			}
+			occupations.add(occupation);
+		} else {
+			occupations = manageOccupationsService.findAcademicsByOccupation(typeAdmin);
+		}
+
+		setListAdmins(occupations);
 		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 }
