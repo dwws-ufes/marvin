@@ -16,7 +16,7 @@
 	<h:outputText value="#{msgsAdmin['managePPGs.title.administrators.description']}" />
 </ui:define>
 
-<ui:define name="body">
+<ui:define name="body" id="bodyAdminstrador">
 		<!-- The breadcrumb. -->
 		<adm:breadcrumb title="#{msgsAdmin['managePPGs.title']}" link="index.xhtml" />
 	
@@ -51,20 +51,20 @@
 				</p:autoComplete>
 			</ui:decorate>
 			<!-- Buttons shown below the form. -->
-			<h:panelGroup >
+			<h:panelGroup id="buttonsGroup" >
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 					<p:commandButton id="cancelButton" action="#{managePPGsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-close" />
 					<p:commandButton id="searchButton" action="#{managePPGsController.search}" value="#{msgsAdmin['managePPGs.button.search']}" update=":form :messages :info-messages" icon="fa fa-fw fa-search" />
 					<p:commandButton action="#{managePPGsController.updatePPG}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}" disabled="#{managePPGsController.selectedOccupation == null}" />
-					<p:commandButton action="#{managePPGsController.saveAdministrator}" value="#{msgsAdmin['managePPGs.button.add']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
+					<p:commandButton action="#{managePPGsController.saveAdministrator}" value="#{msgsAdmin['managePPGs.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
 					<p:defaultCommand target="searchButton" />
 				</ui:decorate>
 			</h:panelGroup>
 		</ui:decorate>		
-		
+		<h:form>
 			<h:panelGroup>
 				<p:dataTable
-				
+					id="entitiesDataTable"
 					widgetVar="listingTable"
 					value="#{managePPGsController.listAdmins}" 
 					var="entity" 
@@ -93,9 +93,10 @@
 					<p:column headerText="#{msgsAdmin['managePPGs.occupation.secretary']}">
 						<h:outputText value="#{entity.secretary ? 'YES' : 'NO'}" />
 					</p:column>
+					<p:ajax event="rowSelect" update=":form:buttonsGroup" />
 				</p:dataTable>	
 					
 			</h:panelGroup>		
-		
+		</h:form>
 	</ui:define>
 </ui:composition>
