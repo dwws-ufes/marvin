@@ -1,6 +1,5 @@
 package br.ufes.informatica.marvin.admin.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -42,8 +41,6 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	private List<Occupation> listAdmins;
 
-	private Occupation selectedOccupation;
-
 	private String typeAdmin;
 
 	@Override
@@ -70,14 +67,6 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	public void setSelectedAdmin(Academic selectedAdmin) {
 		this.selectedAdmin = selectedAdmin;
-	}
-
-	public Occupation getSelectedOccupation() {
-		return selectedOccupation;
-	}
-
-	public void setSelectedOccupation(Occupation selectedOccupation) {
-		this.selectedOccupation = selectedOccupation;
 	}
 
 	public List<Occupation> getListAdmins() {
@@ -220,26 +209,22 @@ public class ManagePPGsController extends CrudController<PPG> {
 		delete();
 	}
 
-	public String search() {
-		List<Occupation> occupations = new ArrayList<Occupation>();
-		if (selectedAdmin != null) {
-			Occupation occupation = manageOccupationsService.findOccupationByAcademic(selectedAdmin.getId());
-			if (occupation == null) {
-				occupation = new Occupation();
-				occupation.setAcademic(selectedAdmin);
-				occupation.setCoordinator(false);
+	public String setAdminType(Long id, String type) {
+		Occupation occupation = manageOccupationsService.retrieve(id);
+
+		if (occupation != null) {
+			if (type.equals("coordinator")) {
 				occupation.setSecretary(false);
-				occupation.setDoctoral_supervisor(false);
-				occupation.setMember(true);
-				occupation.setPpg(null);
-				occupation.setId(0l);
+				occupation.setCoordinator(true);
+			} else if (type.equals("secretary")) {
+				occupation.setSecretary(true);
+				occupation.setCoordinator(false);
 			}
-			occupations.add(occupation);
-		} else {
-			occupations = manageOccupationsService.findAcademicsByOccupation(typeAdmin);
+			manageOccupationsService.update(occupation);
 		}
 
-		setListAdmins(occupations);
+		setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
+
 		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 }

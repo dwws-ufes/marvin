@@ -54,10 +54,7 @@
 			<h:panelGroup id="buttonsGroup" >
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 					<p:commandButton id="cancelButton" action="#{managePPGsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-close" />
-					<p:commandButton id="searchButton" action="#{managePPGsController.search}" value="#{msgsAdmin['managePPGs.button.search']}" update=":form :messages :info-messages" icon="fa fa-fw fa-search" />
-					<p:commandButton action="#{managePPGsController.updatePPG}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}" disabled="#{managePPGsController.selectedOccupation == null}" />
 					<p:commandButton action="#{managePPGsController.saveAdministrator}" value="#{msgsAdmin['managePPGs.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
-					<p:defaultCommand target="searchButton" />
 				</ui:decorate>
 			</h:panelGroup>
 		</ui:decorate>		
@@ -69,8 +66,6 @@
 					value="#{managePPGsController.listAdmins}" 
 					var="entity" 
 					rowKey="#{entity.id}"
-					selection="#{managePPGsController.selectedOccupation}"
-					selectionMode="single"
 					rows="#{mmanagePPGsController.maxDataTableRowsPerPage}" 
 					rowsPerPageTemplate="#{managePPGsController.halfMaxDataTableRowsPerPage},#{managePPGsController.maxDataTableRowsPerPage},#{managePPGsController.doubleMaxDataTableRowsPerPage}"
 					lazy="true" 
@@ -86,12 +81,18 @@
 						<h:outputText value="#{entity.ppg == null ? 'IS NOT ASSOCIATED' :  entity.ppg.acronym}" />
 					</p:column>
 	
-					<p:column headerText="#{msgsAdmin['managePPGs.occupation.coordinator']}">
-						<h:outputText value="#{entity.coordinator ? 'YES' : 'NO' }" />
+					<p:column style="text-align: center;" headerText="#{msgsAdmin['managePPGs.occupation.coordinator']}">
+						<p:commandButton rendered="#{entity.secretary}" action="#{managePPGsController.setAdminType(entity.id, 'coordinator')}" value="#{'NO'}" />
+						<p:commandButton rendered="#{entity.coordinator}" action="#{managePPGsController.setAdminType(entity.id, 'secretary')}" value="#{'YES'}" />
 					</p:column>
 					
-					<p:column headerText="#{msgsAdmin['managePPGs.occupation.secretary']}">
-						<h:outputText value="#{entity.secretary ? 'YES' : 'NO'}" />
+					<p:column style="text-align: center;" headerText="#{msgsAdmin['managePPGs.occupation.secretary']}">
+						<p:commandButton rendered="#{entity.secretary}" action="#{managePPGsController.setAdminType(entity.id, 'coordinator')}" value="#{'YES'}" />
+						<p:commandButton rendered="#{entity.coordinator}" action="#{managePPGsController.setAdminType(entity.id, 'secretary')}" value="#{'NO'}" />
+					</p:column>
+					
+					<p:column style="text-align: center;" headerText="#{msgs['jbutler.crud.button.delete']}">
+						<p:commandButton action="#{managePPGsController.trash}" value="#{msgs['jbutler.crud.button.delete']}" immediate="true" icon="fa fa-trash" />
 					</p:column>
 					<p:ajax event="rowSelect" update=":form:buttonsGroup" />
 				</p:dataTable>	
