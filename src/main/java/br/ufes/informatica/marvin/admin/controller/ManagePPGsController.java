@@ -1,6 +1,8 @@
 package br.ufes.informatica.marvin.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
@@ -40,6 +42,8 @@ public class ManagePPGsController extends CrudController<PPG> {
 	private Academic selectedAdmin;
 
 	private List<Occupation> listAdmins;
+
+	private List<Occupation> trashAdmins;
 
 	private String typeAdmin;
 
@@ -93,6 +97,14 @@ public class ManagePPGsController extends CrudController<PPG> {
 		this.typeAdmin = typeAdmin;
 	}
 
+	public List<Occupation> getTrashAdmins() {
+		return trashAdmins;
+	}
+
+	public void setTrashAdmins(List<Occupation> trashAdmins) {
+		this.trashAdmins = trashAdmins;
+	}
+
 	public List<Academic> completeCoordinators(String query) {
 		return manageOccupationsService.findAcademicByNameEmail(query);
 	}
@@ -103,6 +115,7 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	public String administrators() {
 		setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
+		this.trashAdmins = new ArrayList<Occupation>();
 		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 
@@ -226,5 +239,41 @@ public class ManagePPGsController extends CrudController<PPG> {
 		setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
 
 		return VIEW_PATH + "formadministrators.xhtml" + "?faces-redirect=" + getFacesRedirect();
+	}
+
+	public void trashAdmin(Long id) {
+		Occupation occupation = manageOccupationsService.retrieve(id);
+
+		if (occupation == null) {
+			logger.log(Level.WARNING, "Method trashAdmin() called, but cant find occupation with id: {0}!", id);
+			return;
+		}
+
+		trashAdmins.add(occupation);
+
+	}
+
+	public void cancelDeletionAdmin() {
+		// Removes all entities from the trash and cancel their deletion.
+		logger.log(Level.INFO, "Deletion has been cancelled. Clearing trash can");
+		trashAdmins.clear();
+	}
+
+	public void deleteAdminPPG() {
+		try {
+			managePPGsService.validateAdminPPGDelete(selectedEntity, trashAdmins);
+
+			for (Occupation delete : trashAdmins) {
+				manageOccupationsService.delete(delete);
+			}
+
+			logger.log(Level.INFO, "Deletion of PPG admins was done successfully");
+			trashAdmins.clear();
+
+		} catch (CrudException e) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Create PPG requested", e.getMessage());
+			context.addMessage(null, message);
+		}
 	}
 }

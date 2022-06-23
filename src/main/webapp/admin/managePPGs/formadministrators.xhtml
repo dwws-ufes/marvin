@@ -58,7 +58,7 @@
 				</ui:decorate>
 			</h:panelGroup>
 		</ui:decorate>		
-		<h:form>
+		<h:form id="formTable">
 			<h:panelGroup>
 				<p:dataTable
 					id="entitiesDataTable"
@@ -92,12 +92,28 @@
 					</p:column>
 					
 					<p:column style="text-align: center;" headerText="#{msgs['jbutler.crud.button.delete']}">
-						<p:commandButton action="#{managePPGsController.trash}" value="#{msgs['jbutler.crud.button.delete']}" immediate="true" icon="fa fa-trash" />
+						<p:commandButton action="#{managePPGsController.trashAdmin(entity.id)}" value="#{msgs['jbutler.crud.button.delete']}" immediate="true" icon="fa fa-trash" update=":formTrash:trashGroup" />
 					</p:column>
 					<p:ajax event="rowSelect" update=":form:buttonsGroup" />
 				</p:dataTable>	
 					
 			</h:panelGroup>		
+						
+		
 		</h:form>
+		<h:form id="formTrash">
+			<h:panelGroup id="trashGroup">
+				<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty managePPGsController.trashAdmins}" style="margin-top: 20px">
+					<p:dataList value="#{managePPGsController.trashAdmins}" var="entity" type="ordered">
+		            	#{entity.academic.getName()} (#{entity.secretary ? 'Secretary' : 'Coordinator'})
+		            </p:dataList>
+					<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+						<p:commandButton action="#{managePPGsController.cancelDeletionAdmin}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":formTrash:trashGroup"/>
+						<p:commandButton action="#{managePPGsController.deleteAdminPPG}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" update=":formTable" />
+					</ui:decorate>
+				</p:panel>
+			</h:panelGroup>
+		</h:form>
+		
 	</ui:define>
 </ui:composition>
