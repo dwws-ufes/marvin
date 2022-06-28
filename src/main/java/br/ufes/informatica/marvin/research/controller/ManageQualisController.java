@@ -1,13 +1,11 @@
 package br.ufes.informatica.marvin.research.controller;
 
-import java.util.logging.Level;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
-import org.primefaces.model.file.UploadedFile;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
@@ -28,7 +26,9 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 	private QualisValidity newQualisValidity;
 
-	private UploadedFile file;
+	private Qualis newQualis;
+
+	private List<Qualis> qualis;
 
 	@Override
 	protected CrudService<Qualis> getCrudService() {
@@ -39,14 +39,6 @@ public class ManageQualisController extends CrudController<Qualis> {
 	protected void initFilters() {
 	}
 
-	public UploadedFile getFile() {
-		return file;
-	}
-
-	public void setFile(UploadedFile file) {
-		this.file = file;
-	}
-
 	public QualisValidity getNewQualisValidity() {
 		return newQualisValidity;
 	}
@@ -55,18 +47,20 @@ public class ManageQualisController extends CrudController<Qualis> {
 		this.newQualisValidity = newQualisValidity;
 	}
 
-	public String uploadCSV() {
+	public Qualis getNewQualis() {
+		return newQualis;
+	}
 
-		try {
-			// Performs the upload.
-			manageQualisService.uploadQualisCSV(file.getInputStream());
-			// Retrieve information on the researcher.
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, e.getMessage(), new Object[] { "Exception" });
-			return null;
-		}
+	public void setNewQualis(Qualis newQualis) {
+		this.newQualis = newQualis;
+	}
 
-		return list();
+	public List<Qualis> getQualis() {
+		return qualis;
+	}
+
+	public void setQualis(List<Qualis> qualis) {
+		this.qualis = qualis;
 	}
 
 }

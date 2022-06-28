@@ -8,41 +8,114 @@
     template="/WEB-INF/templates/template.xhtml">
 
    <ui:define name="title">
-	<h:outputText value="#{msgsResearch['manageQualis.title.create']}"
-		rendered="#{(! manageQualisController.readOnly) and (manageQualisController.selectedEntity.id == null)}" />
-	<h:outputText value="#{msgsResearch['manageQualis.title.update']}"
-		rendered="#{(! manageQualisController.readOnly) and (manageQualisController.selectedEntity.id != null)}" />
-	<h:outputText value="#{msgsResearch['manageQualis.title.retrieve']}" rendered="#{manageQualisController.readOnly}" />
-</ui:define>
+		<h:outputText value="#{msgsResearch['manageQualis.title.create']}"
+			rendered="#{(! manageQualisController.readOnly) and (manageQualisController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsResearch['manageQualis.title.update']}"
+			rendered="#{(! manageQualisController.readOnly) and (manageQualisController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsResearch['manageQualis.title.retrieve']}" rendered="#{manageQualisController.readOnly}" />
+	</ui:define>
 
-<ui:define name="description">
-	<h:outputText value="#{msgsResearch['manageQualis.title.create.description']}"
-		rendered="#{(! manageQualisController.readOnly) and (manageQualisController.selectedEntity.id == null)}" />
-	<h:outputText value="#{msgsResearch['manageQualis.title.update.description']}"
-		rendered="#{(! manageQualisController.readOnly) and (manageQualisController.selectedEntity.id != null)}" />
-	<h:outputText value="#{msgsResearch['manageQualis.title.retrieve.description']}" rendered="#{manageQualisController.readOnly}" />
-</ui:define>
+	<ui:define name="description">
+		<h:outputText value="#{msgsResearch['manageQualis.title.create.description']}"
+			rendered="#{(! manageQualisController.readOnly) and (manageQualisController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsResearch['manageQualis.title.update.description']}"
+			rendered="#{(! manageQualisController.readOnly) and (manageQualisController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsResearch['manageQualis.title.retrieve.description']}" rendered="#{manageQualisController.readOnly}" />
+	</ui:define>
 
-<ui:define name="body">
-	<h:form id="entitiesForm" enctype="multipart/form-data">
-		<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
-			<p:outputLabel for="dtStart" value="#{msgsResearch['manageQualis.field.dtValidityStart']}" />
-			<p:calendar id="dtStart" value="#{manageQualisController.newQualisValidity.dtStart}" showOn="button"
-				pattern="dd/MM/yyyy" mask="true" style="width: 100%;" />
-			<p:outputLabel for="dtEnd" value="#{msgsResearch['manageQualis.field.dtValidityEnd']}" />
-			<p:calendar id="dtEnd" value="#{manageQualisController.newQualisValidity.dtEnd}" showOn="button" pattern="dd/MM/yyyy"
-				mask="true" style="width: 100%;" />
-				<ui:param name="fieldName" value="file" />
+
+	<ui:define name="body" id="bodyAdminstrador">
+		<adm:breadcrumb title="#{msgsResearch['manageQualis.title']}" link="index.xhtml" />
+		
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsResearch['manageQualis.title']}" />
+			<p:focus />
 				
-		<p:outputLabel for="file" value="#{msgsResearch['manageVenues.form.file']}"/>
-		<p:fileUpload id="file" value="#{manageQualisController.file}" mode="simple" skinSimple="true" required="true" label="#{msgs['button.fileUpload']}" />
-		</p:panelGrid>
-		<p:commandButton id="cancelButton" value="#{msgs['jbutler.crud.button.cancel']}" icon="fa fa-close"
-			action="#{manageQualisController.list}" immediate="true" rendered="#{! manageQualisController.readOnly}" />
-		<p:commandButton id="saveButton" ajax="false" value="#{msgs['jbutler.crud.button.save']}" icon="fa fa-save" action="#{manageQualisController.uploadCSV}" />
+			<p:panelGrid id="panelQualitityValidity" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid">
+				
+				<p:panelGrid id="dtStartField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="dtStart" value="#{msgsResearch['manageQualis.field.dtValidityStart']}"	/>
+					<h:panelGroup>
+						<p:calendar id="dtStart" value="#{manageQualisController.newQualisValidity.dtStart}" showOn="button"
+						pattern="dd/MM/yyyy" mask="true"/>
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="dtEndField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="dtEnd" value="#{msgsResearch['manageQualis.field.dtValidityEnd']}"	/>
+					<h:panelGroup>
+						<p:calendar id="dtEnd" value="#{manageQualisController.newQualisValidity.dtEnd}" showOn="button"
+						pattern="dd/MM/yyyy" mask="true"/>
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:panelGrid id="panelFormQuality" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid">
+				<p:panelGrid id="nameField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="name" value="#{msgsResearch['manageQualis.field.name']}"	/>
+					<h:panelGroup>
+						<p:inputText id="name" value="#{manageQualisController.newQualis.name}" required="true" ></p:inputText>				
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="restritoField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="restrito" value="#{msgsResearch['manageQualis.field.restrito']}"	/>
+					<h:panelGroup>
+						<p:selectBooleanCheckbox id="restrito" value="#{manageQualisController.newQualis.restrito}"></p:selectBooleanCheckbox>
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="scoreConferenceField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="scoreConference" value="#{msgsResearch['manageQualis.field.scoreConference']}"	/>
+					<h:panelGroup>
+						<p:inputText id="scoreConference" value="#{manageQualisController.newQualis.scoreConference}" required="true" ></p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="scoreJournalField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="scoreJournal" value="#{msgsResearch['manageQualis.field.scoreJournal']}"	/>
+					<h:panelGroup>
+						<p:inputText id="scoreJournal" value="#{manageQualisController.newQualis.scoreJournal}" required="true" ></p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+		</ui:decorate>	
+		
+		<h:form id="formTable">
+			<h:panelGroup>
+				<p:dataTable
+					id="entitiesDataTable"
+					widgetVar="listingTable"
+					value="#{manageQualisController.qualis}" 
+					var="entity" 
+					rowKey="#{entity.id}"
+					rows="#{manageQualisController.maxDataTableRowsPerPage}" 
+					rowsPerPageTemplate="#{manageQualisController.halfMaxDataTableRowsPerPage},#{manageQualisController.maxDataTableRowsPerPage},#{manageQualisController.doubleMaxDataTableRowsPerPage}"
+					lazy="true" 
+					paginator="true" 
+					paginatorPosition="bottom" 
+					emptyMessage="#{msgsResearch['manageQualis.occupation.noEntities']}">
+					
+					<p:column headerText="#{msgsResearch['manageQualis.field.name']}">
+						<h:outputText value="#{entity.name}" />
+					</p:column>
+					
+					<p:column headerText="#{msgsResearch['manageQualis.field.restrito']}">
+						<h:outputText value="#{entity.restrito ? 'YES' :  'NO'}" />
+					</p:column>
+	
+					<p:column headerText="#{msgsResearch['manageQualis.field.scoreConference']}">
+						<h:outputText value="#{entity.scoreConference}" />
+					</p:column>
+					
+					<p:column headerText="#{msgsResearch['manageQualis.field.scoreJournal']}">
+						<h:outputText value="#{entity.scoreJournal}" />
+					</p:column>
+					
+					<p:column style="text-align: center;" headerText="#{msgs['jbutler.crud.button.delete']}">
+						<p:commandButton action="#{manageQualis.trash}" value="#{msgs['jbutler.crud.button.delete']}" immediate="true" icon="fa fa-trash" update=":formTrash:trashGroup" />
+					</p:column>
+				</p:dataTable>	
+			</h:panelGroup>
+		</h:form>
 
-	</h:form>
-</ui:define>
-
+	</ui:define>
 
 </ui:composition>
