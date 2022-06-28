@@ -27,10 +27,10 @@
 	<h:form id="entitiesForm" enctype="multipart/form-data">
 		<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
 			<p:outputLabel for="dtStart" value="#{msgsResearch['manageQualis.field.dtValidityStart']}" />
-			<p:calendar id="dtStart" value="#{manageQualisController.selectedEntity.dtStart}" showOn="button"
+			<p:calendar id="dtStart" value="#{manageQualisController.newQualisValidity.dtStart}" showOn="button"
 				pattern="dd/MM/yyyy" mask="true" style="width: 100%;" />
 			<p:outputLabel for="dtEnd" value="#{msgsResearch['manageQualis.field.dtValidityEnd']}" />
-			<p:calendar id="dtEnd" value="#{manageQualisController.selectedEntity.dtEnd}" showOn="button" pattern="dd/MM/yyyy"
+			<p:calendar id="dtEnd" value="#{manageQualisController.newQualisValidity.dtEnd}" showOn="button" pattern="dd/MM/yyyy"
 				mask="true" style="width: 100%;" />
 				<ui:param name="fieldName" value="file" />
 				

@@ -13,6 +13,7 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.informatica.marvin.research.application.ManageQualisService;
 import br.ufes.informatica.marvin.research.domain.Qualis;
+import br.ufes.informatica.marvin.research.domain.QualisValidity;
 
 @Named("manageQualisController")
 @SessionScoped
@@ -24,6 +25,8 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 	@EJB
 	private ManageQualisService manageQualisService;
+
+	private QualisValidity newQualisValidity;
 
 	private UploadedFile file;
 
@@ -42,6 +45,14 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 	public void setFile(UploadedFile file) {
 		this.file = file;
+	}
+
+	public QualisValidity getNewQualisValidity() {
+		return newQualisValidity;
+	}
+
+	public void setNewQualisValidity(QualisValidity newQualisValidity) {
+		this.newQualisValidity = newQualisValidity;
 	}
 
 	public String uploadCSV() {

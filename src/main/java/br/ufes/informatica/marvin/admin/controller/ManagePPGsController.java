@@ -188,19 +188,36 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 	public String saveAdministrator() {
 
-		Occupation newOccupation = new Occupation();
-		newOccupation.setAcademic(selectedAdmin);
-		if (typeAdmin.equals("coordinator")) {
-			newOccupation.setSecretary(false);
-			newOccupation.setCoordinator(true);
-		} else if (typeAdmin.equals("secretary")) {
-			newOccupation.setSecretary(true);
-			newOccupation.setCoordinator(false);
+		Occupation occupation = manageOccupationsService.findOccupationByAcademic(selectedAdmin.getId());
+
+		if (occupation != null) {
+
+			if (typeAdmin.equals("coordinator")) {
+				occupation.setSecretary(false);
+				occupation.setCoordinator(true);
+			} else if (typeAdmin.equals("secretary")) {
+				occupation.setSecretary(true);
+				occupation.setCoordinator(false);
+			}
+
+			manageOccupationsService.update(occupation);
+
+		} else {
+
+			Occupation newOccupation = new Occupation();
+			newOccupation.setAcademic(selectedAdmin);
+			if (typeAdmin.equals("coordinator")) {
+				newOccupation.setSecretary(false);
+				newOccupation.setCoordinator(true);
+			} else if (typeAdmin.equals("secretary")) {
+				newOccupation.setSecretary(true);
+				newOccupation.setCoordinator(false);
+			}
+			newOccupation.setDoctoral_supervisor(false);
+			newOccupation.setMember(true);
+			newOccupation.setPpg(selectedEntity);
+			manageOccupationsService.create(newOccupation);
 		}
-		newOccupation.setDoctoral_supervisor(false);
-		newOccupation.setMember(true);
-		newOccupation.setPpg(selectedEntity);
-		manageOccupationsService.create(newOccupation);
 
 		setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
 
@@ -269,6 +286,8 @@ public class ManagePPGsController extends CrudController<PPG> {
 
 			logger.log(Level.INFO, "Deletion of PPG admins was done successfully");
 			trashAdmins.clear();
+
+			setListAdmins(manageOccupationsService.findOccupationsByPPG(selectedEntity.getId()));
 
 		} catch (CrudException e) {
 			FacesContext context = FacesContext.getCurrentInstance();

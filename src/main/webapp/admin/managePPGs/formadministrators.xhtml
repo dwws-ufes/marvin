@@ -109,7 +109,7 @@
 		            </p:dataList>
 					<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 						<p:commandButton action="#{managePPGsController.cancelDeletionAdmin}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":formTrash:trashGroup"/>
-						<p:commandButton action="#{managePPGsController.deleteAdminPPG}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" update=":formTable" />
+						<p:commandButton action="#{managePPGsController.deleteAdminPPG}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":formTrash :formTable" />
 					</ui:decorate>
 				</p:panel>
 			</h:panelGroup>

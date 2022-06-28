@@ -3,7 +3,6 @@ package br.ufes.informatica.marvin.research.application;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -35,7 +34,7 @@ public class ManageQualisServiceBean extends CrudServiceBean<Qualis> implements 
 			String[] info = line.split(";");
 			boolean restrito = info[3].equals("S") ? true : false;
 			Qualis obj = new Qualis(info[0], Float.parseFloat(info[1]), Float.parseFloat(info[2]), restrito);
-			obj.setDtStart(new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01"));
+//			obj.setDtStart(new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-01"));
 			qualisDAO.save(obj);
 			line = reader.readLine();
 		}

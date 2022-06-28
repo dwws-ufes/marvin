@@ -1,8 +1,7 @@
 package br.ufes.informatica.marvin.research.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
@@ -29,12 +28,10 @@ public class Qualis extends PersistentObjectSupport implements Comparable<Qualis
 	private Float scoreJournal;
 
 	@NotNull
-	private Date dtStart;
-
-	@NotNull
 	private boolean restrito;
 
-	private Date dtEnd;
+	@ManyToOne
+	private QualisValidity qualisValidity;
 
 	public Qualis() {
 
@@ -59,22 +56,6 @@ public class Qualis extends PersistentObjectSupport implements Comparable<Qualis
 		this.name = name;
 	}
 
-	public Date getDtStart() {
-		return dtStart;
-	}
-
-	public void setDtStart(Date dtStart) {
-		this.dtStart = dtStart;
-	}
-
-	public Date getDtEnd() {
-		return dtEnd;
-	}
-
-	public void setDtEnd(Date dtEnd) {
-		this.dtEnd = dtEnd;
-	}
-
 	public Float getScoreConference() {
 		return scoreConference;
 	}
@@ -97,6 +78,14 @@ public class Qualis extends PersistentObjectSupport implements Comparable<Qualis
 
 	public void setRestrito(boolean restrito) {
 		this.restrito = restrito;
+	}
+
+	public QualisValidity getQualisValidity() {
+		return qualisValidity;
+	}
+
+	public void setQualisValidity(QualisValidity qualisValidity) {
+		this.qualisValidity = qualisValidity;
 	}
 
 	@Override
