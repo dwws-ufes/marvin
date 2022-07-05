@@ -83,4 +83,12 @@ public class QualisValidity extends PersistentObjectSupport implements Comparabl
 		return 1;
 	}
 
+	public void AddQualis(Qualis qualis) {
+		this.qualis.add(qualis);
+	}
+
+	public void removeQualis(Qualis qualis) {
+		this.qualis.remove(qualis);
+	}
+
 }

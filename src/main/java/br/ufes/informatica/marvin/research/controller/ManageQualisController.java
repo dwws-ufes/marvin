@@ -5,11 +5,20 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
+import br.ufes.informatica.marvin.core.application.LoginService;
+import br.ufes.informatica.marvin.core.application.ManageOccupationsService;
+import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.core.domain.Occupation;
+import br.ufes.informatica.marvin.core.domain.PPG;
 import br.ufes.informatica.marvin.research.application.ManageQualisService;
+import br.ufes.informatica.marvin.research.application.ManageQualisValidityService;
 import br.ufes.informatica.marvin.research.domain.Qualis;
 import br.ufes.informatica.marvin.research.domain.QualisValidity;
 
@@ -21,8 +30,20 @@ public class ManageQualisController extends CrudController<Qualis> {
 	/** Logger for this class. */
 	private static final Logger logger = Logger.getLogger(ManageQualisController.class.getCanonicalName());
 
+	private String VIEW_PATH = "/qualis/manageQualis/";
+
 	@EJB
 	private ManageQualisService manageQualisService;
+
+	@EJB
+	private ManageQualisValidityService manageQualisValidityService;
+
+	/** The login service. */
+	@EJB
+	private LoginService loginService;
+
+	@EJB
+	private ManageOccupationsService manageOccupationService;
 
 	private QualisValidity newQualisValidity;
 
@@ -61,6 +82,57 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 	public void setQualis(List<Qualis> qualis) {
 		this.qualis = qualis;
+	}
+
+	public PPG getUserPPGId() {
+		Academic currentAcademic = loginService.getCurrentUser();
+		if (currentAcademic == null) {
+			return null;
+		}
+
+		Occupation currentOccupation = manageOccupationService.findOccupationByAcademic(currentAcademic.getId());
+
+		if (currentOccupation == null) {
+			return null;
+		}
+
+		return currentOccupation.getPpg();
+
+	}
+
+	public void saveQuality() {
+
+		try {
+			PPG ppg = getUserPPGId();
+
+			if (ppg == null) {
+				throw new CrudException("Could not find your ppg", "ERROR", null);
+			}
+
+			QualisValidity qualisValidity = manageQualisValidityService.findByDates(newQualisValidity.getDtStart(),
+					newQualisValidity.getDtEnd());
+
+			if (qualisValidity == null) {
+				qualisValidity = newQualisValidity;
+				qualisValidity.setPpg(ppg);
+				manageQualisValidityService.create(qualisValidity);
+			}
+
+			qualisValidity.AddQualis(newQualis);
+			newQualis.setQualisValidity(qualisValidity);
+
+			manageQualisService.create(newQualis);
+
+			setQualis(manageQualisService.findByQualisValidity(qualisValidity.getId()));
+
+		} catch (CrudException e) {
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Create Qualis requested",
+					e.getMessage());
+			context.addMessage(null, message);
+		}
+
 	}
 
 }

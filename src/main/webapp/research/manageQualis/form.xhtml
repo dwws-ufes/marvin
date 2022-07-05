@@ -76,6 +76,11 @@
 					</h:panelGroup>
 				</p:panelGrid>
 			</p:panelGrid>
+			<h:panelGroup id="buttonsGroup" >
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton action="#{manageQualisController.saveQuality}" value="#{msgs['jbutler.crud.button.add']}" immediate="true" icon="fa fa-fw fa-save" update=":formTable" />
+				</ui:decorate>
+			</h:panelGroup>
 		</ui:decorate>	
 		
 		<h:form id="formTable">
