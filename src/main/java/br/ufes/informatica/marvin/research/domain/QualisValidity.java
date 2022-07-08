@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -26,9 +28,10 @@ public class QualisValidity extends PersistentObjectSupport implements Comparabl
 	private Date dtEnd;
 
 	@NotNull
-	private PPG ppg;
+	@ManyToOne
+	PPG ppg;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Qualis> qualis;
 
 	public QualisValidity() {

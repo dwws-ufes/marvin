@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.research.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,7 +23,7 @@ import br.ufes.informatica.marvin.research.application.ManageQualisValidityServi
 import br.ufes.informatica.marvin.research.domain.Qualis;
 import br.ufes.informatica.marvin.research.domain.QualisValidity;
 
-@Named("manageQualisController")
+@Named
 @SessionScoped
 public class ManageQualisController extends CrudController<Qualis> {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +31,7 @@ public class ManageQualisController extends CrudController<Qualis> {
 	/** Logger for this class. */
 	private static final Logger logger = Logger.getLogger(ManageQualisController.class.getCanonicalName());
 
-	private String VIEW_PATH = "/qualis/manageQualis/";
+	private String VIEW_PATH = "/research/manageQualis/";
 
 	@EJB
 	private ManageQualisService manageQualisService;
@@ -45,9 +46,9 @@ public class ManageQualisController extends CrudController<Qualis> {
 	@EJB
 	private ManageOccupationsService manageOccupationService;
 
-	private QualisValidity newQualisValidity;
+	private QualisValidity newQualisValidity = new QualisValidity();
 
-	private Qualis newQualis;
+	private Qualis newQualis = new Qualis();
 
 	private List<Qualis> qualis;
 
@@ -115,13 +116,15 @@ public class ManageQualisController extends CrudController<Qualis> {
 			if (qualisValidity == null) {
 				qualisValidity = newQualisValidity;
 				qualisValidity.setPpg(ppg);
+				qualisValidity.setQualis(new ArrayList<Qualis>());
 				manageQualisValidityService.create(qualisValidity);
 			}
 
-			qualisValidity.AddQualis(newQualis);
 			newQualis.setQualisValidity(qualisValidity);
-
 			manageQualisService.create(newQualis);
+
+			qualisValidity.AddQualis(newQualis);
+			manageQualisValidityService.update(qualisValidity);
 
 			setQualis(manageQualisService.findByQualisValidity(qualisValidity.getId()));
 
@@ -133,6 +136,14 @@ public class ManageQualisController extends CrudController<Qualis> {
 			context.addMessage(null, message);
 		}
 
+	}
+
+	public String administrators() {
+		return VIEW_PATH + "form.xhtml" + "?faces-redirect=" + getFacesRedirect();
+	}
+
+	public String createQualis() {
+		return VIEW_PATH + "form.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 
 }

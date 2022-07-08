@@ -1,16 +1,12 @@
 package br.ufes.informatica.marvin.research.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
-/**
- * TODO: document this type.
- *
- * @author Vítor E. Silva Souza (https://github.com/vitorsouza/)
- */
 @Entity
 public class Qualis extends PersistentObjectSupport implements Comparable<Qualis> {
 	/** The unique identifier for a serializable class. */
@@ -30,21 +26,8 @@ public class Qualis extends PersistentObjectSupport implements Comparable<Qualis
 	@NotNull
 	private boolean restrito;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private QualisValidity qualisValidity;
-
-	public Qualis() {
-
-	}
-
-	/** Constructor. */
-	public Qualis(String name, Float scoreConference, Float scoreJournal, boolean restrito) {
-		// TODO Auto-generated constructor stub
-		this.name = name;
-		this.scoreConference = scoreConference;
-		this.scoreJournal = scoreJournal;
-		this.restrito = restrito;
-	}
 
 	/** Getter for name. */
 	public String getName() {
