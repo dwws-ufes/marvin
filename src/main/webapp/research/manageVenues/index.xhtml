@@ -18,38 +18,42 @@
     </ui:define>
 
   	<ui:define name="body" template="/WEB-INF/templates/form-nobox.xhtml">
-		<h:panelGroup>
-			<p><h:outputText value="#{msgsResearch['manageVenues.instructions']}" /></p>
-			<p:dataTable
-				widgetVar="listingTable"
-				value="#{manageVenueController.lazyEntities}" 
-				var="entity" 
-				rows="#{manageVenueController.maxDataTableRowsPerPage}" 
-				rowsPerPageTemplate="#{manageVenueController.halfMaxDataTableRowsPerPage},#{manageVenueController.maxDataTableRowsPerPage},#{manageVenueController.doubleMaxDataTableRowsPerPage}"
-				lazy="true" 
-				paginator="true" 
-				paginatorPosition="bottom" 
-				emptyMessage="#{msgsResearch['manageVenues.text.noEntities']}">
-				
-				<p:column headerText="#{msgsResearch['manageVenues.type']}">
-					<h:outputText value="#{entity.category.getName()}" />
-				</p:column>
-				
-				<p:column headerText="#{msgsResearch['manageVenues.acronym']}">
-					<h:outputText value="#{entity.acronym}" />
-				</p:column>
-
-				<p:column headerText="#{msgsResearch['manageVenues.issn']}">
-					<h:outputText value="#{entity.issn}" />
-				</p:column>
-			</p:dataTable>	
-			
-			<!-- Buttons shown below the listing. -->
-			<h:form>
-				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-					<p:commandButton action="#{manageVenueController.create}" value="#{msgsResearch['manageVenueController.button.upload']}" icon="fa fa-fw fa-plus" />
-				</ui:decorate>
-			</h:form>		
-		</h:panelGroup>
+  		<h:form id="listingForm">
+			<h:panelGroup>
+				<p><h:outputText value="#{msgsResearch['manageVenues.instructions']}" /></p>
+				<p:dataTable
+					widgetVar="listingTable"
+					value="#{manageVenueController.lazyEntities}" 
+					var="entity" 
+					rows="#{manageVenueController.maxDataTableRowsPerPage}" 
+					rowsPerPageTemplate="#{manageVenueController.halfMaxDataTableRowsPerPage},#{manageVenueController.maxDataTableRowsPerPage},#{manageVenueController.doubleMaxDataTableRowsPerPage}"
+					lazy="true" 
+					paginator="true" 
+					paginatorPosition="bottom" 
+					emptyMessage="#{msgsResearch['manageVenues.text.noEntities']}">
+					
+					<p:column headerText="#{msgsResearch['manageVenues.type']}">
+						<h:outputText value="#{entity.category.getName()}" />
+					</p:column>
+					
+					<p:column headerText="#{msgsResearch['manageVenues.acronym']}">
+						<h:outputText value="#{entity.acronym}" />
+					</p:column>
+	
+					<p:column headerText="#{msgsResearch['manageVenues.issn']}">
+						<h:outputText value="#{entity.issn}" />
+					</p:column>
+					<f:facet name="footer">
+						<h:panelGroup id="buttonsGroup">
+							<p:commandButton action="#{manageVenueController.create}" value="#{msgsResearch['manageVenueController.button.upload']}" icon="fa fa-fw fa-plus" />
+							<p:commandButton action="#{manageVenueController.update}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
+								disabled="#{manageVenueController.selectedEntity == null}" />
+							<p:commandButton action="#{manageVenueController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}"
+								disabled="#{manageVenueController.selectedEntity == null}" />
+						</h:panelGroup>
+					</f:facet>
+				</p:dataTable>		
+			</h:panelGroup>
+		</h:form>
 	</ui:define>
 </ui:composition>

@@ -46,9 +46,9 @@ public class ManageQualisController extends CrudController<Qualis> {
 	@EJB
 	private ManageOccupationsService manageOccupationService;
 
-	private QualisValidity newQualisValidity = new QualisValidity();
+	private QualisValidity newQualisValidity;
 
-	private Qualis newQualis = new Qualis();
+	private Qualis newQualis;
 
 	private List<Qualis> qualis;
 
@@ -128,6 +128,8 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 			setQualis(manageQualisService.findByQualisValidity(qualisValidity.getId()));
 
+			newQualis = new Qualis();
+
 		} catch (CrudException e) {
 
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -138,11 +140,9 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 	}
 
-	public String administrators() {
-		return VIEW_PATH + "form.xhtml" + "?faces-redirect=" + getFacesRedirect();
-	}
-
 	public String createQualis() {
+		this.newQualisValidity = new QualisValidity();
+		this.newQualis = new Qualis();
 		return VIEW_PATH + "form.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 

@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.research.controller;
 
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,8 +48,17 @@ public class ManageVenuesController extends CrudController<Venue> {
 	/** TODO: document this field. */
 	private UploadedFile file;
 
+	private Date dtStart;
+
+	private Date dtEnd;
+
 	@EJB
 	private ManageVenuesService manageVenuesService;
+
+	@Override
+	protected CrudService<Venue> getCrudService() {
+		return manageVenuesService;
+	}
 
 	/** Getter for file. */
 	public UploadedFile getFile() {
@@ -60,9 +70,20 @@ public class ManageVenuesController extends CrudController<Venue> {
 		this.file = file;
 	}
 
-	@Override
-	protected CrudService<Venue> getCrudService() {
-		return manageVenuesService;
+	public Date getDtStart() {
+		return dtStart;
+	}
+
+	public void setDtStart(Date dtStart) {
+		this.dtStart = dtStart;
+	}
+
+	public Date getDtEnd() {
+		return dtEnd;
+	}
+
+	public void setDtEnd(Date dtEnd) {
+		this.dtEnd = dtEnd;
 	}
 
 	protected void initFilters() {
