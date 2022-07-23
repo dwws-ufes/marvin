@@ -5,9 +5,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+import br.ufes.informatica.marvin.core.domain.PPG;
 
 /**
  * TODO: document this type.
@@ -38,6 +40,14 @@ public class Venue extends PersistentObjectSupport implements Comparable<Venue> 
 	private Date dtStart;
 
 	private Date dtEnd;
+
+	@NotNull
+	@ManyToOne
+	private PPG ppg;
+
+	@NotNull
+	@ManyToOne
+	private Qualis qualis;
 
 	/** Constructor. */
 	public Venue(String acronym, String issn, String name, String category, Date dtStart, Date dtEnd) {
@@ -116,6 +126,22 @@ public class Venue extends PersistentObjectSupport implements Comparable<Venue> 
 
 	public void setDtEnd(Date dtEnd) {
 		this.dtEnd = dtEnd;
+	}
+
+	public PPG getPpg() {
+		return ppg;
+	}
+
+	public void setPpg(PPG ppg) {
+		this.ppg = ppg;
+	}
+
+	public Qualis getQualis() {
+		return qualis;
+	}
+
+	public void setQualis(Qualis qualis) {
+		this.qualis = qualis;
 	}
 
 	@Override

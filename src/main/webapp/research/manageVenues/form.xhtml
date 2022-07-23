@@ -51,12 +51,14 @@
 			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
 				<ui:param name="fieldName" value="file" />
 				<ui:param name="label" value="#{msgsResearch['manageVenues.form.file']}" />
-				<p:fileUpload id="file" value="#{manageVenueController.file}" mode="simple" skinSimple="true" required="true" label="#{msgs['button.fileUpload']}" />
+				<p:fileUpload id="file" value="#{manageVenuesController.file}" mode="simple" skinSimple="true" required="true" label="#{msgs['button.fileUpload']}" />
 			</ui:decorate>
 
 			<!-- Upload button. -->
 			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-				<p:commandButton ajax="false" action="#{manageVenueController.upload}" value="#{msgsResearch['manageVenueController.button.upload']}" icon="fa fa-fw fa-upload" />
+				<p:commandButton ajax="false" action="#{manageVenuesController.upload}" value="#{msgsResearch['manageVenues.button.upload']}" icon="fa fa-fw fa-upload" />
+				<p:commandButton value="#{msgs['jbutler.crud.button.back']}" icon="fa fa-arrow-circle-left"
+				action="#{manageVenuesController.list}" immediate="true" />
 			</ui:decorate>
 		</ui:decorate>
 	</ui:define>

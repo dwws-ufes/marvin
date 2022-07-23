@@ -3,6 +3,7 @@ package br.ufes.informatica.marvin.research.application;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,54 +26,55 @@ import br.ufes.informatica.marvin.research.persistence.VenueDAO;
  * @author Rafael Franco (https://github.com/vitorsouza/)
  */
 @Stateless
-@RolesAllowed({"SysAdmin", "Professor"})
+@RolesAllowed({ "SysAdmin", "Professor" })
 public class ManageVenuesServiceBean extends CrudServiceBean<Venue> implements ManageVenuesService {
-  /** The unique identifier for a serializable class. */
-  private static final long serialVersionUID = 1L;
-  
-  /** Logger for this class. */
-  private static final Logger logger =
-      Logger.getLogger(UploadLattesCVController.class.getCanonicalName());
+	/** The unique identifier for a serializable class. */
+	private static final long serialVersionUID = 1L;
 
-  @EJB
+	/** Logger for this class. */
+	private static final Logger logger = Logger.getLogger(UploadLattesCVController.class.getCanonicalName());
+
+	@EJB
 	private VenueDAO venueDAO;
-	
+
 	@Override
 	public BaseDAO<Venue> getDAO() {
-			return venueDAO;
+		return venueDAO;
 	}
 
 	@Override
 	public List<Venue> findVenueByName(String name) {
 		return venueDAO.findByNameOrAcronym(name);
 	}
-	
-	@Override
-	public void uploadVenueCV(InputStream inputStream) throws Exception {
-    // Parses the Lattes CV.
 
-	    try (BufferedReader reader =
-          new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
-	        String line = reader.readLine();
-	        while (line != null) {
-	        	String[] info = line.split(";");
-	        	Venue obj = new Venue(info[1],info[0]);
-	        	
-	        	if(info[0].equals("Journal")) {
-	        		obj.setIssn(info[2]);
-	        		logger.log(Level.SEVERE, "INSERT VENUE: {0}, {1}, {2}",
-	  	  	  	          new Object[] {info[0], info[1], info[2]});
-	        	} else {
-	        		logger.log(Level.SEVERE, "INSERT VENUE: {0}, {1}",
-	  	  	  	          new Object[] {info[0], info[1]});
-	        	}
-	        	super.create(obj);
-	        	line = reader.readLine();
-	        }
-          
-	    }
-	    List<Venue> teste = venueDAO.retrieveAll();
-	    String Abc = null;
-	  }
+	@Override
+	public void uploadVenueCV(InputStream inputStream, Date dtStart, Date dtEnd) throws Exception {
+		// Parses the Lattes CV.
+
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
+			String line = reader.readLine();
+			while (line != null) {
+				String[] info = new String[4];
+				String[] infoSplit = line.split(";");
+
+				for (int i = 0; i < infoSplit.length; i++) {
+					info[i] = infoSplit[i].isEmpty() ? null : infoSplit[i];
+				}
+
+				Venue obj = new Venue(info[3], info[2], info[1], info[0], dtStart, dtEnd);
+
+				if (info[0].equals("Journal")) {
+					logger.log(Level.SEVERE, "INSERT VENUE: {0}, {1}, {2}, {3}, {4}, {5}, {6}",
+							new Object[] { info[3], info[2], info[1], info[0], dtStart, dtEnd });
+				} else {
+					logger.log(Level.SEVERE, "INSERT VENUE: {0}, {1}, {2}, {3}, {4}, {5}",
+							new Object[] { info[3], info[2], info[1], info[0], dtStart, dtEnd });
+				}
+				super.create(obj);
+				line = reader.readLine();
+			}
+
+		}
+	}
 
 }

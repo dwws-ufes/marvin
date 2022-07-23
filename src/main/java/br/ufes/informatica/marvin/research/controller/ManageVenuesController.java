@@ -11,8 +11,8 @@ import javax.inject.Named;
 import org.primefaces.model.file.UploadedFile;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
+import br.ufes.informatica.marvin.research.application.ManageQualisService;
 import br.ufes.informatica.marvin.research.application.ManageVenuesService;
 import br.ufes.informatica.marvin.research.domain.Venue;
 
@@ -30,7 +30,7 @@ import br.ufes.informatica.marvin.research.domain.Venue;
  *
  * @author Vítor E. Silva Souza (https://github.com/vitorsouza/)
  */
-@Named("manageVenueController")
+@Named
 @SessionScoped
 public class ManageVenuesController extends CrudController<Venue> {
 	/** The unique identifier for a serializable class. */
@@ -52,8 +52,13 @@ public class ManageVenuesController extends CrudController<Venue> {
 
 	private Date dtEnd;
 
+	private String qualisName;
+
 	@EJB
 	private ManageVenuesService manageVenuesService;
+
+	@EJB
+	private ManageQualisService manageQualisService;
 
 	@Override
 	protected CrudService<Venue> getCrudService() {
@@ -86,27 +91,32 @@ public class ManageVenuesController extends CrudController<Venue> {
 		this.dtEnd = dtEnd;
 	}
 
+	public String getQualisName() {
+		return qualisName;
+	}
+
+	public void setQualisName(String qualisName) {
+		this.qualisName = qualisName;
+	}
+
+	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageVeunues.filter.byName", "name",
-				getI18nMessage("msgsResearch", "manageVeunues.text.filter.byName")));
+		// TODO Auto-generated method stub
+
 	}
 
 	public String upload() {
 
 		try {
 			// Performs the upload.
-			manageVenuesService.uploadVenueCV(file.getInputStream());
+			manageQualisService.findByNameQualisValidity(name, this.dtStart, this.dtEnd);
+			manageVenuesService.uploadVenueCV(file.getInputStream(), this.dtStart, this.dtEnd);
 			// Retrieve information on the researcher.
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(), new Object[] { "Exception" });
 			return null;
 		}
 
-		return VIEW_PATH + "index.xhtml";
+		return list();
 	}
-
-	public String teste() {
-		return VIEW_PATH + "form.xhtml";
-	}
-
 }

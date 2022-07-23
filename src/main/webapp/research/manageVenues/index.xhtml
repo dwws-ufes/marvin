@@ -23,10 +23,10 @@
 				<p><h:outputText value="#{msgsResearch['manageVenues.instructions']}" /></p>
 				<p:dataTable
 					widgetVar="listingTable"
-					value="#{manageVenueController.lazyEntities}" 
+					value="#{manageVenuesController.lazyEntities}" 
 					var="entity" 
-					rows="#{manageVenueController.maxDataTableRowsPerPage}" 
-					rowsPerPageTemplate="#{manageVenueController.halfMaxDataTableRowsPerPage},#{manageVenueController.maxDataTableRowsPerPage},#{manageVenueController.doubleMaxDataTableRowsPerPage}"
+					rows="#{manageVenuesController.maxDataTableRowsPerPage}" 
+					rowsPerPageTemplate="#{manageVenuesController.halfMaxDataTableRowsPerPage},#{manageVenuesController.maxDataTableRowsPerPage},#{manageVenuesController.doubleMaxDataTableRowsPerPage}"
 					lazy="true" 
 					paginator="true" 
 					paginatorPosition="bottom" 
@@ -45,11 +45,11 @@
 					</p:column>
 					<f:facet name="footer">
 						<h:panelGroup id="buttonsGroup">
-							<p:commandButton action="#{manageVenueController.create}" value="#{msgsResearch['manageVenueController.button.upload']}" icon="fa fa-fw fa-plus" />
-							<p:commandButton action="#{manageVenueController.update}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
-								disabled="#{manageVenueController.selectedEntity == null}" />
-							<p:commandButton action="#{manageVenueController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}"
-								disabled="#{manageVenueController.selectedEntity == null}" />
+							<p:commandButton action="#{manageVenuesController.create}" value="#{msgsResearch['manageVenues.button.upload']}" icon="fa fa-fw fa-plus" />
+							<p:commandButton action="#{manageVenuesController.update}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
+								disabled="#{manageVenuesController.selectedEntity == null}" />
+							<p:commandButton action="#{manageVenuesController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}"
+								disabled="#{manageVenuesController.selectedEntity == null}" />
 						</h:panelGroup>
 					</f:facet>
 				</p:dataTable>		
