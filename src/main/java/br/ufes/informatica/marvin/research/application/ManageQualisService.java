@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.research.application;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -10,6 +11,8 @@ import br.ufes.informatica.marvin.research.domain.Qualis;
 @Local
 public interface ManageQualisService extends CrudService<Qualis> {
 
-	List<Qualis> findByQualisValidity(Long id);
+	public List<Qualis> findByQualisValidity(Long id);
+
+	public Qualis findByNameQualisValidity(String qualisName, Date dtStart, Date dtEnd, Long idPPG);
 
 }

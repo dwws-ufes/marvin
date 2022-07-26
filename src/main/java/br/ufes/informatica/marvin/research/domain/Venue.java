@@ -50,7 +50,8 @@ public class Venue extends PersistentObjectSupport implements Comparable<Venue> 
 	private Qualis qualis;
 
 	/** Constructor. */
-	public Venue(String acronym, String issn, String name, String category, Date dtStart, Date dtEnd) {
+	public Venue(String acronym, String issn, String name, String category, Date dtStart, Date dtEnd, Qualis qualis,
+			PPG ppg) {
 		// TODO Auto-generated constructor stub
 		this.acronym = acronym;
 		this.issn = issn;
@@ -58,6 +59,8 @@ public class Venue extends PersistentObjectSupport implements Comparable<Venue> 
 		setCategory(category);
 		this.dtStart = dtStart;
 		this.dtEnd = dtEnd;
+		this.ppg = ppg;
+		this.qualis = qualis;
 	}
 
 	public Venue() {

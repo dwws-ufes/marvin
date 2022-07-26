@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.informatica.marvin.core.domain.PPG;
 import br.ufes.informatica.marvin.research.domain.Venue;
 
 /**
@@ -19,5 +20,5 @@ public interface ManageVenuesService extends CrudService<Venue> {
 
 	List<Venue> findVenueByName(String name);
 
-	void uploadVenueCV(InputStream inputStream, Date dtStart, Date dtEnd) throws Exception;
+	void uploadVenueCV(InputStream inputStream, Date dtStart, Date dtEnd, PPG ppg) throws Exception;
 }

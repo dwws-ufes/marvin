@@ -29,7 +29,7 @@ public class QualisValidity extends PersistentObjectSupport implements Comparabl
 
 	@NotNull
 	@ManyToOne
-	PPG ppg;
+	private PPG ppg;
 
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Qualis> qualis;

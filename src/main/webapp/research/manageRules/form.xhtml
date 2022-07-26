@@ -8,51 +8,105 @@
     template="/WEB-INF/templates/template.xhtml">
 
    <ui:define name="title">
-	<h:outputText value="#{msgsResearch['manageRules.title.create']}"
-		rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id == null)}" />
-	<h:outputText value="#{msgsResearch['manageRules.title.update']}"
-		rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id != null)}" />
-	<h:outputText value="#{msgsResearch['manageRules.title.retrieve']}" rendered="#{manageRulesController.readOnly}" />
-</ui:define>
+		<h:outputText value="#{msgsResearch['manageRules.title.create']}"
+			rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsResearch['manageRules.title.update']}"
+			rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsResearch['manageRules.title.retrieve']}" rendered="#{manageRulesController.readOnly}" />
+	</ui:define>
 
-<ui:define name="description">
-	<h:outputText value="#{msgsResearch['manageRules.title.create.description']}"
-		rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id == null)}" />
-	<h:outputText value="#{msgsResearch['manageRules.title.update.description']}"
-		rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id != null)}" />
-	<h:outputText value="#{msgsResearch['manageRules.title.retrieve.description']}" rendered="#{manageRulesController.readOnly}" />
-</ui:define>
+	<ui:define name="description">
+		<h:outputText value="#{msgsResearch['manageRules.title.create.description']}"
+			rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsResearch['manageRules.title.update.description']}"
+			rendered="#{(! manageRulesController.readOnly) and (manageRulesController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsResearch['manageRules.title.retrieve.description']}" rendered="#{manageRulesController.readOnly}" />
+	</ui:define>
 
-<ui:define name="body">
-	<h:form id="entitiesForm">
-		<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
-			<p:outputLabel for="total" value="#{msgsResearch['manageRules.field.total']}" />
-			<p:inputText id="total" value="#{manageRulesController.selectedEntity.total}" style="width: 100%;" />
-			<p:outputLabel for="qtdPassYears" value="#{msgsResearch['manageRules.field.qtdPassYears']} " />
-			<p:inputText id="qtdPassYears" value="#{manageRulesController.selectedEntity.qtdPassYears}" style="width: 100%;" />
-			<p:outputLabel for="scoreJournal" value="#{msgsResearch['manageRules.field.scoreJournal']}" />
-			<p:inputText id="scoreJournal" value="#{manageRulesController.selectedEntity.scoreJournal}" style="width: 100%;" />
-			<p:outputLabel for="dtStart" value="#{msgsResearch['manageRules.field.dtStart']}" />
-			<p:calendar id="dtStart" value="#{manageRulesController.selectedEntity.dtStart}" showOn="button"
-				pattern="dd/MM/yyyy" mask="true" style="width: 100%;" />
-			<p:outputLabel for="dtEnd" value="#{msgsResearch['manageRules.field.dtEnd']}" />
-			<p:calendar id="dtEnd" value="#{manageRulesController.selectedEntity.dtEnd}" showOn="button" pattern="dd/MM/yyyy"
-				mask="true" style="width: 100%;" />
-			<p:outputLabel for="role" value="#{msgsResearch['manageRules.field.role']}" />	
-			<p:selectOneMenu id="role" value="#{manageRulesController.selectedRole}"> 
-			   <f:selectItems var="roleName" value="#{manageRulesController.roleList}" itemValue="#{roleName}" />
-			   <p:ajax event="itemSelect" update="role"/>
-			</p:selectOneMenu> 
-		</p:panelGrid>
-		<p:commandButton id="cancelButton" value="#{msgs['jbutler.crud.button.cancel']}" icon="fa fa-close"
-			action="#{manageRulesController.list}" immediate="true" rendered="#{! manageRulesController.readOnly}" />
-		<p:commandButton id="saveButton" value="#{msgs['jbutler.crud.button.save']}" icon="fa fa-save" action="#{manageRulesController.saveRule}"
-			rendered="#{! manageRulesController.readOnly}" />
-		<p:defaultCommand target="saveButton" />
-		<p:commandButton id="backButton" value="#{msgs['jbutler.crud.button.back']}" icon="fa fa-arrow-circle-left"
-			action="#{manageRulesController.list}" immediate="true" rendered="#{manageRulesController.readOnly}" />
-	</h:form>
-</ui:define>
+	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsResearch['manageRules.title']}" link="index.xhtml" />
+		
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsResearch['manageRules.form.title']}" />
+			<p:focus />
+			
+			<p:panelGrid id="panelQtdPassYearsTotal" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="qtdPassYearsField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="qtdPassYears" value="#{msgsResearch['manageRules.field.qtdPassYears']}"	/>
+					<h:panelGroup>
+						<p:inputText id="qtdPassYears" value="#{manageRulesController.selectedEntity.qtdPassYears}" required="true" ></p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="totalField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="total" value="#{msgsResearch['manageRules.field.total']}"	/>
+					<h:panelGroup>
+						<p:inputText id="total" value="#{manageRulesController.selectedEntity.total}" required="true" ></p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>				
+			</p:panelGrid>
+			
+			<p:panelGrid id="panelscoreJournalScoreRestricted" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="scoreJournalField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="scoreJournal" value="#{msgsResearch['manageRules.field.scoreJournal']}"	/>
+					<h:panelGroup>
+						<p:inputText id="scoreJournal" value="#{manageRulesController.selectedEntity.scoreJournal}" required="true" ></p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="scoreRestrictedField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="scoreRestricted" value="#{msgsResearch['manageRules.field.scoreRestricted']}"	/>
+					<h:panelGroup>
+						<p:inputText id="scoreRestricted" value="#{manageRulesController.selectedEntity.scoreRestricted}" required="true" ></p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:panelGrid id="panelScoreJournalRestrictedDoctoral" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="scoreJournalRestrictedField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="scoreJournalRestricted" value="#{msgsResearch['manageRules.field.scoreJournalRestricted']}"	/>
+					<h:panelGroup>
+						<p:inputText id="scoreJournalRestricted" value="#{manageRulesController.selectedEntity.scoreJournalRestricted}" required="true" ></p:inputText>
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="doctoralField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="doctoral" value="#{msgsResearch['manageRules.field.doctoral']}"	/>
+					<h:panelGroup>
+						<p:selectOneMenu id="doctoral" value="#{manageRulesController.selectedEntity.doctoral}"> 
+		                    <f:selectItem itemLabel="Doctoral" itemValue="true"/>
+		                    <f:selectItem itemLabel="Master" itemValue="false"/>
+						</p:selectOneMenu> 
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:panelGrid id="panelRulesValidity" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="dtStartField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="dtStart" value="#{msgsResearch['manageRules.field.dtStart']}"	/>
+					<h:panelGroup>
+						<p:calendar id="dtStart" value="#{manageRulesController.selectedEntity.dtStart}" showOn="button"
+						pattern="dd/MM/yyyy" mask="true"/>
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="dtEndField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="dtEnd" value="#{msgsResearch['manageRules.field.dtEnd']}"	/>
+					<h:panelGroup>
+						<p:calendar id="dtEnd" value="#{manageRulesController.selectedEntity.dtEnd}" showOn="button"
+						pattern="dd/MM/yyyy" mask="true"/>
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<!-- Buttons shown below the form. -->
+			<h:panelGroup id="buttonsGroup" >
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton action="#{manageRulesController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-close" />
+					<p:commandButton action="#{manageRulesController.saveRule}" value="#{msgs['jbutler.crud.button.save']}" icon="fa fa-fw fa-save" />
+				</ui:decorate>
+			</h:panelGroup>
+			
+		</ui:decorate>
+	</ui:define>
 
 
 </ui:composition>

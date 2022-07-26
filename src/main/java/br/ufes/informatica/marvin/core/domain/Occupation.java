@@ -16,24 +16,24 @@ public class Occupation extends PersistentObjectSupport {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
-	boolean coordinator;
+	private boolean coordinator;
 
 	@NotNull
-	boolean secretary;
+	private boolean secretary;
 
 	@NotNull
-	boolean member;
+	private boolean member;
 
 	@NotNull
-	boolean doctoral_supervisor;
+	private boolean doctoral_supervisor;
 
 	@NotNull
 	@OneToOne
-	Academic academic;
+	private Academic academic;
 
 	@NotNull
 	@ManyToOne
-	PPG ppg;
+	private PPG ppg;
 
 	public boolean isCoordinator() {
 		return coordinator;

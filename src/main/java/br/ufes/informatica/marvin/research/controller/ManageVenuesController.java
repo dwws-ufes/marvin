@@ -10,8 +10,14 @@ import javax.inject.Named;
 
 import org.primefaces.model.file.UploadedFile;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
+import br.ufes.informatica.marvin.core.application.LoginService;
+import br.ufes.informatica.marvin.core.application.ManageOccupationsService;
+import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.core.domain.Occupation;
+import br.ufes.informatica.marvin.core.domain.PPG;
 import br.ufes.informatica.marvin.research.application.ManageQualisService;
 import br.ufes.informatica.marvin.research.application.ManageVenuesService;
 import br.ufes.informatica.marvin.research.domain.Venue;
@@ -52,13 +58,21 @@ public class ManageVenuesController extends CrudController<Venue> {
 
 	private Date dtEnd;
 
-	private String qualisName;
-
+	/** The venue service. */
 	@EJB
 	private ManageVenuesService manageVenuesService;
 
+	/** The qualis service. */
 	@EJB
 	private ManageQualisService manageQualisService;
+
+	/** The login service. */
+	@EJB
+	private LoginService loginService;
+
+	/** The occupation service. */
+	@EJB
+	private ManageOccupationsService manageOccupationService;
 
 	@Override
 	protected CrudService<Venue> getCrudService() {
@@ -91,14 +105,6 @@ public class ManageVenuesController extends CrudController<Venue> {
 		this.dtEnd = dtEnd;
 	}
 
-	public String getQualisName() {
-		return qualisName;
-	}
-
-	public void setQualisName(String qualisName) {
-		this.qualisName = qualisName;
-	}
-
 	@Override
 	protected void initFilters() {
 		// TODO Auto-generated method stub
@@ -108,9 +114,14 @@ public class ManageVenuesController extends CrudController<Venue> {
 	public String upload() {
 
 		try {
-			// Performs the upload.
-			manageQualisService.findByNameQualisValidity(name, this.dtStart, this.dtEnd);
-			manageVenuesService.uploadVenueCV(file.getInputStream(), this.dtStart, this.dtEnd);
+
+			PPG ppg = getUserPPGId();
+
+			if (ppg == null) {
+				throw new CrudException("Could not find your ppg", "ERROR", null);
+			}
+			// Performs the upload
+			manageVenuesService.uploadVenueCV(file.getInputStream(), this.dtStart, this.dtEnd, ppg);
 			// Retrieve information on the researcher.
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(), new Object[] { "Exception" });
@@ -118,5 +129,21 @@ public class ManageVenuesController extends CrudController<Venue> {
 		}
 
 		return list();
+	}
+
+	public PPG getUserPPGId() {
+		Academic currentAcademic = loginService.getCurrentUser();
+		if (currentAcademic == null) {
+			return null;
+		}
+
+		Occupation currentOccupation = manageOccupationService.findOccupationByAcademic(currentAcademic.getId());
+
+		if (currentOccupation == null) {
+			return null;
+		}
+
+		return currentOccupation.getPpg();
+
 	}
 }

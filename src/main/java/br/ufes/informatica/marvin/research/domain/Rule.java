@@ -3,12 +3,11 @@ package br.ufes.informatica.marvin.research.domain;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
-import br.ufes.informatica.marvin.core.domain.Role;
+import br.ufes.informatica.marvin.core.domain.PPG;
 
 /**
  * TODO: document this type.
@@ -44,21 +43,11 @@ public class Rule extends PersistentObjectSupport implements Comparable<Rule> {
 
 	private Date dtEnd;
 
+	private boolean doctoral;
+
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
-	private Role role = new Role();
-
-	public Rule() {
-
-	}
-
-	/** Constructor. */
-	public Rule(Role role, int qtdPassYears, Float total) {
-		// TODO Auto-generated constructor stub
-		this.role = role;
-		this.qtdPassYears = qtdPassYears;
-		this.total = total;
-	}
+	@ManyToOne
+	private PPG ppg;
 
 	public int getQtdPassYears() {
 		return qtdPassYears;
@@ -116,12 +105,20 @@ public class Rule extends PersistentObjectSupport implements Comparable<Rule> {
 		this.dtEnd = dtEnd;
 	}
 
-	public Role getRole() {
-		return role;
+	public boolean isDoctoral() {
+		return doctoral;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setDoctoral(boolean doctoral) {
+		this.doctoral = doctoral;
+	}
+
+	public PPG getPpg() {
+		return ppg;
+	}
+
+	public void setPpg(PPG ppg) {
+		this.ppg = ppg;
 	}
 
 	@Override
