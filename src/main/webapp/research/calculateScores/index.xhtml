@@ -8,61 +8,79 @@
     template="/WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">
-	<h:outputText value="#{msgsResearch['calculateScores.title']}" />
-</ui:define>
+		<h:outputText value="#{msgsResearch['calculateScores.title']}" />
+	</ui:define>
 
-<ui:define name="description">
-	<h:outputText value="#{msgsResearch['calculateScores.title.description']}" />
-</ui:define>
+	<ui:define name="description">
+		<h:outputText value="#{msgsResearch['calculateScores.title.description']}" />
+	</ui:define>
 
-<ui:define name="body">
-	<adm:breadcrumb link="/core/calculateScores/index" title="#{msgsResearch['calculateScores.title']}" />
-	<h:form id="listingForm">
-		<p:dataTable id="entitiesDataTable" var="entity" value="#{calculateScoresController.lazyEntities}"
-			selection="#{calculateScoresController.selectedEntity}" selectionMode="single" paginator="true"
-			rows="#{calculateScoresController.maxDataTableRowsPerPage}"
-			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-			rowsPerPageTemplate="#{calculateScoresController.halfMaxDataTableRowsPerPage},#{calculateScoresController.maxDataTableRowsPerPage},#{calculateScoresController.doubleMaxDataTableRowsPerPage}"
-			lazy="true" paginatorPosition="bottom" emptyMessage="#{msgsResearch['calculateScores.text.noEntities']}">
-			<p:ajax event="rowSelect" update="buttonsGroup" />
-			<p:ajax event="rowUnselect" update="buttonsGroup" />
-			<f:facet name="header">
-				<h:outputText value="#{msgsResearch['calculateScores.text.entities']}" />
-			</f:facet>
-			<p:column headerText="#{msgsResearch['calculateScores.field.name']}">
-				<h:outputText value="#{entity.name}" />
-			</p:column>
-			<p:column headerText="#{msgsResearch['calculateScores.field.member']}">
-				<h:outputText value="#{calculateScoresController.translateRole(entity.roles)}" />
-			</p:column>
-			<p:column headerText="#{msgsResearch['calculateScores.field.occupation']}">
-				<h:outputText value="#{calculateScoresController.translateRole2(entity.roles)}" />
-			</p:column>
-			<f:facet name="footer">
-				<h:panelGroup id="buttonsGroup">
-					<p:commandButton action="#{calculateScoresController.calculate}" icon="fa fa-plus" value="#{msgsResearch['calculateScores.button.calculate']}" />
-					<p:commandButton action="#{calculateScoresController.trash}" icon="fa fa-plus" value="#{msgsResearch['calculateScores.button.indicate']}" />
-				</h:panelGroup>
-			</f:facet>
-		</p:dataTable>
-		<h:panelGroup id="trashGroup">
-					<p:panel id="trashPanel" header="#{msgsResearch['calculateScores.indicate']}" rendered="#{not empty calculateScoresController.trashCan}" style="margin-top: 20px">
-						<p:dataList value="#{calculateScoresController.trashCan}" var="entity" type="ordered">
-			            	<p:outputLabel for="name" value="#{msgsResearch['calculateScores.field.name']}" />
-							<p:inputText id="name" value="#{entity.name}" style="width: 25%;margin-left: 10px;/" />
-							<p:outputLabel for="name" value="#{msgsResearch['calculateScores.field.occupation']}" style="margin-left: 10px;/" />
-					        <p:selectOneMenu id="role" value="#{calculateScoresController.selectedRole}" style="display: inline-block;width: 25%;margin-left: 10px;/"> 
-							   <f:selectItem itemLabel="Master" itemValue="Master"/>
-							   <p:ajax event="itemSelect" update="role"/>
-							</p:selectOneMenu> 
-			            </p:dataList>
-						<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-							<p:commandButton action="#{calculateScoresController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
-							<p:commandButton action="#{calculateScoresController.delete}" value="#{msgsResearch['calculateScores.indicate.button']}" icon="fa fa-fw fa-close" process="@this" update=":messages :info-messages :listingForm" />
-						</ui:decorate>
-					</p:panel>
-				</h:panelGroup>
-	</h:form>
-</ui:define>
+	<ui:define name="body">
+		<adm:breadcrumb link="/core/calculateScores/index" title="#{msgsResearch['calculateScores.title']}" />
+		
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsResearch['calculateScores.form.title']}" />
+			<p:focus />
+			
+			<p:panelGrid id="panelAddAcademic" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="typeField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="type" value="#{msgsResearch['calculateScores.field.type']}"	/>
+					<h:panelGroup>
+						<p:selectOneMenu  id="type" value="#{calculateScoresController.type}">
+		                    <f:selectItem itemLabel="Coordinator" itemValue="coordinator"/>
+		                    <f:selectItem itemLabel="Secretary" itemValue="secretary"/>
+						</p:selectOneMenu> 
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="academicField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="academic" value="#{msgsResearch['calculateScores.field.academic']}"	/>
+					<h:panelGroup>
+						<p:autoComplete id="academic" value="#{calculateScoresController.selectedAcademic}" completeMethod="#{calculateScoresController.completeAcademics}" var="academics" itemLabel="#{academics.shortName}" itemValue="#{academics}" converter="#{calculateScoresController.academicConverter}" forceSelection="true" >
+							<p:column>
+								<h:outputText value="#{academics.name}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{academics.email}" />
+							</p:column>
+						</p:autoComplete>
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<h:panelGroup id="buttonsGroup" >
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton action="#{calculateScoresController.addAcademic}" value="#{msgsAdmin['managePPGs.button.save']}" icon="fa fa-fw fa-save" />
+				</ui:decorate>
+			</h:panelGroup>
+			
+		</ui:decorate>
+		
+		<h:form id="formTable">
+			<h:panelGroup>
+				<p:dataTable
+					id="entitiesDataTable"
+					widgetVar="listingTable"
+					value="#{calculateScoresController.lazyEntities}" 
+					var="entity" 
+					rowKey="#{entity.id}"
+					rows="#{calculateScoresController.maxDataTableRowsPerPage}" 
+					rowsPerPageTemplate="#{calculateScoresController.halfMaxDataTableRowsPerPage},#{calculateScoresController.maxDataTableRowsPerPage},#{calculateScoresController.doubleMaxDataTableRowsPerPage}"
+					lazy="true" 
+					paginator="true" 
+					paginatorPosition="bottom" 
+					emptyMessage="#{msgsAdmin['calculateScores.occupation.noEntities']}">
+					
+					<p:column headerText="#{msgsResearch['calculateScores.occupation.name']}">
+						<h:outputText value="#{entity.academic.getName()}" />
+					</p:column>
+					<p:column headerText="#{msgsResearch['managePPGs.occupation.name']}">
+						<h:outputText value="#{entity.academic.getName()}" />
+					</p:column>
+				</p:dataTable>
+			</h:panelGroup>		
+		</h:form>	
+		
+	</ui:define>
 
 </ui:composition>

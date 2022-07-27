@@ -7,7 +7,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2022-07-25T22:52:53.979-0300")
+@Generated(value="Dali", date="2022-07-26T18:46:47.066-0300")
 @StaticMetamodel(Rule.class)
 public class Rule_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<Rule, Integer> qtdPassYears;
@@ -17,6 +17,6 @@ public class Rule_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<Rule, Float> scoreJournalRestricted;
 	public static volatile SingularAttribute<Rule, Date> dtStart;
 	public static volatile SingularAttribute<Rule, Date> dtEnd;
-	public static volatile SingularAttribute<Rule, PPG> ppg;
 	public static volatile SingularAttribute<Rule, Boolean> doctoral;
+	public static volatile SingularAttribute<Rule, PPG> ppg;
 }

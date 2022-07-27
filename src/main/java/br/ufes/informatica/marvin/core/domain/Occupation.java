@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 @Entity
-public class Occupation extends PersistentObjectSupport {
+public class Occupation extends PersistentObjectSupport implements Comparable<Occupation> {
 
 	/**
 	 * 
@@ -81,6 +81,14 @@ public class Occupation extends PersistentObjectSupport {
 
 	public void setPpg(PPG ppg) {
 		this.ppg = ppg;
+	}
+
+	@Override
+	public int compareTo(Occupation o) {
+		if (this.academic == o.getAcademic()) {
+			return 0;
+		}
+		return 1;
 	}
 
 }

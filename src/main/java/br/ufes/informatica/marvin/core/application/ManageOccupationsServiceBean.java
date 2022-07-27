@@ -23,7 +23,7 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private OccupationDAO OccupationDAO;
+	private OccupationDAO occupationDAO;
 
 	@EJB
 	private AcademicDAO academicDAO;
@@ -33,7 +33,7 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 
 	@Override
 	public BaseDAO<Occupation> getDAO() {
-		return OccupationDAO;
+		return occupationDAO;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 	@Override
 	public List<Academic> findAcademicByNameEmail(String search) {
 		try {
-			return this.OccupationDAO.retriveByNameEmail(search);
+			return this.occupationDAO.retriveByNameEmail(search);
 		} catch (PersistentObjectNotFoundException e) {
 			return null;
 		}
@@ -54,7 +54,7 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 
 	public Occupation findOccupationByAcademic(Long idAcademic) {
 		try {
-			return this.OccupationDAO.retriveByAcademic(idAcademic);
+			return this.occupationDAO.retriveByAcademic(idAcademic);
 		} catch (PersistentObjectNotFoundException e) {
 			return null;
 		} catch (MultiplePersistentObjectsFoundException e) {
@@ -64,7 +64,7 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 
 	public List<Occupation> findOccupationsByPPG(Long idPPG) {
 		try {
-			return this.OccupationDAO.retriveOccupationsByPPG(idPPG);
+			return this.occupationDAO.retriveOccupationsByPPG(idPPG);
 		} catch (PersistentObjectNotFoundException e) {
 			return null;
 		}
@@ -72,7 +72,7 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 
 	public List<Academic> findAcademicsByPPG(Long idPPG) {
 		try {
-			List<Occupation> occupations = this.OccupationDAO.retriveOccupationsByPPG(idPPG);
+			List<Occupation> occupations = this.occupationDAO.retriveOccupationsByPPG(idPPG);
 			List<Academic> academics = new ArrayList<Academic>();
 
 			for (Occupation occupation : occupations) {
@@ -90,7 +90,7 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 			List<Occupation> occupations = null;
 
 			if (type != null && type.length() > 0) {
-				occupations = this.OccupationDAO.retriveOccupationsByType(type);
+				occupations = this.occupationDAO.retriveOccupationsByType(type);
 			}
 
 			return occupations;

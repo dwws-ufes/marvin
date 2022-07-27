@@ -1,29 +1,23 @@
 package br.ufes.informatica.marvin.research.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.Filter;
-import br.ufes.inf.nemo.jbutler.ejb.application.filters.LikeFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
-import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
+import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
+import br.ufes.informatica.marvin.core.application.ManageOccupationsService;
 import br.ufes.informatica.marvin.core.domain.Academic;
-import br.ufes.informatica.marvin.core.domain.Role;
+import br.ufes.informatica.marvin.core.domain.Occupation;
 import br.ufes.informatica.marvin.research.application.CalculateScoresService;
 
-@Named("calculateScoresController")
+@Named
 @SessionScoped
-public class CalculateScoresController extends CrudController<Academic> {
+public class CalculateScoresController extends CrudController<Occupation> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,89 +30,54 @@ public class CalculateScoresController extends CrudController<Academic> {
 	 */
 	private static final String VIEW_PATH = "/research/calculateScores/";
 
-	private List<Academic> academics;
+	private Academic selectedAcademic;
 
-	private List<String> roleList;
-
-	private String selectedRole;
+	private String type;
 
 	@EJB
 	private CalculateScoresService calculateScoresService;
 
-	@Override
-	protected void initFilters() {
-		addFilter(new LikeFilter("calcualteScores.filter.byName", "name", "name"));
-		this.filters = new ArrayList<Filter<?>>();
-		this.setFilterKey("calcualteScores.filter.byName");
-		this.setFilterParam("rafael");
-		filter();
-	}
+	@EJB
+	private ManageOccupationsService manageOccupationsService;
 
 	@Override
-	protected CrudService<Academic> getCrudService() {
-		this.roleList = new ArrayList<String>();
-		this.roleList.add("Master");
-		this.roleList.add("Doctoral");
+	protected CrudService<Occupation> getCrudService() {
 		return calculateScoresService;
 	}
 
-	public void teste() {
-		this.filters = new ArrayList<Filter<?>>();
-		addFilter(new LikeFilter("calcualteScores.filter.byName", "name", "name"));
-		this.setFilterKey("calcualteScores.filter.byName");
-		this.setFilterParam("rafael");
-		filter();
+	@Override
+	protected void initFilters() {
 	}
 
-	public String translateRole(Set<Role> roles) {
-		for (Role role : roles) {
-			if (role.getName().equals("Doctoral") || role.getName().equals("Master")) {
-				return "Sim";
-			}
-		}
-		return "Não";
+	public String getType() {
+		return type;
 	}
 
-	public String translateRole2(Set<Role> roles) {
-		for (Role role : roles) {
-			if (role.getName().equals("Doctoral") || role.getName().equals("Master")) {
-				return role.getName();
-			}
-		}
-		return "";
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Academic getSelectedAcademic() {
+		return selectedAcademic;
+	}
+
+	public void setSelectedAcademic(Academic selectedAcademic) {
+		this.selectedAcademic = selectedAcademic;
+	}
+
+	public List<Academic> completeAcademics(String query) {
+		return manageOccupationsService.findAcademicByNameEmail(query);
+	}
+
+	public PersistentObjectConverterFromId<Academic> getAcademicConverter() {
+		return manageOccupationsService.getAcademicConverter();
 	}
 
 	public String calculate() {
-		try {
-			this.academics = this.calculateScoresService.findAcademicQualified();
-
-			return "";
-//			return VIEW_PATH + "list.xhtml?faces-redirect=true";
-		} catch (PersistentObjectNotFoundException e) {
-			logger.log(Level.INFO, "Lattes parser error.");
-			addGlobalI18nMessage("msgsResearch", FacesMessage.SEVERITY_ERROR,
-					"uploadLattesCV.error.lattesParseError.summary",
-					"uploadLattesCV.error.lattesIdNotRegistered.detail");
-			return "";
-		} catch (MultiplePersistentObjectsFoundException e) {
-			return "";
-		}
+		return VIEW_PATH + "score.xhtml";
 	}
 
-	public List<String> getRolelist() {
-		return roleList;
-	}
+	public void addAcademic() {
 
-	public void setRolelist(List<String> rolelist) {
-		this.roleList = rolelist;
 	}
-
-	public String getSelectedRole() {
-		return selectedRole;
-	}
-
-	public void setSelectedRole(String selectedRole) {
-		this.selectedRole = selectedRole;
-	}
-
 }
