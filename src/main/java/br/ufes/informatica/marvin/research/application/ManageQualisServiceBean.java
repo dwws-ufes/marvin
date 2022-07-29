@@ -1,7 +1,9 @@
 package br.ufes.informatica.marvin.research.application;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -28,10 +30,10 @@ public class ManageQualisServiceBean extends CrudServiceBean<Qualis> implements 
 	}
 
 	@Override
-	public List<Qualis> findByQualisValidity(Long id) {
+	public List<Qualis> findByQualisValidityId(Long id) {
 
 		try {
-			return this.qualisDAO.retrieveByQualisValidity(id);
+			return this.qualisDAO.retrieveByQualisValidityId(id);
 		} catch (PersistentObjectNotFoundException e) {
 			return null;
 		}
@@ -44,6 +46,23 @@ public class ManageQualisServiceBean extends CrudServiceBean<Qualis> implements 
 		} catch (PersistentObjectNotFoundException e) {
 			return null;
 		} catch (MultiplePersistentObjectsFoundException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public Map<String, Qualis> findByQualisValidity(Long idPPG) {
+		try {
+			Map<String, Qualis> map = new HashMap<String, Qualis>();
+
+			List<Qualis> qualis = this.qualisDAO.retrieveByQualisValidity(idPPG);
+
+			for (Qualis elemt : qualis) {
+				map.put(elemt.getName(), elemt);
+			}
+
+			return map;
+		} catch (PersistentObjectNotFoundException e) {
 			return null;
 		}
 	}

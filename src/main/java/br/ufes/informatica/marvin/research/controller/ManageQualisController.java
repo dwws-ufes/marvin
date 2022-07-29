@@ -126,7 +126,7 @@ public class ManageQualisController extends CrudController<Qualis> {
 			qualisValidity.AddQualis(newQualis);
 			manageQualisValidityService.update(qualisValidity);
 
-			setQualis(manageQualisService.findByQualisValidity(qualisValidity.getId()));
+			setQualis(manageQualisService.findByQualisValidityId(qualisValidity.getId()));
 
 			newQualis = new Qualis();
 

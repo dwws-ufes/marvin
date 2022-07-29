@@ -28,8 +28,8 @@
 					<p:outputLabel for="type" value="#{msgsResearch['calculateScores.field.type']}"	/>
 					<h:panelGroup>
 						<p:selectOneMenu  id="type" value="#{calculateScoresController.type}">
-		                    <f:selectItem itemLabel="Coordinator" itemValue="coordinator"/>
-		                    <f:selectItem itemLabel="Secretary" itemValue="secretary"/>
+		                    <f:selectItem itemLabel="Master" itemValue="master"/>
+		                    <f:selectItem itemLabel="Doctoral" itemValue="doctoral"/>
 						</p:selectOneMenu> 
 					</h:panelGroup>
 				</p:panelGrid>
@@ -48,35 +48,49 @@
 				</p:panelGrid>
 			</p:panelGrid>
 			
-			<h:panelGroup id="buttonsGroup" >
+			<h:panelGroup id="buttonsFormGroup" >
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-					<p:commandButton action="#{calculateScoresController.addAcademic}" value="#{msgsAdmin['managePPGs.button.save']}" icon="fa fa-fw fa-save" />
+					<p:commandButton action="#{calculateScoresController.addAcademic}" value="#{msgsAdmin['managePPGs.button.save']}" icon="fa fa-fw fa-save" update=":listingForm" />
 				</ui:decorate>
 			</h:panelGroup>
 			
 		</ui:decorate>
 		
-		<h:form id="formTable">
+		<h:form id="listingForm">
 			<h:panelGroup>
 				<p:dataTable
 					id="entitiesDataTable"
 					widgetVar="listingTable"
-					value="#{calculateScoresController.lazyEntities}" 
+					value="#{calculateScoresController.academics}" 
 					var="entity" 
 					rowKey="#{entity.id}"
 					rows="#{calculateScoresController.maxDataTableRowsPerPage}" 
 					rowsPerPageTemplate="#{calculateScoresController.halfMaxDataTableRowsPerPage},#{calculateScoresController.maxDataTableRowsPerPage},#{calculateScoresController.doubleMaxDataTableRowsPerPage}"
 					lazy="true" 
+					selection="#{calculateScoresController.selectedEntity}" 
+					selectionMode="single"
 					paginator="true" 
+					loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
 					paginatorPosition="bottom" 
-					emptyMessage="#{msgsAdmin['calculateScores.occupation.noEntities']}">
+					emptyMessage="#{msgsResearch['calculateScores.occupation.noEntities']}">
 					
 					<p:column headerText="#{msgsResearch['calculateScores.occupation.name']}">
 						<h:outputText value="#{entity.academic.getName()}" />
 					</p:column>
-					<p:column headerText="#{msgsResearch['managePPGs.occupation.name']}">
-						<h:outputText value="#{entity.academic.getName()}" />
+					<p:column headerText="#{msgsResearch['calculateScores.occupation.master']}">
+						<h:outputText value="#{(!entity.isDoctoral_supervisor() and entity.isMember()) ? 'YES' : 'NO'}" />
 					</p:column>
+					<p:column headerText="#{msgsResearch['calculateScores.occupation.doctoral']}">
+						<h:outputText value="#{entity.isDoctoral_supervisor() ? 'YES' : 'NO'}" />
+					</p:column>
+					
+					<f:facet name="footer">
+						<h:panelGroup id="buttonsListingFormGroup">
+							<p:commandButton action="#{calculateScoresController.calculate}" icon="fa fa-gears" value="#{msgsResearch['calculateScores.button.calculate']}" />
+							<p:commandButton action="#{calculateScoresController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}"
+								disabled="#{calculateScoresController.selectedEntity == null}" />
+						</h:panelGroup>
+					</f:facet>
 				</p:dataTable>
 			</h:panelGroup>		
 		</h:form>	

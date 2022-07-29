@@ -40,7 +40,7 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 	}
 
 	@Override
-	public List<Qualis> retrieveByQualisValidity(Long id) throws PersistentObjectNotFoundException {
+	public List<Qualis> retrieveByQualisValidityId(Long id) throws PersistentObjectNotFoundException {
 		logger.log(Level.FINE, "Retrieving qualis who are part of the QualisValidity \"{0}\"...", id);
 
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -96,6 +96,36 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 		Qualis result = jpaQuery.getSingleResult();
 
 		logger.log(Level.INFO, "Retrieve qualis with qualis_id \"{0}\"", result.getId());
+		return result;
+	}
+
+	@Override
+	public List<Qualis> retrieveByQualisValidity(Long idPPG) throws PersistentObjectNotFoundException {
+		logger.log(Level.FINE, "Retrieving the validity qualis");
+
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Qualis> cq = cb.createQuery(Qualis.class);
+		Root<Qualis> qualis = cq.from(Qualis.class);
+
+		Join<Qualis, QualisValidity> join = qualis.join("qualisValidity");
+
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+
+		Path<Long> ppg = join.get("ppg");
+		Path<Date> qualisDtEnd = join.get("dtEnd");
+
+		Predicate predQualisPPG = cb.equal(ppg, idPPG);
+		Predicate predQualisValidityEnd = cb.isNull(qualisDtEnd);
+
+		predicateList.add(predQualisPPG);
+		predicateList.add(predQualisValidityEnd);
+
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+		cq.where(predicates);
+
+		List<Qualis> result = entityManager.createQuery(cq).getResultList();
+
 		return result;
 	}
 }

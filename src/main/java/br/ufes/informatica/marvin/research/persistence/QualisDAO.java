@@ -13,8 +13,10 @@ import br.ufes.informatica.marvin.research.domain.Qualis;
 @Local
 public interface QualisDAO extends BaseDAO<Qualis> {
 
-	List<Qualis> retrieveByQualisValidity(Long id) throws PersistentObjectNotFoundException;
+	List<Qualis> retrieveByQualisValidityId(Long id) throws PersistentObjectNotFoundException;
 
 	Qualis retriveByNameQualisValidity(String qualisName, Date dtStart, Date dtEnd, Long idPPG)
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	List<Qualis> retrieveByQualisValidity(Long idPPG) throws PersistentObjectNotFoundException;
 }

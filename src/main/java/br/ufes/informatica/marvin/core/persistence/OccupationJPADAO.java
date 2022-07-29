@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.core.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
@@ -117,6 +119,32 @@ public class OccupationJPADAO extends BaseJPADAO<Occupation> implements Occupati
 		result = entityManager.createQuery(cq).getResultList();
 
 		return result;
+	}
 
+	public List<Occupation> retriveOccupationsByDoctoralMaster(Long idPPG) throws PersistentObjectNotFoundException {
+		logger.log(Level.FINE, "Retrieving occupation who is doctoral or master ...");
+
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Occupation> cq = cb.createQuery(Occupation.class);
+		Root<Occupation> occupation = cq.from(Occupation.class);
+
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+
+		Predicate predNotSecretary = cb.equal(occupation.get(Occupation_.secretary), false);
+		Predicate predNotCoordinator = cb.equal(occupation.get(Occupation_.coordinator), false);
+		Predicate predPPG = cb.equal(occupation.get(Occupation_.ppg), idPPG);
+
+		predicateList.add(predNotSecretary);
+		predicateList.add(predNotCoordinator);
+		predicateList.add(predPPG);
+
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+
+		cq.where(predicates);
+
+		List<Occupation> result = entityManager.createQuery(cq).getResultList();
+
+		return result;
 	}
 }

@@ -99,4 +99,13 @@ public class ManageOccupationsServiceBean extends CrudServiceBean<Occupation> im
 		}
 	}
 
+	public List<Occupation> findOccupationByDoctoralMaster(Long idPPG) {
+		try {
+			List<Occupation> occupations = this.occupationDAO.retriveOccupationsByDoctoralMaster(idPPG);
+			return occupations;
+		} catch (PersistentObjectNotFoundException e) {
+			return null;
+		}
+	}
+
 }

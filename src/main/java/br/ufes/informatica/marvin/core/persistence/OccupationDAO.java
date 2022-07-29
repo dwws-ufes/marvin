@@ -28,4 +28,6 @@ public interface OccupationDAO extends BaseDAO<Occupation> {
 	List<Occupation> retriveOccupationsByPPG(Long idPPG) throws PersistentObjectNotFoundException;
 
 	List<Occupation> retriveOccupationsByType(String type) throws PersistentObjectNotFoundException;
+
+	List<Occupation> retriveOccupationsByDoctoralMaster(Long idPPG) throws PersistentObjectNotFoundException;
 }
