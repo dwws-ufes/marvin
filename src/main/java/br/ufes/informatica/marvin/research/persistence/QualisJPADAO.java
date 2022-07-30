@@ -20,9 +20,11 @@ import javax.persistence.criteria.Root;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
+import br.ufes.informatica.marvin.research.domain.Publication;
 import br.ufes.informatica.marvin.research.domain.Qualis;
 import br.ufes.informatica.marvin.research.domain.QualisValidity;
 import br.ufes.informatica.marvin.research.domain.Qualis_;
+import br.ufes.informatica.marvin.research.domain.Venue;
 
 @Stateless
 public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
@@ -81,7 +83,8 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 		Predicate predQualisName = cb.equal(name, qualisName);
 		Predicate predQualisPPG = cb.equal(ppg, idPPG);
 		Predicate predQualisValidityStart = cb.greaterThanOrEqualTo(qualisDtStart, dtStart);
-		Predicate predQualisValidityEnd = cb.lessThanOrEqualTo(qualisDtEnd, dtEnd);
+		Predicate predQualisValidityEnd = dtEnd != null ? cb.lessThanOrEqualTo(qualisDtEnd, dtEnd)
+				: cb.isNull(qualisDtEnd);
 
 		predicateList.add(predQualisName);
 		predicateList.add(predQualisPPG);
@@ -123,6 +126,42 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 		Predicate[] predicates = new Predicate[predicateList.size()];
 		predicateList.toArray(predicates);
 		cq.where(predicates);
+
+		List<Qualis> result = entityManager.createQuery(cq).getResultList();
+
+		return result;
+	}
+
+	@Override
+	public List<Qualis> retriveQualisByAcademicPublic(Long idAcademic, int year)
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINE, "Retrieving qualis from academic_id \"{0}\" and year \"{0}\"...",
+				new Object[] { idAcademic, year });
+
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Qualis> cq = cb.createQuery(Qualis.class);
+		Root<Publication> publication = cq.from(Publication.class);
+
+		Join<Publication, Venue> venue = publication.join("venue");
+		Join<Venue, Qualis> qualis = venue.join("qualis");
+
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+
+		Path<Long> owner = publication.get("owner");
+		Path<Integer> publicationYear = publication.get("year");
+
+		Predicate predOwner = cb.equal(owner, idAcademic);
+		Predicate predYear = cb.equal(publicationYear, year);
+
+		predicateList.add(predOwner);
+		predicateList.add(predYear);
+
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+
+		cq.where(predicates);
+
+		cq.select(cq.from(Publication.class).join("venue").<Venue, Qualis>join("qualis"));
 
 		List<Qualis> result = entityManager.createQuery(cq).getResultList();
 

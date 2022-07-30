@@ -12,7 +12,6 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.core.domain.PPG;
@@ -70,20 +69,12 @@ public class ManageVenuesServiceBean extends CrudServiceBean<Venue> implements M
 
 				Qualis qualis = qualisDAO.retriveByNameQualisValidity(info[4], dtStart, dtEnd, ppg.getId());
 
-				if (qualis == null) {
-					throw new CrudException("Could not find your qualis", "ERROR", null);
-				}
+				Venue obj = new Venue(info[1], info[3], info[2], info[0], dtStart, dtEnd, qualis, ppg);
 
-				Venue obj = new Venue(info[3], info[2], info[1], info[0], dtStart, dtEnd, qualis, ppg);
+				logger.log(Level.INFO, "INSERT VENUE: {0}, {1}, {2}, {3}, {4}, {5}",
+						new Object[] { info[1], info[3], info[2], info[0], dtStart, dtEnd });
 
-				if (info[0].equals("Journal")) {
-					logger.log(Level.SEVERE, "INSERT VENUE: {0}, {1}, {2}, {3}, {4}, {5}, {6}",
-							new Object[] { info[3], info[2], info[1], info[0], dtStart, dtEnd });
-				} else {
-					logger.log(Level.SEVERE, "INSERT VENUE: {0}, {1}, {2}, {3}, {4}, {5}",
-							new Object[] { info[3], info[2], info[1], info[0], dtStart, dtEnd });
-				}
-				super.create(obj);
+				venueDAO.save(obj);
 				line = reader.readLine();
 			}
 

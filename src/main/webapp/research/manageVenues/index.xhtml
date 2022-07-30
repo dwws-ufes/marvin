@@ -29,6 +29,8 @@
 					rowsPerPageTemplate="#{manageVenuesController.halfMaxDataTableRowsPerPage},#{manageVenuesController.maxDataTableRowsPerPage},#{manageVenuesController.doubleMaxDataTableRowsPerPage}"
 					lazy="true" 
 					paginator="true" 
+					selection="#{manageVenuesController.selectedEntity}" 
+					selectionMode="single" 
 					paginatorPosition="bottom" 
 					emptyMessage="#{msgsResearch['manageVenues.text.noEntities']}">
 					

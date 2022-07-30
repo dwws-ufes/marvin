@@ -2,7 +2,6 @@ package br.ufes.informatica.marvin.research.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
@@ -23,7 +22,6 @@ import br.ufes.informatica.marvin.core.domain.PPG;
 import br.ufes.informatica.marvin.research.application.CalculateScoresService;
 import br.ufes.informatica.marvin.research.application.ManageQualisService;
 import br.ufes.informatica.marvin.research.application.ManageRulesService;
-import br.ufes.informatica.marvin.research.domain.Qualis;
 import br.ufes.informatica.marvin.research.domain.Rule;
 import br.ufes.informatica.marvin.research.domain.Score;
 
@@ -135,9 +133,7 @@ public class CalculateScoresController extends CrudController<Occupation> {
 
 			List<Rule> rules = manageRulesService.findValidityRules();
 
-			Map<String, Qualis> qualis = manageQualisService.findByQualisValidity(ppg.getId());
-
-			this.scores = calculateScoresService.calculate(academicsEvaluation, rules, qualis);
+			this.scores = calculateScoresService.calculate(academicsEvaluation, rules);
 
 			return VIEW_PATH + "score.xhtml";
 

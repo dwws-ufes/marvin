@@ -19,4 +19,7 @@ public interface QualisDAO extends BaseDAO<Qualis> {
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
 	List<Qualis> retrieveByQualisValidity(Long idPPG) throws PersistentObjectNotFoundException;
+
+	List<Qualis> retriveQualisByAcademicPublic(Long idAcademic, int year)
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

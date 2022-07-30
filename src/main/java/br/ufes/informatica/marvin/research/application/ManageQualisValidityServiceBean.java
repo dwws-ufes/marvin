@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
@@ -33,6 +34,10 @@ public class ManageQualisValidityServiceBean extends CrudServiceBean<QualisValid
 		} catch (PersistentObjectNotFoundException e) {
 			return null;
 		} catch (MultiplePersistentObjectsFoundException e) {
+			return null;
+		} catch (EJBTransactionRolledbackException e) {
+			return null;
+		} catch (Exception e) {
 			return null;
 		}
 	}

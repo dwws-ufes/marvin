@@ -1,21 +1,25 @@
 package br.ufes.informatica.marvin.research.persistence;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.informatica.marvin.research.domain.QualisValidity;
-import br.ufes.informatica.marvin.research.domain.QualisValidity_;
 
 @Stateless
 public class QualisValidityJPADAO extends BaseJPADAO<QualisValidity> implements QualisValidityDAO {
@@ -34,7 +38,7 @@ public class QualisValidityJPADAO extends BaseJPADAO<QualisValidity> implements 
 
 	@Override
 	public QualisValidity retriveByDates(Date dtStart, Date dtEnd)
-			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException, NoResultException {
 		logger.log(Level.FINE, "Retrieving the QualisValidity whose dt_start is \"{0}\" and dtEnd is \"{1}\"...",
 				new Object[] { dtStart, dtEnd });
 
@@ -43,10 +47,25 @@ public class QualisValidityJPADAO extends BaseJPADAO<QualisValidity> implements 
 		CriteriaQuery<QualisValidity> cq = cb.createQuery(QualisValidity.class);
 		Root<QualisValidity> root = cq.from(QualisValidity.class);
 
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+
+		Path<Date> qualisDtStart = root.get("dtStart");
+		Path<Date> qualisDtEnd = root.get("dtEnd");
+
+		Predicate predQualisValidityStart = cb.equal(qualisDtStart, dtStart);
+		Predicate predQualisValidityEnd = dtEnd == null ? cb.isNull(qualisDtEnd) : cb.equal(qualisDtEnd, dtEnd);
+
+		predicateList.add(predQualisValidityStart);
+		predicateList.add(predQualisValidityEnd);
+
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+
 		// Filters the query with the dtStart and dtEnd.
-		cq.where(cb.and(cb.equal(root.get(QualisValidity_.dtStart), dtStart),
-				cb.equal(root.get(QualisValidity_.dtEnd), dtEnd)));
-		QualisValidity result = executeSingleResultQuery(cq, dtStart, dtEnd);
+		cq.where(predicates);
+
+		QualisValidity result = entityManager.createQuery(cq).getSingleResult();
+
 		logger.log(Level.INFO, "Retrieve QualisValidity by the dtStart \"{0}\" and dtEnd \"{1}\" returned \"{2}\"",
 				new Object[] { dtStart, dtEnd, result });
 		return result;
