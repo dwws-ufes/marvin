@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -133,15 +134,14 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 	}
 
 	@Override
-	public List<Qualis> retriveQualisByAcademicPublic(Long idAcademic, int year)
+	public List<Tuple> retriveQualisByAcademicPublic(Long idAcademic, int year)
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.FINE, "Retrieving qualis from academic_id \"{0}\" and year \"{0}\"...",
 				new Object[] { idAcademic, year });
 
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Qualis> cq = cb.createQuery(Qualis.class);
+		CriteriaQuery<Tuple> cq = cb.createQuery(Tuple.class);
 		Root<Publication> publication = cq.from(Publication.class);
-
 		Join<Publication, Venue> venue = publication.join("venue");
 		Join<Venue, Qualis> qualis = venue.join("qualis");
 
@@ -151,7 +151,7 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 		Path<Integer> publicationYear = publication.get("year");
 
 		Predicate predOwner = cb.equal(owner, idAcademic);
-		Predicate predYear = cb.equal(publicationYear, year);
+		Predicate predYear = cb.greaterThanOrEqualTo(publicationYear, year);
 
 		predicateList.add(predOwner);
 		predicateList.add(predYear);
@@ -161,9 +161,9 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 
 		cq.where(predicates);
 
-		cq.select(cq.from(Publication.class).join("venue").<Venue, Qualis>join("qualis"));
+		cq.select(cb.tuple(venue, qualis));
 
-		List<Qualis> result = entityManager.createQuery(cq).getResultList();
+		List<Tuple> result = entityManager.createQuery(cq).getResultList();
 
 		return result;
 	}
