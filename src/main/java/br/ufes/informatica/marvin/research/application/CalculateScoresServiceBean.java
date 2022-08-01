@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.research.application;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -77,37 +78,54 @@ public class CalculateScoresServiceBean extends CrudServiceBean<Occupation> impl
 			Long academicId = academic.getAcademic().getId();
 			String academicName = academic.getAcademic().getName();
 
+			String type = activeRule.isDoctoral() ? "Doctoral" : "Master";
+
 			try {
 				List<Tuple> tupleDotted = qualisDAO.retriveQualisByAcademicPublic(academicId, year);
-				float totalDotted = 0;
-				float JournalDotted = 0;
-				float RestrictedDotted = 0;
-				float JournalRestrictedDotted = 0;
 
+				BigDecimal totalDotted = new BigDecimal(0);
+				BigDecimal journalDotted = new BigDecimal(0);
+				BigDecimal restrictedDotted = new BigDecimal(0);
+				BigDecimal journalRestrictedDotted = new BigDecimal(0);
 				for (Tuple tuple : tupleDotted) {
 					Venue venueDotted = (Venue) tuple.get(0);
 					Qualis qualisDotted = (Qualis) tuple.get(1);
 
 					VenueCategory category = venueDotted.getCategory();
 
-					float journalQualis = 0;
-					float conferenceQualis = 0;
+					BigDecimal journalQualis = new BigDecimal(0);
+					BigDecimal conferenceQualis = new BigDecimal(0);
 					if (category.getName().equalsIgnoreCase("JOURNAL")) {
-						journalQualis = qualisDotted.getScoreJournal();
-						conferenceQualis = 0;
-
+						journalQualis = BigDecimal.valueOf(qualisDotted.getScoreJournal());
 					} else if (category.getName().equalsIgnoreCase("CONFERENCE")) {
-						journalQualis = 0;
-						conferenceQualis = qualisDotted.getScoreConference();
+						conferenceQualis = BigDecimal.valueOf(qualisDotted.getScoreConference());
 					}
-					totalDotted += journalQualis + conferenceQualis;
-					JournalDotted += journalQualis;
-					RestrictedDotted += qualisDotted.isRestrito() ? (journalQualis + conferenceQualis) : 0;
-					JournalRestrictedDotted += qualisDotted.isRestrito() ? journalQualis : 0;
+					totalDotted = totalDotted.add(journalQualis);
+					totalDotted = totalDotted.add(conferenceQualis);
+					journalDotted = journalDotted.add(journalQualis);
+
+					if (qualisDotted.isRestrito()) {
+						restrictedDotted = restrictedDotted.add(journalQualis);
+						restrictedDotted = restrictedDotted.add(conferenceQualis);
+						journalRestrictedDotted = journalRestrictedDotted.add(journalQualis);
+					}
 
 				}
-				Score academicScore = new Score(academicName, totalDotted, JournalDotted, RestrictedDotted,
-						JournalRestrictedDotted);
+
+				float total = totalDotted.floatValue();
+				float journal = journalDotted.floatValue();
+				float restricted = restrictedDotted.floatValue();
+				float journalRestricted = journalRestrictedDotted.floatValue();
+
+				boolean aproved = false;
+				if (total >= activeRule.getTotal() && journal >= activeRule.getScoreJournal()
+						&& restricted >= activeRule.getScoreRestricted()
+						&& journalRestricted >= activeRule.getScoreJournalRestricted()) {
+					aproved = true;
+				}
+
+				Score academicScore = new Score(academicName, type, total, journal, restricted, journalRestricted,
+						aproved);
 
 				score.add(academicScore);
 

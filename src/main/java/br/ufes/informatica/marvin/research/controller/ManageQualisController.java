@@ -140,6 +140,13 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 	}
 
+	public String updateQualis() {
+		newQualisValidity = selectedEntity.getQualisValidity();
+		newQualis = selectedEntity;
+		setQualis(manageQualisService.findByQualisValidityId(newQualisValidity.getId()));
+		return VIEW_PATH + "form.xhtml" + "?faces-redirect=" + getFacesRedirect();
+	}
+
 	public String createQualis() {
 		this.newQualisValidity = new QualisValidity();
 		this.newQualis = new Qualis();

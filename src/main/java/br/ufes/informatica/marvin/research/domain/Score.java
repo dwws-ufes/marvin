@@ -15,12 +15,19 @@ public class Score {
 	/** TODO: document this field. */
 	private Float scoreJournalRestricted;
 
-	public Score(String name, Float total, Float scoreJournal, Float scoreRestricted, Float scoreJournalRestricted) {
+	private boolean aproved;
+
+	private String type;
+
+	public Score(String name, String type, Float total, Float scoreJournal, Float scoreRestricted,
+			Float scoreJournalRestricted, boolean aproved) {
 		this.name = name;
+		this.type = type;
 		this.total = total;
 		this.scoreJournal = scoreJournal;
 		this.scoreRestricted = scoreRestricted;
 		this.scoreJournalRestricted = scoreJournalRestricted;
+		this.aproved = aproved;
 	}
 
 	public String getName() {
@@ -61,5 +68,21 @@ public class Score {
 
 	public void setScoreJournalRestricted(Float scoreJournalRestricted) {
 		this.scoreJournalRestricted = scoreJournalRestricted;
+	}
+
+	public boolean isAproved() {
+		return aproved;
+	}
+
+	public void setAproved(boolean aproved) {
+		this.aproved = aproved;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

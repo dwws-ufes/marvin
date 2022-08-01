@@ -56,7 +56,7 @@
 					<p:commandButton action="#{manageQualisController.createQualis}" icon="fa fa-plus" value="#{msgs['jbutler.crud.button.create']}" />
 					<p:commandButton action="#{manageQualisController.retrieve}" icon="fa fa-search" value="#{msgs['jbutler.crud.button.retrieve']}"
 						disabled="#{manageQualisController.selectedEntity == null}" />
-					<p:commandButton action="#{manageQualisController.update}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
+					<p:commandButton action="#{manageQualisController.updateQualis}" icon="fa fa-edit" value="#{msgs['jbutler.crud.button.update']}"
 						disabled="#{manageQualisController.selectedEntity == null}" />
 					<p:commandButton action="#{manageQualisController.trash}" icon="fa fa-trash" value="#{msgs['jbutler.crud.button.delete']}"
 						disabled="#{manageQualisController.selectedEntity == null}" update=":listingForm:trashGroup" />

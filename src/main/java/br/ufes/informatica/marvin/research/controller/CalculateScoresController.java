@@ -135,7 +135,7 @@ public class CalculateScoresController extends CrudController<Occupation> {
 
 			this.scores = calculateScoresService.calculate(academicsEvaluation, rules);
 
-			return VIEW_PATH + "score.xhtml";
+			return VIEW_PATH + "score.xhtml" + "?faces-redirect=" + getFacesRedirect();
 
 		} catch (CrudException e) {
 
@@ -144,7 +144,7 @@ public class CalculateScoresController extends CrudController<Occupation> {
 					e.getMessage());
 			context.addMessage(null, message);
 		}
-		return VIEW_PATH + "index.xhtml";
+		return VIEW_PATH + "score.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 
 	public void addAcademic() {
@@ -217,5 +217,9 @@ public class CalculateScoresController extends CrudController<Occupation> {
 
 		return currentOccupation.getPpg();
 
+	}
+
+	public String restart() {
+		return "index.html" + "?faces-redirect=" + getFacesRedirect();
 	}
 }
