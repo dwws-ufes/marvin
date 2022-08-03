@@ -11,11 +11,11 @@ import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
 public class SchoolSubjectJPADAO extends BaseJPADAO<SchoolSubject> implements SchoolSubjectDAO {
 	private static final long serialVersionUID = 1L;
 
-	  @PersistenceContext
-	  private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-	  @Override
-	  protected EntityManager getEntityManager() {
-	    return entityManager;
-	  }
+	@Override
+	protected EntityManager getEntityManager() {
+		return entityManager;
+	}
 }

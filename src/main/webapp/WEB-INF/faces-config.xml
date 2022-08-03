@@ -25,6 +25,10 @@
 			<base-name>br.ufes.informatica.marvin.research.view.messages</base-name>
 			<var>msgsResearch</var>
 		</resource-bundle>
+		<resource-bundle>
+			<base-name>br.ufes.informatica.marvin.academicControl.view.messages</base-name>
+			<var>msgsAcademicControl</var>
+		</resource-bundle>
 
 		<!-- Defines the default locale. -->
 		<locale-config>

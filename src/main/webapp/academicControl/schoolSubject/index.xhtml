@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsAcademicControl['schoolSubject.title']}" />
+	</ui:define>
+
+	<ui:define name="description">
+		<h:outputText value="#{msgsAcademicControl['schoolSubject.title.description']}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsAcademicControl['schoolSubject.title']}" link="index.xhtml" />
+	
+		<!-- The listing form. -->
+		<ui:decorate template="/WEB-INF/templates/form-nobox.xhtml">
+			<ui:param name="formName" value="listingForm" /> 
+
+			<p:dataTable
+				widgetVar="listingTable"
+				value="#{schoolSubjectController.lazyEntities}" 
+				var="entity" 
+				rows="#{schoolSubjectController.maxDataTableRowsPerPage}" 
+				rowsPerPageTemplate="#{schoolSubjectController.halfMaxDataTableRowsPerPage},#{schoolSubjectController.maxDataTableRowsPerPage},#{schoolSubjectController.doubleMaxDataTableRowsPerPage}"
+				lazy="true" 
+				paginator="true" 
+				selection="#{schoolSubjectController.selectedEntity}" 
+				selectionMode="single" 
+				paginatorPosition="bottom" 
+				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
+				emptyMessage="#{schoolSubjectController.filtering ? msgsAcademicControl['schoolSubject.text.noEntitiesFiltered'] : msgsAcademicControl['schoolSubject.text.noEntities']}">
+				
+				<p:column headerText="#{msgsAcademicControl['schoolSubject.field.code']}">
+					<h:outputText value="#{entity.code}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsAcademicControl['schoolSubject.field.name']}">
+					<h:outputText value="#{entity.name}" />
+				</p:column>
+
+				<p:column headerText="#{msgsAcademicControl['schoolSubject.field.description']}">
+					<h:outputText value="#{entity.description}" />
+				</p:column>
+
+				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
+				<p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
+			</p:dataTable>
+
+			<!-- Buttons shown below the listing. -->
+			<h:panelGroup id="buttonsGroup">
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton action="#{schoolSubjectController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus" />
+					<p:commandButton action="#{schoolSubjectController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{schoolSubjectController.selectedEntity == null}" />
+					<p:commandButton action="#{schoolSubjectController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{schoolSubjectController.selectedEntity == null}" />
+					<p:commandButton action="#{schoolSubjectController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{schoolSubjectController.selectedEntity == null}" process="@this" update="trashGroup" />
+				</ui:decorate>
+			</h:panelGroup>
+
+			<!-- The trash panel: shows entities that have been selected for deletion. -->
+			<h:panelGroup id="trashGroup">
+				<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty schoolSubjectController.trashCan}" style="margin-top: 20px">
+					<p:dataList value="#{schoolSubjectController.trashCan}" var="entity" type="ordered">
+		            	#{entity.code} #{entity.name} (#{entity.description})
+		            </p:dataList>
+					<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+						<p:commandButton action="#{schoolSubjectController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+						<p:commandButton action="#{schoolSubjectController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":messages :info-messages :listingForm" />
+					</ui:decorate>
+				</p:panel>
+			</h:panelGroup>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>

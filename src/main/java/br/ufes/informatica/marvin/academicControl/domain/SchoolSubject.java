@@ -10,25 +10,21 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 @Entity
 public class SchoolSubject extends PersistentObjectSupport {
 	private static final long serialVersionUID = 1L;
-	
+
 	@NotNull
 	@Size(max = 15)
 	private String code;
-	
+
 	@NotNull
 	@Size(max = 255)
 	private String name;
-	
+
 	@Size(max = 4000)
 	private String description;
-	
+
 	@NotNull
 	@Positive
 	private Long credits;
-	
-	@NotNull
-	@Positive
-	private Long classTime;
 
 	public String getCode() {
 		return code;
@@ -60,13 +56,5 @@ public class SchoolSubject extends PersistentObjectSupport {
 
 	public void setCredits(Long credits) {
 		this.credits = credits;
-	}
-
-	public Long getClassTime() {
-		return classTime;
-	}
-
-	public void setClassTime(Long classTime) {
-		this.classTime = classTime;
 	}
 }
