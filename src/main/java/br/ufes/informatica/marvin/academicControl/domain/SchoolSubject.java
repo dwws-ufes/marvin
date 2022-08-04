@@ -26,6 +26,10 @@ public class SchoolSubject extends PersistentObjectSupport {
 	@Positive
 	private Long credits;
 
+	@NotNull
+	@Positive
+	private Long workload;
+
 	public String getCode() {
 		return code;
 	}
@@ -56,5 +60,13 @@ public class SchoolSubject extends PersistentObjectSupport {
 
 	public void setCredits(Long credits) {
 		this.credits = credits;
+	}
+
+	public Long getWorkload() {
+		return workload;
+	}
+
+	public void setWorkload(Long workload) {
+		this.workload = workload;
 	}
 }

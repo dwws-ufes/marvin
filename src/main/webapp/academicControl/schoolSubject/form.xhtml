@@ -62,6 +62,14 @@
 				</p:inputNumber>
 			</ui:decorate>
 			
+			<!-- Field: workload. -->
+			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+				<ui:param name="fieldName" value="workload" />
+				<ui:param name="label" value="#{msgsAcademicControl['schoolSubject.field.workload']}" />
+				<p:inputNumber id="workload" value="#{schoolSubjectController.selectedEntity.workload}" minValue="1" decimalPlaces="0" required="true" pt:placeholder="#{msgsAcademicControl['schoolSubject.field.workload.placeholder']}" disabled="#{schoolSubjectController.readOnly}">
+				</p:inputNumber>
+			</ui:decorate>
+			
 			<!-- Buttons shown below the form. -->
 			<h:panelGroup rendered="#{! schoolSubjectController.readOnly}">
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
