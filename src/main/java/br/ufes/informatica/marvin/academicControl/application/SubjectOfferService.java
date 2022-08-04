@@ -7,4 +7,5 @@ import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 
 @Local
 public interface SubjectOfferService extends CrudService<SubjectOffer> {
+
 }

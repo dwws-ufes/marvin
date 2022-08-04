@@ -1,5 +1,7 @@
 package br.ufes.informatica.marvin.academicControl.application;
 
+import java.util.List;
+
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -20,6 +22,11 @@ public class SchoolSubjectServiceBean extends CrudServiceBean<SchoolSubject> imp
 	@Override
 	public BaseDAO<SchoolSubject> getDAO() {
 		return schoolSubjectDAO;
+	}
+
+	@Override
+	public List<SchoolSubject> retrieveSchoolSubjects() {
+		return schoolSubjectDAO.retrieveSchoolSubjects();
 	}
 
 }

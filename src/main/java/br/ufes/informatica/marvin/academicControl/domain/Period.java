@@ -12,6 +12,8 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 @Entity
 public class Period extends PersistentObjectSupport {
+	private static final long serialVersionUID = 1L;
+
 	@NotNull
 	@Size(max = 15)
 	private String name;

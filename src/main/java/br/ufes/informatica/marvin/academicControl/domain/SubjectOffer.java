@@ -8,9 +8,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+import br.ufes.informatica.marvin.core.domain.Academic;
 
 @Entity
 public class SubjectOffer extends PersistentObjectSupport {
@@ -18,37 +18,37 @@ public class SubjectOffer extends PersistentObjectSupport {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
-	@Positive
-	private Long maxNumStudents;
+	@OneToOne
+	private Academic professor;
 
-	/* TODO create relation with the table Academic */
 	@NotNull
-	@Size(max = 50)
-	private String professorName;
+	@Positive
+	private Long numMaxStudents;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
+	@NotNull
 	@OneToOne
 	private SchoolSubject schoolSubject;
 
 	@OneToOne
 	private Period period;
 
-	public Long getMaxNumStudents() {
-		return maxNumStudents;
+	public Long getNumMaxStudents() {
+		return numMaxStudents;
 	}
 
-	public void setMaxNumStudents(Long maxNumStudents) {
-		this.maxNumStudents = maxNumStudents;
+	public void setNumMaxStudents(Long numMaxStudents) {
+		this.numMaxStudents = numMaxStudents;
+	}
+	
+	public Academic getProfessor() {
+		return professor;
 	}
 
-	public String getProfessorName() {
-		return professorName;
-	}
-
-	public void setProfessorName(String professorName) {
-		this.professorName = professorName;
+	public void setProfessor(Academic professor) {
+		this.professor = professor;
 	}
 
 	public Date getCreationDate() {
