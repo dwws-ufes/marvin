@@ -10,6 +10,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.informatica.marvin.research.domain.Qualis;
+import br.ufes.informatica.marvin.research.domain.QualisValidity;
 
 @Local
 public interface QualisDAO extends BaseDAO<Qualis> {
@@ -23,4 +24,7 @@ public interface QualisDAO extends BaseDAO<Qualis> {
 
 	List<Tuple> retriveQualisByAcademicPublic(Long idAcademic, int year)
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	Qualis retriveByNameValidity(String name, QualisValidity qualisValidity)
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;;
 }

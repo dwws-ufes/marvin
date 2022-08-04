@@ -52,6 +52,8 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 	private List<Qualis> qualis;
 
+	private Qualis selectQualis;
+
 	@Override
 	protected CrudService<Qualis> getCrudService() {
 		return manageQualisService;
@@ -83,6 +85,13 @@ public class ManageQualisController extends CrudController<Qualis> {
 
 	public void setQualis(List<Qualis> qualis) {
 		this.qualis = qualis;
+	}
+
+	public void addQualis(Qualis qualis) {
+		if (this.qualis == null) {
+			this.qualis = new ArrayList<Qualis>();
+		}
+		this.qualis.add(qualis);
 	}
 
 	public PPG getUserPPGId() {
@@ -120,14 +129,17 @@ public class ManageQualisController extends CrudController<Qualis> {
 				manageQualisValidityService.create(qualisValidity);
 			}
 
+			if (newQualis.getId() == null) {
+
+				manageQualisService.create(newQualis);
+				qualisValidity.AddQualis(newQualis);
+
+				addQualis(newQualis);
+			}
+
 			newQualis.setQualisValidity(qualisValidity);
-			manageQualisService.create(newQualis);
-
-			qualisValidity.AddQualis(newQualis);
+			manageQualisService.update(newQualis);
 			manageQualisValidityService.update(qualisValidity);
-
-			setQualis(manageQualisService.findByQualisValidityId(qualisValidity.getId()));
-
 			newQualis = new Qualis();
 
 		} catch (CrudException e) {
@@ -143,13 +155,15 @@ public class ManageQualisController extends CrudController<Qualis> {
 	public String updateQualis() {
 		newQualisValidity = selectedEntity.getQualisValidity();
 		newQualis = selectedEntity;
-		setQualis(manageQualisService.findByQualisValidityId(newQualisValidity.getId()));
+		setQualis(null);
+		addQualis(newQualis);
 		return VIEW_PATH + "form.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 
 	public String createQualis() {
 		this.newQualisValidity = new QualisValidity();
 		this.newQualis = new Qualis();
+		setQualis(null);
 		return VIEW_PATH + "form.xhtml" + "?faces-redirect=" + getFacesRedirect();
 	}
 

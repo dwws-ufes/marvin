@@ -14,6 +14,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.informatica.marvin.research.domain.Qualis;
+import br.ufes.informatica.marvin.research.domain.QualisValidity;
 import br.ufes.informatica.marvin.research.persistence.QualisDAO;
 
 @Stateless
@@ -63,6 +64,17 @@ public class ManageQualisServiceBean extends CrudServiceBean<Qualis> implements 
 
 			return map;
 		} catch (PersistentObjectNotFoundException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public Qualis findByNameValidity(String name, QualisValidity qualisValidity) {
+		try {
+			return this.qualisDAO.retriveByNameValidity(name, qualisValidity);
+		} catch (PersistentObjectNotFoundException e) {
+			return null;
+		} catch (MultiplePersistentObjectsFoundException e) {
 			return null;
 		}
 	}

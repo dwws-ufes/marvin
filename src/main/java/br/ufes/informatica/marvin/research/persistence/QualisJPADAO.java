@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.research.persistence;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -105,7 +106,7 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 
 	@Override
 	public List<Qualis> retrieveByQualisValidity(Long idPPG) throws PersistentObjectNotFoundException {
-		logger.log(Level.FINE, "Retrieving the validity qualis");
+		logger.log(Level.INFO, "Retrieving the validity qualis");
 
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Qualis> cq = cb.createQuery(Qualis.class);
@@ -164,6 +165,40 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 		cq.select(cb.tuple(venue, qualis));
 
 		List<Tuple> result = entityManager.createQuery(cq).getResultList();
+
+		return result;
+	}
+
+	@Override
+	public Qualis retriveByNameValidity(String name, QualisValidity qualisValidity)
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+
+		SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy");
+		Long idValidity = qualisValidity.getId();
+		String dtStart = ft.format(qualisValidity.getDtStart());
+		String dtEnd = qualisValidity.getDtEnd() == null ? "null" : ft.format(qualisValidity.getDtEnd());
+
+		logger.log(Level.INFO, "Retrieving qualis \"{0}\" from validity \"{1}\" to \"{2}\"...",
+				new Object[] { name, dtStart, dtEnd });
+
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Qualis> cq = cb.createQuery(Qualis.class);
+		Root<Qualis> qualis = cq.from(Qualis.class);
+
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+
+		Predicate predName = cb.equal(qualis.get(Qualis_.name), name);
+		Predicate predValidity = cb.equal(qualis.get(Qualis_.qualisValidity), idValidity);
+
+		predicateList.add(predName);
+		predicateList.add(predValidity);
+
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+
+		cq.where(predicates);
+
+		Qualis result = entityManager.createQuery(cq).getSingleResult();
 
 		return result;
 	}

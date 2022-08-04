@@ -74,7 +74,7 @@
 			<h:panelGroup id="buttonsGroup" >
 				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 					<p:commandButton id="cancelButton" action="#{manageQualisController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-close" />
-					<p:commandButton action="#{manageQualisController.saveQuality}" value="#{msgsAdmin['managePPGs.button.save']}" update=":formTable" icon="fa fa-fw fa-save" />
+					<p:commandButton action="#{manageQualisController.saveQuality}" value="#{msgsAdmin['managePPGs.button.save']}" update=":form :formTable" icon="fa fa-fw fa-save" />
 				</ui:decorate>
 			</h:panelGroup>
 		</ui:decorate>	
