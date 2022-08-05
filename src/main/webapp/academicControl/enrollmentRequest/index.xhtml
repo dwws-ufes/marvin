@@ -1,63 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:adm="http://github.com/adminfaces"
-	template="/WEB-INF/templates/template.xhtml">
-
-	<ui:define name="title">
-		<h:outputText value="#{msgsResearch['generateBibliography.title']}" />
-	</ui:define>
-    
-    <ui:define name="description">
-    	<h:outputText value="#{msgsResearch['generateBibliography.title.description']}" />
-    </ui:define>
-    
-    <f:metadata>
-    	<f:viewAction action="#{solicitationController.onLoad}" />
-	</f:metadata>
-
-  	<ui:define name="body">
-		<!-- The breadcrumb. -->
-		<adm:breadcrumb title="#{msgsResearch['generateBibliography.title']}" link="index.xhtml"/>
-
-		<!-- The form to be filled with a selection of researchers and optional start/end years. -->
-		<ui:decorate template="/WEB-INF/templates/form.xhtml">
-			<ui:param name="formName" value="form" /> 
-			<ui:param name="formLabel" value="#{msgsResearch['generateBibliography.form.generate']}" />
-			<p:focus />
-
-			<!-- Instructions on how to fill the form. -->	
-			<p><h:outputText value="#{msgsResearch['generateBibliography.text.instructions']}" /></p>
-			
-			<!-- Researchers and their personal starting/ending years. -->
-			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-				<ui:param name="fieldName" value="subjectOffers" />
-				<ui:param name="label" value="#{msgsResearch['generateBibliography.field.researchers']}" />
-				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-9,ui-grid-col-3">
-					<p:selectOneMenu id="subjectOffers" value="#{solicitationController.selectOffer}" converter="#{solicitationController.subjectOfferConverter}"  effect="fade" filter="true" filterMatchMode="startsWith" style="width: 100%">
-						<f:selectItem itemLabel="" itemValue="#{null}" />
-						<f:selectItems value="#{solicitationController.listSubjectOffer}" var="subjectOffer" itemLabel="#{subjectOffer.schoolSubject.name}" itemValue="#{subjectOffer}" />
-					</p:selectOneMenu>
-					<p:commandButton action="#{solicitationController.addSubjectOffer}" value="#{msgsResearch['generateBibliography.button.addResearcher']}" icon="fa fa-fw fa-plus" update="bgrTable" />
-				</p:panelGrid>
-				<p:dataTable id="bgrTable" var="bgr" value="#{solicitationController.listSubjectOfferSelected}" editable="true" editMode="cell" emptyMessage="#{msgsResearch['generateBibliography.text.noBibGenResearchers']}" style="margin-top: 5px;" reflow="true">
-					<p:column headerText="#{msgsResearch['generateBibliography.field.researcher']}" styleClass="ui-grid-col-6">
-						<h:outputText value="#{bgr.schoolSubject.name}" />
-					</p:column>
-				</p:dataTable>
-			</ui:decorate>
-
-			<!-- Buttons below the form. -->
-			<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-				<p:commandButton id="startOverButton" action="#{generateBibliographyController.startOver}" value="#{msgsResearch['generateBibliography.button.startOver']}" icon="fa fa-fw fa-refresh" update="bgrTable" />
-				<p:commandButton id="generateButton" action="#{solicitationController.generate}" value="#{msgsResearch['generateBibliography.button.generate']}" icon="fa fa-fw fa-book" update="bgrTable" />
-			</ui:decorate>
-		</ui:decorate>
-	</ui:define>
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   xmlns:adm="http://github.com/adminfaces"
+   template="/WEB-INF/templates/template.xhtml">
+   <ui:define name="title">
+      <h:outputText value="#{msgsAcademicControl['enrollmentRequest.title']}" />
+   </ui:define>
+   <ui:define name="description">
+      <h:outputText value="#{msgsAcademicControl['enrollmentRequest.title.description']}" />
+   </ui:define>
+   <f:metadata>
+      <f:viewAction action="#{enrollmentRequestController.onLoad}" />
+   </f:metadata>
+   <ui:define name="body">
+      <!-- The breadcrumb. -->
+      <adm:breadcrumb title="#{msgsAcademicControl['enrollmentRequest.title']}" link="index.xhtml"/>
+      <!-- The form to be filled with a selection of researchers and optional start/end years. -->
+      <ui:decorate template="/WEB-INF/templates/form.xhtml">
+         <ui:param name="formName" value="form" />
+         <ui:param name="formLabel" value="#{msgsAcademicControl['enrollmentRequest.form.generate']}" />
+         <p:focus />
+         <!-- Instructions on how to fill the form. -->	
+         <p>
+            <h:outputText value="#{msgsAcademicControl['enrollmentRequest.text.instructions']}" />
+         </p>
+         <!-- Researchers and their personal starting/ending years. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="subjectOffers" />
+            <ui:param name="label" value="#{msgsAcademicControl['enrollmentRequest.field.listSubjectOffer']}" />
+            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-9,ui-grid-col-3">
+               <p:selectOneMenu id="subjectOffers" value="#{enrollmentRequestController.selectOffer}" converter="#{enrollmentRequestController.subjectOfferConverter}"  effect="fade" filter="true" filterMatchMode="startsWith" style="width: 100%">
+                  <f:selectItem itemLabel="" itemValue="#{null}" />
+                  <f:selectItems value="#{enrollmentRequestController.listSubjectOffer}" var="subjectOffer" itemLabel="#{subjectOffer.schoolSubject.name}" itemValue="#{subjectOffer}" />
+               </p:selectOneMenu>
+               <p:commandButton action="#{enrollmentRequestController.addSubjectOffer}" value="#{msgsAcademicControl['enrollmentRequest.button.addSubjectOffer']}" icon="fa fa-fw fa-plus" update="bgrTable" />
+            </p:panelGrid>
+            <p:dataTable id="bgrTable" var="bgr" value="#{enrollmentRequestController.listSubjectOfferSelected}" editable="true" editMode="cell" emptyMessage="#{msgsAcademicControl['enrollmentRequest.text.noEnrollmentRequests']}" style="margin-top: 5px;" reflow="true">
+               <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.subjectOffer']}" styleClass="ui-grid-col-6">
+                  <h:outputText value="#{bgr.schoolSubject.name}" />
+               </p:column>
+            </p:dataTable>
+         </ui:decorate>
+         <!-- Buttons below the form. -->
+         <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+            <p:commandButton id="startOverButton" action="#{generateBibliographyController.startOver}" value="#{msgsAcademicControl['enrollmentRequest.button.startOver']}" icon="fa fa-fw fa-refresh" update="bgrTable" />
+            <p:commandButton id="generateButton" action="#{enrollmentRequestController.generate}" value="#{msgsAcademicControl['enrollmentRequest.form.generate']}" icon="fa fa-fw fa-book" update="bgrTable" />
+         </ui:decorate>
+      </ui:decorate>
+   </ui:define>
 </ui:composition>
-
-	

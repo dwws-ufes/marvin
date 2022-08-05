@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.academicControl.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,12 +10,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.PositiveOrZero;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+import br.ufes.informatica.marvin.academicControl.enums.EnumEnrollmentRequestSituation;
 import br.ufes.informatica.marvin.core.domain.Academic;
 
 @Entity
-public class Solicitation extends PersistentObjectSupport {
+public class EnrollmentRequest extends PersistentObjectSupport {
 	private static final long serialVersionUID = 1L;
 
 	@OneToOne
@@ -23,19 +26,19 @@ public class Solicitation extends PersistentObjectSupport {
 	@OneToOne
 	private SubjectOffer subjectOffer;
 
-	@Enumerated(EnumType.STRING)
-	private SolicitationType solicitationType;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date requestDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date completionDate;
+	private Date dateSituation;
 
 	@Enumerated(EnumType.STRING)
-	private SolicitationSituation solicitationSituation;
+	private EnumEnrollmentRequestSituation enrollmentRequestSituation;
 
 	private String requestResponseDetailing;
+
+	@PositiveOrZero
+	private BigDecimal note;
 
 	public Academic getRequester() {
 		return requester;
@@ -53,14 +56,6 @@ public class Solicitation extends PersistentObjectSupport {
 		this.subjectOffer = subjectOffer;
 	}
 
-	public SolicitationType getSolicitationType() {
-		return solicitationType;
-	}
-
-	public void setSolicitationType(SolicitationType solicitationType) {
-		this.solicitationType = solicitationType;
-	}
-
 	public Date getRequestDate() {
 		return requestDate;
 	}
@@ -69,20 +64,20 @@ public class Solicitation extends PersistentObjectSupport {
 		this.requestDate = requestDate;
 	}
 
-	public Date getCompletionDate() {
-		return completionDate;
+	public Date getDateSituation() {
+		return dateSituation;
 	}
 
-	public void setCompletionDate(Date completionDate) {
-		this.completionDate = completionDate;
+	public void setDateSituation(Date dateSituation) {
+		this.dateSituation = dateSituation;
 	}
 
-	public SolicitationSituation getSolicitationSituation() {
-		return solicitationSituation;
+	public EnumEnrollmentRequestSituation getEnrollmentRequestSituation() {
+		return enrollmentRequestSituation;
 	}
 
-	public void setSolicitationSituation(SolicitationSituation solicitationSituation) {
-		this.solicitationSituation = solicitationSituation;
+	public void setEnrollmentRequestSituation(EnumEnrollmentRequestSituation enrollmentRequestSituation) {
+		this.enrollmentRequestSituation = enrollmentRequestSituation;
 	}
 
 	public String getRequestResponseDetailing() {
@@ -95,7 +90,16 @@ public class Solicitation extends PersistentObjectSupport {
 
 	@PrePersist
 	public void setDefautValues() {
+		this.dateSituation = new Date(System.currentTimeMillis());
 		this.requestDate = new Date(System.currentTimeMillis());
-		this.solicitationSituation = SolicitationSituation.WAITING;
+		this.enrollmentRequestSituation = EnumEnrollmentRequestSituation.WAITING;
+	}
+
+	public BigDecimal getNote() {
+		return note;
+	}
+
+	public void setNote(BigDecimal note) {
+		this.note = note;
 	}
 }

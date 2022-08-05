@@ -5,10 +5,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
-import br.ufes.informatica.marvin.academicControl.domain.Solicitation;
+import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest;
 
 @Stateless
-public class SolicitationJPADAO extends BaseJPADAO<Solicitation> implements SolicitationDAO {
+public class EnrollmentRequestJPADAO extends BaseJPADAO<EnrollmentRequest> implements EnrollmentRequestDAO {
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext

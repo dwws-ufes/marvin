@@ -7,6 +7,7 @@
    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
    xmlns:adm="http://github.com/adminfaces"
    template="/WEB-INF/templates/template.xhtml">
+   <h:outputStylesheet library="css" name="academicControl.css"/>
    <ui:define name="title">
       <h:outputText value="#{msgsAcademicControl['subjectOffer.title.create']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id == null)}" />
       <h:outputText value="#{msgsAcademicControl['subjectOffer.title.update']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id != null)}" />
@@ -25,52 +26,63 @@
          <ui:param name="formName" value="form" />
          <ui:param name="formLabel" value="#{msgsAcademicControl['subjectOffer.form.title']}" />
          <p:focus />
-         
          <!-- Field: period. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-         	<ui:param name="fieldName" value="period" />
+            <ui:param name="fieldName" value="period" />
             <ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.period']}" />
             <p:selectOneMenu id="period" value="#{subjectOfferController.selectedEntity.period}" converter="omnifaces.SelectItemsConverter"
                var="c" filter="true" filterMatchMode="contains" required="true" disabled="#{subjectOfferController.readOnly}">
                <f:selectItems value="#{subjectOfferController.periods}" var="period" itemLabel="#{period.name}" itemValue="#{period}"/>
                <p:column>
+                  <f:facet name="header">
+                     <h:outputText value="#{msgsAcademicControl['period.title']}"/>
+                  </f:facet>
                   <h:outputText value="#{c.name}"/>
                </p:column>
             </p:selectOneMenu>
          </ui:decorate>
-        
-         <!-- Field: period. -->
+         <!-- Field: schoolSubject. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-         	<ui:param name="fieldName" value="schoolSubjects" />
+            <ui:param name="fieldName" value="schoolSubjects" />
             <ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.schoolSubject']}" />
             <p:selectOneMenu id="schoolSubjects" value="#{subjectOfferController.selectedEntity.schoolSubject}" converter="omnifaces.SelectItemsConverter"
                var="c" filter="true" filterMatchMode="contains" required="true" disabled="#{subjectOfferController.readOnly}">
                <f:selectItems value="#{subjectOfferController.schoolSubjects}" var="schoolSubject" itemLabel="#{schoolSubject.name}" itemValue="#{schoolSubject}"/>
                <p:column>
+                  <f:facet name="header">
+                     <h:outputText value="#{msgsAcademicControl['schoolSubject.field.code']}"/>
+                  </f:facet>
                   <h:outputText value="#{c.code}"/>
                </p:column>
                <p:column>
+                  <f:facet name="header">
+                     <h:outputText value="#{msgsAcademicControl['schoolSubject.title']}"/>
+                  </f:facet>
                   <h:outputText value="#{c.name}"/>
                </p:column>
             </p:selectOneMenu>
          </ui:decorate>
-         
          <!-- Field: professor. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-         	<ui:param name="fieldName" value="professor" />
+            <ui:param name="fieldName" value="professor" />
             <ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.professor']}" />
             <p:selectOneMenu id="professor" value="#{subjectOfferController.selectedEntity.professor}" converter="omnifaces.SelectItemsConverter"
                var="c" filter="true" filterMatchMode="contains" required="true" disabled="#{subjectOfferController.readOnly}">
                <f:selectItems value="#{subjectOfferController.professors}" var="professor" itemLabel="#{professor.name}" itemValue="#{professor}"/>
                <p:column>
+                  <f:facet name="header">
+                     <h:outputText value="#{msgsAcademicControl['subjectOffer.field.professor.shortName']}"/>
+                  </f:facet>
                   <h:outputText value="#{c.shortName}"/>
                </p:column>
                <p:column>
+                  <f:facet name="header">
+                     <h:outputText value="#{msgsAcademicControl['subjectOffer.field.professor']}"/>
+                  </f:facet>
                   <h:outputText value="#{c.name}"/>
                </p:column>
             </p:selectOneMenu>
          </ui:decorate>
-         
          <!-- Field: numMaxStudents. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="numMaxStudents" />
@@ -78,7 +90,6 @@
             <p:inputNumber id="numMaxStudents" value="#{subjectOfferController.selectedEntity.numMaxStudents}" minValue="1" maxValue="200" decimalPlaces="0" required="true" disabled="#{subjectOfferController.readOnly}">
             </p:inputNumber>
          </ui:decorate>
-         
          <!-- Buttons shown below the form. -->
          <h:panelGroup rendered="#{! subjectOfferController.readOnly}">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
