@@ -12,8 +12,10 @@ import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.informatica.marvin.academicControl.application.ListProfessorsService;
+import br.ufes.informatica.marvin.academicControl.application.PeriodService;
 import br.ufes.informatica.marvin.academicControl.application.SchoolSubjectService;
 import br.ufes.informatica.marvin.academicControl.application.SubjectOfferService;
+import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.core.domain.Academic;
@@ -30,15 +32,21 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 	private SchoolSubjectService schoolSubjectService;
 
 	@EJB
+	private PeriodService periodService;
+
+	@EJB
 	private ListProfessorsService listProfessorsService;
 
 	private List<SchoolSubject> schoolSubjects;
+
+	private List<Period> periods;
 
 	private List<Academic> professors;
 
 	@Inject
 	public void init() throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		setSchoolSubjects(schoolSubjectService.retrieveSchoolSubjects());
+		setPeriods(periodService.retrievePeriods());
 		setProfessors(listProfessorsService.listProfessors());
 	}
 
@@ -65,6 +73,14 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 
 	public void setProfessors(List<Academic> professors) {
 		this.professors = professors;
+	}
+
+	public List<Period> getPeriods() {
+		return periods;
+	}
+
+	public void setPeriods(List<Period> periods) {
+		this.periods = periods;
 	}
 
 }

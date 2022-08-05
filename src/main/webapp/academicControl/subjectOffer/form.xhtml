@@ -1,85 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:adm="http://github.com/adminfaces"
-	template="/WEB-INF/templates/template.xhtml">
-
-	<ui:define name="title">
-		<h:outputText value="#{msgsAcademicControl['subjectOffer.title.create']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id == null)}" />
-		<h:outputText value="#{msgsAcademicControl['subjectOffer.title.update']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id != null)}" />
-		<h:outputText value="#{msgsAcademicControl['subjectOffer.title.retrieve']}" rendered="#{subjectOfferController.readOnly}" />
-	</ui:define>
-
-	<ui:define name="description">
-		<h:outputText value="#{msgsAcademicControl['subjectOffer.title.create.description']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id == null)}" />
-		<h:outputText value="#{msgsAcademicControl['subjectOffer.title.update.description']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id != null)}" />
-		<h:outputText value="#{msgsAcademicControl['subjectOffer.title.retrieve.description']}" rendered="#{subjectOfferController.readOnly}" />
-	</ui:define>
-
-	<ui:define name="body">
-		<!-- The breadcrumb. -->
-		<adm:breadcrumb title="#{msgsAcademicControl['subjectOffer.title']}" link="index.xhtml" />
-	
-		<!-- The form to be filled with information on the academic. -->
-		<ui:decorate template="/WEB-INF/templates/form.xhtml">
-			<ui:param name="formName" value="form" /> 
-			<ui:param name="formLabel" value="#{msgsAcademicControl['subjectOffer.form.title']}" />
-			<p:focus />
-			
-			<!-- Field: professor. -->
-		<!--	<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-				<ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.professor']}" />
-	            <p:selectOneMenu id="professors" value="#{subjectOfferController.selectedEntity.professor}" converter="omnifaces.SelectItemsConverter"
-	                var="c" filter="true" filterMatchMode="contains">
-	                <f:selectItems value="#{subjectOfferController.professors}" var="professor" itemLabel="#{professor.name}" itemValue="#{professor}"/>
-	                <p:column>
-	                    <h:outputText value="#{c.shortName}"/>
-	                </p:column>
-	                <p:column>
-	                    <h:outputText value="#{c.name}"/>
-	                </p:column>
-	            </p:selectOneMenu>
-	       </ui:decorate> -->
-			
-		   <!-- Field: numMaxStudents. -->
-			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-				<ui:param name="fieldName" value="numMaxStudents" />
-				<ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.numMaxStudents']}" />
-				<p:inputNumber id="numMaxStudents" value="#{subjectOfferController.selectedEntity.numMaxStudents}" minValue="1" maxValue="200" decimalPlaces="0" required="true" disabled="#{subjectOfferController.readOnly}">
-				</p:inputNumber>
-			</ui:decorate>
-			 
-			<ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-				<ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.schoolSubject']}" />
-	            <p:selectOneMenu id="schoolSubjects" value="#{subjectOfferController.selectedEntity.schoolSubject}" converter="omnifaces.SelectItemsConverter"
-	                var="c" filter="true" filterMatchMode="contains">
-	                <f:selectItems value="#{subjectOfferController.schoolSubjects}" var="schoolSubject" itemLabel="#{schoolSubject.name}" itemValue="#{schoolSubject}"/>
-	                <p:column>
-	                    <h:outputText value="#{c.code}"/>
-	                </p:column>
-	                <p:column>
-	                    <h:outputText value="#{c.name}"/>
-	                </p:column>
-	            </p:selectOneMenu>
-	       </ui:decorate> 
-
-			<!-- Buttons shown below the form. -->
-			<h:panelGroup rendered="#{! subjectOfferController.readOnly}">
-				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-					<p:commandButton id="cancelButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
-					<p:commandButton id="saveButton" action="#{subjectOfferController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
-					<p:defaultCommand target="saveButton" />
-				</ui:decorate>
-			</h:panelGroup>
-			<h:panelGroup rendered="#{subjectOfferController.readOnly}">
-				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-					<p:commandButton id="backButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
-				</ui:decorate>
-			</h:panelGroup>
-		</ui:decorate>		
-	</ui:define>
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   xmlns:adm="http://github.com/adminfaces"
+   template="/WEB-INF/templates/template.xhtml">
+   <ui:define name="title">
+      <h:outputText value="#{msgsAcademicControl['subjectOffer.title.create']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id == null)}" />
+      <h:outputText value="#{msgsAcademicControl['subjectOffer.title.update']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id != null)}" />
+      <h:outputText value="#{msgsAcademicControl['subjectOffer.title.retrieve']}" rendered="#{subjectOfferController.readOnly}" />
+   </ui:define>
+   <ui:define name="description">
+      <h:outputText value="#{msgsAcademicControl['subjectOffer.title.create.description']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id == null)}" />
+      <h:outputText value="#{msgsAcademicControl['subjectOffer.title.update.description']}" rendered="#{(! subjectOfferController.readOnly) and (subjectOfferController.selectedEntity.id != null)}" />
+      <h:outputText value="#{msgsAcademicControl['subjectOffer.title.retrieve.description']}" rendered="#{subjectOfferController.readOnly}" />
+   </ui:define>
+   <ui:define name="body">
+      <!-- The breadcrumb. -->
+      <adm:breadcrumb title="#{msgsAcademicControl['subjectOffer.title']}" link="index.xhtml" />
+      <!-- The form to be filled with information on the academic. -->
+      <ui:decorate template="/WEB-INF/templates/form.xhtml">
+         <ui:param name="formName" value="form" />
+         <ui:param name="formLabel" value="#{msgsAcademicControl['subjectOffer.form.title']}" />
+         <p:focus />
+         
+         <!-- Field: period. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+         	<ui:param name="fieldName" value="period" />
+            <ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.period']}" />
+            <p:selectOneMenu id="period" value="#{subjectOfferController.selectedEntity.period}" converter="omnifaces.SelectItemsConverter"
+               var="c" filter="true" filterMatchMode="contains">
+               <f:selectItems value="#{subjectOfferController.periods}" var="period" itemLabel="#{period.name}" itemValue="#{period}"/>
+               <p:column>
+                  <h:outputText value="#{c.name}"/>
+               </p:column>
+            </p:selectOneMenu>
+         </ui:decorate>
+        
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+         	<ui:param name="fieldName" value="schoolSubjects" />
+            <ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.schoolSubject']}" />
+            <p:selectOneMenu id="schoolSubjects" value="#{subjectOfferController.selectedEntity.schoolSubject}" converter="omnifaces.SelectItemsConverter"
+               var="c" filter="true" filterMatchMode="contains">
+               <f:selectItems value="#{subjectOfferController.schoolSubjects}" var="schoolSubject" itemLabel="#{schoolSubject.name}" itemValue="#{schoolSubject}"/>
+               <p:column>
+                  <h:outputText value="#{c.code}"/>
+               </p:column>
+               <p:column>
+                  <h:outputText value="#{c.name}"/>
+               </p:column>
+            </p:selectOneMenu>
+         </ui:decorate>
+         
+         <!-- Field: professor. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+         	<ui:param name="fieldName" value="professor" />
+            <ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.professor']}" />
+            <p:selectOneMenu id="professor" value="#{subjectOfferController.selectedEntity.professor}" converter="omnifaces.SelectItemsConverter"
+               var="c" filter="true" filterMatchMode="contains">
+               <f:selectItems value="#{subjectOfferController.professors}" var="professor" itemLabel="#{professor.name}" itemValue="#{professor}"/>
+               <p:column>
+                  <h:outputText value="#{c.shortName}"/>
+               </p:column>
+               <p:column>
+                  <h:outputText value="#{c.name}"/>
+               </p:column>
+            </p:selectOneMenu>
+         </ui:decorate>
+         
+         <!-- Field: numMaxStudents. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="numMaxStudents" />
+            <ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.numMaxStudents']}" />
+            <p:inputNumber id="numMaxStudents" value="#{subjectOfferController.selectedEntity.numMaxStudents}" minValue="1" maxValue="200" decimalPlaces="0" required="true" disabled="#{subjectOfferController.readOnly}">
+            </p:inputNumber>
+         </ui:decorate>
+         
+         <!-- Buttons shown below the form. -->
+         <h:panelGroup rendered="#{! subjectOfferController.readOnly}">
+            <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+               <p:commandButton id="cancelButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
+               <p:commandButton id="saveButton" action="#{subjectOfferController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
+               <p:defaultCommand target="saveButton" />
+            </ui:decorate>
+         </h:panelGroup>
+         <h:panelGroup rendered="#{subjectOfferController.readOnly}">
+            <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+               <p:commandButton id="backButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
+            </ui:decorate>
+         </h:panelGroup>
+      </ui:decorate>
+   </ui:define>
 </ui:composition>

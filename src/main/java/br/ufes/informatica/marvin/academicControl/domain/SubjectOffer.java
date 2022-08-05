@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -17,7 +18,6 @@ public class SubjectOffer extends PersistentObjectSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotNull
 	@OneToOne
 	private Academic professor;
 
@@ -42,7 +42,7 @@ public class SubjectOffer extends PersistentObjectSupport {
 	public void setNumMaxStudents(Long numMaxStudents) {
 		this.numMaxStudents = numMaxStudents;
 	}
-	
+
 	public Academic getProfessor() {
 		return professor;
 	}
@@ -74,4 +74,10 @@ public class SubjectOffer extends PersistentObjectSupport {
 	public void setPeriod(Period period) {
 		this.period = period;
 	}
+
+	@PrePersist
+	void setCreationDate() {
+		this.creationDate = new Date(System.currentTimeMillis());
+	}
+
 }

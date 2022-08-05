@@ -38,13 +38,30 @@
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
 				emptyMessage="#{subjectOfferController.filtering ? msgsAcademicControl['subjectOffer.text.noEntitiesFiltered'] : msgsAcademicControl['subjectOffer.text.noEntities']}">
 				
-				<p:column headerText="#{msgsAcademicControl['subjectOffer.field.professorName']}">
-					<h:outputText value="#{entity.professorName}" />
+				<p:column headerText="#{msgsAcademicControl['subjectOffer.field.period']}">
+					<h:outputText value="#{entity.period.name}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsAcademicControl['subjectOffer.field.schoolSubject']}">
+					<h:outputText value="#{entity.schoolSubject.name}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsAcademicControl['subjectOffer.field.professor']}">
+					<h:outputText value="#{entity.professor.name}" />
 				</p:column>
 				
 				<p:column headerText="#{msgsAcademicControl['subjectOffer.field.numMaxStudents']}">
 					<h:outputText value="#{entity.numMaxStudents}" />
 				</p:column>
+				
+				<p:column headerText="#{msgsAcademicControl['period.field.offerStartDate']}">
+					<h:outputText value="#{entity.period.offerStartDate}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsAcademicControl['period.field.offerFinalDate']}">
+					<h:outputText value="#{entity.period.offerFinalDate}" />
+				</p:column>
+				
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
 				<p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
 			</p:dataTable>
@@ -63,7 +80,7 @@
 			<h:panelGroup id="trashGroup">
 				<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty subjectOfferController.trashCan}" style="margin-top: 20px">
 					<p:dataList value="#{subjectOfferController.trashCan}" var="entity" type="ordered">
-		            	#{entity.professorName} #{entity.numMaxStudents}
+		            	#{entity.period.name} #{entity.schoolSubject.name} #{entity.professor.name} #{entity.numMaxStudents} #{entity.period.offerStartDate} #{entity.period.offerFinalDate}
 		            </p:dataList>
 					<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 						<p:commandButton action="#{subjectOfferController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

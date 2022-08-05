@@ -1,5 +1,7 @@
 package br.ufes.informatica.marvin.academicControl.application;
 
+import java.util.List;
+
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -20,6 +22,11 @@ public class PeriodServiceBean extends CrudServiceBean<Period> implements Period
 	@Override
 	public BaseDAO<Period> getDAO() {
 		return periodDAO;
+	}
+
+	@Override
+	public List<Period> retrievePeriods() {
+		return periodDAO.retrievePeriods();
 	}
 
 }
