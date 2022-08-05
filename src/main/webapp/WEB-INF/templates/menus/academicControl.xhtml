@@ -9,6 +9,11 @@
 	<!-- TODO: show menus depending on user authorization (role-based access control). -->
 	<li class="header"><h:outputText value="#{msgsAcademicControl['menu.academicControl']}" /></li>
 	
+	<!-- deadLine -->
+	<li><p:link outcome="/academicControl/deadline/index"><i class="fa fa-clock-o"></i>
+		<span><h:outputText value="#{msgsAcademicControl['menu.academicControl.enrollmentRequest']}" /></span>
+	</p:link></li>
+	
 	<!-- schoolSubjectl -->
 	<li><p:link outcome="/academicControl/schoolSubject/index"><i class="fa fa-book-open"></i>
 		<span><h:outputText value="#{msgsAcademicControl['menu.academicControl.schoolSubject']}" /></span>
