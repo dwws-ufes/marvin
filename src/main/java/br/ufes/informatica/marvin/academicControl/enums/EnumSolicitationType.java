@@ -1,20 +1,20 @@
 package br.ufes.informatica.marvin.academicControl.enums;
 
 public enum EnumSolicitationType {
-	DIPLOMA_REQUEST(1), //
-	REUSE_OF_CREDITS(2);
+	DIPLOMA_REQUEST("Diploma Request"), //
+	REUSE_OF_CREDITS("Reuse of Credits");
 
-	private Long code;
+	private String code;
 
-	public Long getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(Long code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
-	EnumSolicitationType(int i) {
-		this.code = Long.valueOf(i);
+	EnumSolicitationType(String string) {
+		this.code = String.valueOf(string);
 	}
 }

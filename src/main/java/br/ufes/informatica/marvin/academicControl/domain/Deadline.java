@@ -20,7 +20,7 @@ public class Deadline extends PersistentObjectSupport {
 	@Size(max = 255)
 	private String description;
 
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private EnumSolicitationType solicitationType;
 
 	@NotNull
