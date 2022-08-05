@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -32,7 +33,7 @@ public class Solicitation extends PersistentObjectSupport {
 	private Date completionDate;
 
 	@Enumerated(EnumType.STRING)
-	private SolicitationSituation SolicitationSituation;
+	private SolicitationSituation solicitationSituation;
 
 	private String requestResponseDetailing;
 
@@ -77,11 +78,11 @@ public class Solicitation extends PersistentObjectSupport {
 	}
 
 	public SolicitationSituation getSolicitationSituation() {
-		return SolicitationSituation;
+		return solicitationSituation;
 	}
 
 	public void setSolicitationSituation(SolicitationSituation solicitationSituation) {
-		SolicitationSituation = solicitationSituation;
+		this.solicitationSituation = solicitationSituation;
 	}
 
 	public String getRequestResponseDetailing() {
@@ -90,5 +91,11 @@ public class Solicitation extends PersistentObjectSupport {
 
 	public void setRequestResponseDetailing(String requestResponseDetailing) {
 		this.requestResponseDetailing = requestResponseDetailing;
+	}
+
+	@PrePersist
+	public void setDefautValues() {
+		this.requestDate = new Date(System.currentTimeMillis());
+		this.solicitationSituation = SolicitationSituation.WAITING;
 	}
 }

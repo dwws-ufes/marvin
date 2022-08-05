@@ -10,4 +10,6 @@ import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 @Local
 public interface SubjectOfferDAO extends BaseDAO<SubjectOffer> {
 	List<SubjectOffer> retrieveSubjectsOffer();
+
+	SubjectOffer retrieveSubjectOfferById(Long id);
 }

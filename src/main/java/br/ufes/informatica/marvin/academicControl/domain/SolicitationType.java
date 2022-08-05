@@ -5,7 +5,7 @@ public enum SolicitationType {
 	DIPLOMA_REQUEST(2), //
 	REUSE_OF_CREDITS(3);
 
-	Long code;
+	private Long code;
 
 	public Long getCode() {
 		return code;
@@ -15,7 +15,7 @@ public enum SolicitationType {
 		this.code = code;
 	}
 
-	private SolicitationType(int i) {
+	SolicitationType(int i) {
 		this.code = Long.valueOf(i);
 	}
 }

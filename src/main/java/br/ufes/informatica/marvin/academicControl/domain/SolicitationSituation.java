@@ -5,7 +5,7 @@ public enum SolicitationSituation {
 	COMPLETED(1), //
 	REFUSED(2);
 
-	Long code;
+	private Long code;
 
 	public Long getCode() {
 		return code;
@@ -15,7 +15,7 @@ public enum SolicitationSituation {
 		this.code = code;
 	}
 
-	private SolicitationSituation(int i) {
+	SolicitationSituation(int i) {
 		this.code = Long.valueOf(i);
 	}
 }

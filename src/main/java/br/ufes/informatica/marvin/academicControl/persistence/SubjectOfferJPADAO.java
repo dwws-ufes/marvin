@@ -34,4 +34,9 @@ public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements Subj
 		return result;
 	}
 
+	@Override
+	public SubjectOffer retrieveSubjectOfferById(Long id) {
+		return this.retrieveById(id);
+	}
+
 }
