@@ -68,7 +68,7 @@
 			<h:panelGroup id="trashGroup">
 				<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty schoolSubjectController.trashCan}" style="margin-top: 20px">
 					<p:dataList value="#{schoolSubjectController.trashCan}" var="entity" type="ordered">
-		            	#{entity.code} #{entity.name} (#{entity.description})
+		            	#{entity.code} #{entity.name} #{entity.description}
 		            </p:dataList>
 					<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 						<p:commandButton action="#{schoolSubjectController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

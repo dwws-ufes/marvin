@@ -18,6 +18,7 @@ public class SubjectOffer extends PersistentObjectSupport {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	@OneToOne
 	private Academic professor;
 
@@ -32,6 +33,7 @@ public class SubjectOffer extends PersistentObjectSupport {
 	@OneToOne
 	private SchoolSubject schoolSubject;
 
+	@NotNull
 	@OneToOne
 	private Period period;
 

@@ -84,7 +84,7 @@
 			<h:panelGroup id="trashGroup">
 				<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty periodController.trashCan}" style="margin-top: 20px">
 					<p:dataList value="#{periodController.trashCan}" var="entity" type="ordered">
-		            	#{entity.name} #{entity.periodStartDate} #{entity.periodFinalDate} #{entity.enrollmentStartDate} #{entity.enrollmentFinalDate} #{entity.offerStartDate} (#{entity.offerFinalDate})
+		            	#{entity.name} #{entity.periodStartDate} #{entity.periodFinalDate} #{entity.enrollmentStartDate} #{entity.enrollmentFinalDate} #{entity.offerStartDate} #{entity.offerFinalDate}
 		            </p:dataList>
 					<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
 						<p:commandButton action="#{periodController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
