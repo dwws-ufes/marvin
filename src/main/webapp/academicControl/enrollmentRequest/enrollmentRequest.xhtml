@@ -47,7 +47,7 @@
          </ui:decorate>
          <!-- Buttons below the form. -->
          <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-            <p:commandButton id="startOverButton" action="#{enrollmentRequestController.startOver}" value="#{msgsAcademicControl['enrollmentRequest.button.startOver']}" icon="fa fa-fw fa-refresh" update="bgrTable" />
+            <p:commandButton id="startOverButton" action="#{enrollmentRequestController.startRequest}" value="#{msgsAcademicControl['enrollmentRequest.button.startOver']}" icon="fa fa-fw fa-refresh" update="bgrTable" />
             <p:commandButton id="generateButton" action="#{enrollmentRequestController.generate}" value="#{msgsAcademicControl['enrollmentRequest.form.generate']}" icon="fa fa-fw fa-book" update="bgrTable" />
          </ui:decorate>
       </ui:decorate>

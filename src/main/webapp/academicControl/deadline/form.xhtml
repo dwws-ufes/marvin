@@ -34,9 +34,17 @@
          </ui:decorate>
          <!-- Field: solicitationType. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-		    <h:selectOneMenu id="solicitationType" value="#{deadlineController.selectedEntity.solicitationType}" >
-		    <f:selectItems value="#{deadlineController.values}" />
-			</h:selectOneMenu>
+            <ui:param name="fieldName" value="solicitationType" />
+            <ui:param name="label" value="#{msgsAcademicControl['deadline.field.solicitationType']}" />
+            <p:selectOneMenu id="solicitationType" value="#{deadlineController.selectedEntity.solicitationType}" disabled="#{deadlineController.readOnly}" var = "c" required="true">
+               <f:selectItems value="#{deadlineController.values}" />
+               <p:column>
+                  <f:facet name="header">
+                     <h:outputText value="#{msgsAcademicControl['deadline.field.solicitationType']}"/>
+                  </f:facet>
+                  <h:outputText value="#{c.code}"/>
+               </p:column>
+            </p:selectOneMenu>
          </ui:decorate>
          <!-- Field: daysToReply. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">

@@ -19,6 +19,7 @@ import br.ufes.informatica.marvin.academicControl.application.EnrollmentRequestS
 import br.ufes.informatica.marvin.academicControl.application.SubjectOfferService;
 import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
+import br.ufes.informatica.marvin.academicControl.enums.EnumEnrollmentRequestSituation;
 import br.ufes.informatica.marvin.core.application.LoginService;
 
 @Named
@@ -122,8 +123,11 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 		listSubjectOfferSelected.clear();
 	}
 
-	public String startOver() {
-		listSubjectOfferSelected.clear();
-		return VIEW_PATH + "index.xhtml?faces-redirect=true";
+	public String startRequest() {
+		return VIEW_PATH + "enrollmentRequest.xhtml?faces-redirect=true";
+	}
+
+	public EnumEnrollmentRequestSituation[] getValues() {
+		return EnumEnrollmentRequestSituation.values();
 	}
 }
