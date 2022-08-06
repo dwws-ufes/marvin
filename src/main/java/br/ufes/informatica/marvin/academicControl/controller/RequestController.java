@@ -13,11 +13,14 @@ import br.ufes.informatica.marvin.academicControl.application.DeadlineService;
 import br.ufes.informatica.marvin.academicControl.application.RequestService;
 import br.ufes.informatica.marvin.academicControl.domain.Deadline;
 import br.ufes.informatica.marvin.academicControl.domain.Request;
+import br.ufes.informatica.marvin.core.application.LoginService;
 
 @Named
 @SessionScoped
 public class RequestController extends CrudController<Request> {
 	private static final long serialVersionUID = 1L;
+
+	private static final String VIEW_PATH = "/academicControl/request/";
 
 	@EJB
 	private RequestService requestService;
@@ -25,7 +28,12 @@ public class RequestController extends CrudController<Request> {
 	@EJB
 	private DeadlineService deadlineService;
 
+	@EJB
+	private LoginService loginService;
+
 	private List<Deadline> deadlines;
+
+	private Request request;
 
 	@Inject
 	public void init() {
@@ -55,5 +63,26 @@ public class RequestController extends CrudController<Request> {
 
 	public void setDeadlineService(DeadlineService deadlineService) {
 		this.deadlineService = deadlineService;
+	}
+
+	public void onLoad() {
+		request = new Request();
+	}
+
+	public String saveFileAndGenerateRequest() {
+		requestService.createRequest(loginService.getCurrentUser(), request);
+		return list();
+	}
+
+	public String startRequest() {
+		return VIEW_PATH + "createRequest.xhtml?faces-redirect=true";
+	}
+
+	public Request getRequest() {
+		return request;
+	}
+
+	public void setRequest(Request request) {
+		this.request = request;
 	}
 }

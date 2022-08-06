@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   xmlns:adm="http://github.com/adminfaces"
+   template="/WEB-INF/templates/template.xhtml">
+   <f:metadata>
+      <f:viewAction action="#{requestController.onLoad}" />
+   </f:metadata>
+   <ui:define name="title">
+      <h:outputText value="#{msgsAcademicControl['request.title']}" />
+   </ui:define>
+   <ui:define name="description">
+      <h:outputText value="#{msgsAcademicControl['request.title.description']}" />
+   </ui:define>
+   <ui:define name="body">
+      <!-- The breadcrumb. -->
+      <adm:breadcrumb title="#{msgsAcademicControl['request.title']}" link="index.xhtml"/>
+      <!-- Instructions on how to get the file to upload. -->
+      <p>
+         <h:outputText value="#{msgsAcademicControl['request.text.instructions.request']}" />
+      </p>
+      <!-- The form to be filled in with the file to upload. -->
+      <ui:decorate template="/WEB-INF/templates/form.xhtml">
+         <ui:param name="formName" value="form" />
+         <ui:param name="formFileUpload" value="true" />
+         <p:focus />
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="deadline" />
+            <ui:param name="label" value="#{msgsAcademicControl['request.deadline']}" />
+            <p:selectOneMenu id="deadline" value="#{requestController.request.deadline}" converter="omnifaces.SelectItemsConverter"
+               var="c" filter="true" filterMatchMode="contains" required="true">
+               <f:selectItems value="#{requestController.deadlines}" var="deadline" itemLabel="#{deadline.name}" itemValue="#{deadline}"/>
+               <p:column>
+                  <f:facet name="header">
+                     <h:outputText value="#{msgsAcademicControl['request.deadline']}"/>
+                  </f:facet>
+                  <h:outputText value="#{c.name}"/>
+               </p:column>
+            </p:selectOneMenu>
+         </ui:decorate>
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="observation" />
+            <ui:param name="label" value="#{msgsAcademicControl['request.field.observation']}" />
+            <p:inputText id="observation" value="#{requestController.request.observation}" pt:placeholder="#{msgsAcademicControl['request.field.observation.placeholder']}" disabled="#{requestController.readOnly}">
+            </p:inputText>
+         </ui:decorate>
+         <!-- File chooser field. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="file" />
+            <ui:param name="label" value="#{msgsAcademicControl['request.field.file']}" />
+            <p:fileUpload id="file" value="#{requestController.request.fileUseOfCredits}" mode="simple" skinSimple="true" label="#{msgs['button.fileUpload']}" />
+         </ui:decorate>
+         <!-- Upload button. -->
+         <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+            <p:commandButton ajax="false" action="#{requestController.saveFileAndGenerateRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-upload" />
+         </ui:decorate>
+      </ui:decorate>
+   </ui:define>
+</ui:composition>

@@ -6,8 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.primefaces.model.file.UploadedFile;
 
 import com.sun.istack.NotNull;
 
@@ -34,18 +38,26 @@ public class Request extends PersistentObjectSupport {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date requestDate;
 
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date replyDate;
 
-	@Enumerated(EnumType.ORDINAL)
+	@NotNull
+	@Enumerated(EnumType.STRING)
 	private EnumRequestSituation requestSituation;
 
 	private String requestResponseDetailing;
 
-	private byte[] fileUniversityDegree;
+	private String observation;
 
-	private byte[] fileUseOfCredits;
+	@Transient
+	private UploadedFile fileUniversityDegree;
+
+	@Transient
+	private UploadedFile fileUseOfCredits;
+
+	private String localfileUniversityDegree;
+
+	private String localfileUseOfCredits;
 
 	public Academic getRequester() {
 		return requester;
@@ -95,27 +107,57 @@ public class Request extends PersistentObjectSupport {
 		this.requestResponseDetailing = requestResponseDetailing;
 	}
 
-	public byte[] getFileUniversityDegree() {
-		return fileUniversityDegree;
-	}
-
-	public void setFileUniversityDegree(byte[] fileUniversityDegree) {
-		this.fileUniversityDegree = fileUniversityDegree;
-	}
-
-	public byte[] getFileUseOfCredits() {
-		return fileUseOfCredits;
-	}
-
-	public void setFileUseOfCredits(byte[] fileUseOfCredits) {
-		this.fileUseOfCredits = fileUseOfCredits;
-	}
-
 	public EnumRequestSituation getRequestSituation() {
 		return requestSituation;
 	}
 
 	public void setRequestSituation(EnumRequestSituation requestSituation) {
 		this.requestSituation = requestSituation;
+	}
+
+	public String getLocalfileUniversityDegree() {
+		return localfileUniversityDegree;
+	}
+
+	public void setLocalfileUniversityDegree(String localfileUniversityDegree) {
+		this.localfileUniversityDegree = localfileUniversityDegree;
+	}
+
+	public String getLocalfileUseOfCredits() {
+		return localfileUseOfCredits;
+	}
+
+	public void setLocalfileUseOfCredits(String localfileUseOfCredits) {
+		this.localfileUseOfCredits = localfileUseOfCredits;
+	}
+
+	public UploadedFile getFileUniversityDegree() {
+		return fileUniversityDegree;
+	}
+
+	public void setFileUniversityDegree(UploadedFile fileUniversityDegree) {
+		this.fileUniversityDegree = fileUniversityDegree;
+	}
+
+	public UploadedFile getFileUseOfCredits() {
+		return fileUseOfCredits;
+	}
+
+	public void setFileUseOfCredits(UploadedFile fileUseOfCredits) {
+		this.fileUseOfCredits = fileUseOfCredits;
+	}
+
+	public String getObservation() {
+		return observation;
+	}
+
+	public void setObservation(String observation) {
+		this.observation = observation;
+	}
+
+	@PrePersist
+	void setDefaultValues() {
+		this.requestDate = new Date(System.currentTimeMillis());
+		this.requestSituation = EnumRequestSituation.WAITING;
 	}
 }

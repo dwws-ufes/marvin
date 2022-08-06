@@ -8,16 +8,17 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2022-08-05T23:24:59.952-0300")
+@Generated(value="Dali", date="2022-08-06T14:11:17.755-0300")
 @StaticMetamodel(Request.class)
 public class Request_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<Request, Academic> requester;
-	public static volatile SingularAttribute<Request, Date> requestDate;
-	public static volatile SingularAttribute<Request, String> requestResponseDetailing;
 	public static volatile SingularAttribute<Request, Academic> grantor;
-	public static volatile SingularAttribute<Request, byte[]> fileUniversityDegree;
-	public static volatile SingularAttribute<Request, byte[]> fileUseOfCredits;
 	public static volatile SingularAttribute<Request, Deadline> deadline;
-	public static volatile SingularAttribute<Request, EnumRequestSituation> requestSituation;
+	public static volatile SingularAttribute<Request, Date> requestDate;
 	public static volatile SingularAttribute<Request, Date> replyDate;
+	public static volatile SingularAttribute<Request, EnumRequestSituation> requestSituation;
+	public static volatile SingularAttribute<Request, String> requestResponseDetailing;
+	public static volatile SingularAttribute<Request, String> observation;
+	public static volatile SingularAttribute<Request, String> localfileUniversityDegree;
+	public static volatile SingularAttribute<Request, String> localfileUseOfCredits;
 }

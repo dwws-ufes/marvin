@@ -9,14 +9,14 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2022-08-05T18:01:54.457-0300")
+@Generated(value="Dali", date="2022-08-06T09:13:52.604-0300")
 @StaticMetamodel(EnrollmentRequest.class)
 public class EnrollmentRequest_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<EnrollmentRequest, Academic> requester;
 	public static volatile SingularAttribute<EnrollmentRequest, SubjectOffer> subjectOffer;
 	public static volatile SingularAttribute<EnrollmentRequest, Date> requestDate;
+	public static volatile SingularAttribute<EnrollmentRequest, Date> dateSituation;
 	public static volatile SingularAttribute<EnrollmentRequest, EnumEnrollmentRequestSituation> enrollmentRequestSituation;
 	public static volatile SingularAttribute<EnrollmentRequest, String> requestResponseDetailing;
 	public static volatile SingularAttribute<EnrollmentRequest, BigDecimal> note;
-	public static volatile SingularAttribute<EnrollmentRequest, Date> dateSituation;
 }

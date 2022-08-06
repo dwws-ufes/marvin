@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   xmlns:adm="http://github.com/adminfaces"
+   template="/WEB-INF/templates/template.xhtml">
+   <ui:define name="title">
+      <h:outputText value="#{msgsAcademicControl['request.title']}" />
+   </ui:define>
+   <ui:define name="description">
+      <h:outputText value="#{msgsAcademicControl['request.title.description']}" />
+   </ui:define>
+   <ui:define name="body">
+      <!-- The breadcrumb. -->
+      <adm:breadcrumb title="#{msgsAcademicControl['request.title']}" link="index.xhtml" />
+      <!-- The listing form. -->
+      <ui:decorate template="/WEB-INF/templates/form-nobox.xhtml">
+         <ui:param name="formName" value="listingForm" />
+         <p:dataTable
+            widgetVar="listingTable"
+            value="#{requestController.lazyEntities}" 
+            var="entity" 
+            rows="#{requestController.maxDataTableRowsPerPage}" 
+            rowsPerPageTemplate="#{requestController.halfMaxDataTableRowsPerPage},#{requestController.maxDataTableRowsPerPage},#{requestController.doubleMaxDataTableRowsPerPage}"
+            lazy="true" 
+            paginator="true" 
+            selection="#{requestController.selectedEntity}" 
+            selectionMode="single" 
+            paginatorPosition="bottom" 
+            loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
+            emptyMessage="#{requestController.filtering ? msgsAcademicControl['request.text.noEntitiesFiltered'] : msgsAcademicControl['request.text.noEntities']}">
+            <p:column headerText="#{msgsAcademicControl['deadline.field.solicitationType']}">
+               <h:outputText value="#{entity.deadline.solicitationType}" />
+            </p:column>
+            <p:column headerText="#{msgsAcademicControl['request.requestSituation']}">
+               <h:outputText value="#{entity.requestSituation}" />
+            </p:column>
+            <p:column headerText="#{msgsAcademicControl['request.requestDate']}">
+               <h:outputText value="#{entity.requestDate}" />
+            </p:column>
+            <p:column headerText="#{msgsAcademicControl['request.replyDate']}">
+               <h:outputText value="#{entity.replyDate}" />
+            </p:column>
+            
+            <p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
+            <p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
+         </p:dataTable>
+         <!-- Buttons shown below the listing. -->
+         <h:panelGroup id="buttonsGroup">
+            <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+			  <p:commandButton id="startOverButton" action="#{requestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-refresh" />
+            </ui:decorate>
+         </h:panelGroup>
+         <!-- The trash panel: shows entities that have been selected for deletion. -->
+         <h:panelGroup id="trashGroup">
+            <p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty requestController.trashCan}" style="margin-top: 20px">
+               <p:dataList value="#{requestController.trashCan}" var="entity" type="ordered">
+                  #{entity.deadline.solicitationType} #{entity.requestSituation} #{entity.requestDate} #{entity.replyDate}
+               </p:dataList>
+               <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+                  <p:commandButton action="#{requestController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+                  <p:commandButton action="#{requestController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":messages :info-messages :listingForm" />
+               </ui:decorate>
+            </p:panel>
+         </h:panelGroup>
+      </ui:decorate>
+   </ui:define>
+</ui:composition>
