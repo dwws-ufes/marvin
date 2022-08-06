@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
@@ -12,6 +13,7 @@ import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.persistence.EnrollmentRequestDAO;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Stateless
 @PermitAll
@@ -35,6 +37,7 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 			enrollmentRequest.setSubjectOffer(offer);
 			enrollmentRequestDAO.save(enrollmentRequest);
 		}
+		MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_INFO, "Enrollment Request realized with success!");
 	}
 
 }

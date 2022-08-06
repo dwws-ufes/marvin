@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
 
 import org.primefaces.model.file.UploadedFile;
 
@@ -21,6 +22,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.academicControl.domain.Request;
 import br.ufes.informatica.marvin.academicControl.persistence.RequestDAO;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Stateless
 @PermitAll
@@ -56,6 +58,8 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 			}
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Error saving file to folder Temp");
+			MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_ERROR, "Failed to save file to server!",
+					e.getMessage());
 		}
 
 		return null;
@@ -67,5 +71,6 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		request.setLocalfileUniversityDegree(saveFileInServer(request.getFileUniversityDegree()));
 		request.setLocalfileUseOfCredits(saveFileInServer(request.getFileUseOfCredits()));
 		requestDAO.save(request);
+		MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_INFO, "Request realized with success!");
 	}
 }

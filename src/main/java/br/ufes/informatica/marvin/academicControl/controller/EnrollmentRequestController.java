@@ -26,6 +26,8 @@ import br.ufes.informatica.marvin.core.application.LoginService;
 public class EnrollmentRequestController extends CrudController<EnrollmentRequest> {
 	private static final long serialVersionUID = 1L;
 
+	private static final String VIEW_PATH = "/academicControl/enrollmentRequest/";
+
 	private static final Logger logger = Logger.getLogger(EnrollmentRequestController.class.getCanonicalName());
 
 	@EJB
@@ -118,5 +120,10 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 		enrollmentRequestService.createEnrollmentRequestSubject(loginService.getCurrentUser(),
 				listSubjectOfferSelected);
 		listSubjectOfferSelected.clear();
+	}
+
+	public String startOver() {
+		listSubjectOfferSelected.clear();
+		return VIEW_PATH + "index.xhtml?faces-redirect=true";
 	}
 }
