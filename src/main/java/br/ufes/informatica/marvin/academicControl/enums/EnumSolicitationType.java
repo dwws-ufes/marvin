@@ -14,7 +14,7 @@ public enum EnumSolicitationType {
 		this.code = code;
 	}
 
-	EnumSolicitationType(String string) {
-		this.code = String.valueOf(string);
+	EnumSolicitationType(String code) {
+		this.code = code;
 	}
 }

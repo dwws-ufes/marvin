@@ -1,12 +1,10 @@
 package br.ufes.informatica.marvin.academicControl.enums;
 
-public enum EnumEnrollmentRequestSituation {
+public enum EnumRequestSituation {
 	WAITING("Waiting"), //
-	REGISTRED("Registred"), //
+	UNDER_ANALYSIS("Under Analysis"), //
 	REFUSED("Refused"), //
-	APROVED("Aproved"), //
-	REPROVED_BY_NOTE("Reproved by note"), //
-	REPROVED_BY_LACK("Reproved by lack");
+	FINALIZED("Finalized");
 
 	private String code;
 
@@ -18,7 +16,7 @@ public enum EnumEnrollmentRequestSituation {
 		this.code = code;
 	}
 
-	EnumEnrollmentRequestSituation(String code) {
+	EnumRequestSituation(String code) {
 		this.code = code;
 	}
 }

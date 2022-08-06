@@ -1,5 +1,7 @@
 package br.ufes.informatica.marvin.academicControl.application;
 
+import java.util.List;
+
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -20,5 +22,10 @@ public class DeadlineServiceBean extends CrudServiceBean<Deadline> implements De
 	@Override
 	public BaseDAO<Deadline> getDAO() {
 		return deadlineDAO;
+	}
+
+	@Override
+	public List<Deadline> retrieveDeadline() {
+		return deadlineDAO.retrieveDeadline();
 	}
 }

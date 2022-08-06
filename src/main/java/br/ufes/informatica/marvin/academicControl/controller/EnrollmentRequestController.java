@@ -10,6 +10,8 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
@@ -55,7 +57,8 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 
 	public void addSubjectOffer() {
 		logger.log(Level.FINE, "Adding the selected SubjectOffer (if not null) to the configuration: {0}", selectOffer);
-		if (selectOffer != null) {
+		if (ObjectUtils.allNotNull(selectOffer, listSubjectOfferSelected) && //
+				!listSubjectOfferSelected.contains(selectOffer)) {
 			listSubjectOfferSelected.add(selectOffer);
 		}
 	}
