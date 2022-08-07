@@ -7,9 +7,6 @@
    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
    xmlns:adm="http://github.com/adminfaces"
    template="/WEB-INF/templates/template.xhtml">
-   <f:metadata>
-      <f:viewAction action="#{requestController.onLoad}" />
-   </f:metadata>
    <ui:define name="title">
       <h:outputText value="#{msgsAcademicControl['request.title']}" />
    </ui:define>
@@ -28,11 +25,19 @@
          <ui:param name="formName" value="form" />
          <ui:param name="formFileUpload" value="true" />
          <p:focus />
+         <!-- Field requester. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="requester" />
+            <ui:param name="label" value="#{msgsAcademicControl['request.field.requester']}" />
+            <p:inputText id="requester" value="#{requestController.request.requester.name}" disabled="true">
+            </p:inputText>
+         </ui:decorate>
+         <!-- deadline. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="deadline" />
             <ui:param name="label" value="#{msgsAcademicControl['request.deadline']}" />
             <p:selectOneMenu id="deadline" value="#{requestController.request.deadline}" converter="omnifaces.SelectItemsConverter"
-               var="c" filter="true" filterMatchMode="contains" required="true">
+               var="c" filter="true" filterMatchMode="contains" required="true" disabled="true">
                <f:selectItems value="#{requestController.deadlines}" var="deadline" itemLabel="#{deadline.name}" itemValue="#{deadline}"/>
                <p:column>
                   <f:facet name="header">
@@ -42,21 +47,30 @@
                </p:column>
             </p:selectOneMenu>
          </ui:decorate>
+         <!-- observation. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="observation" />
             <ui:param name="label" value="#{msgsAcademicControl['request.field.observation']}" />
-            <p:inputText id="observation" value="#{requestController.request.observation}" pt:placeholder="#{msgsAcademicControl['request.field.observation.placeholder']}" required = "true">
+            <p:inputText id="observation" value="#{requestController.request.observation}" pt:placeholder="#{msgsAcademicControl['request.field.observation.placeholder']}" disabled="true">
+            </p:inputText>
+         </ui:decorate>
+         <!-- requestResponseDetailing. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="requestResponseDetailing" />
+            <ui:param name="label" value="#{msgsAcademicControl['request.field.requestResponseDetailing']}" />
+            <p:inputText id="requestResponseDetailing" value="#{requestController.request.requestResponseDetailing}" pt:placeholder="#{msgsAcademicControl['request.field.requestResponseDetailing.placeholder']}">
             </p:inputText>
          </ui:decorate>
          <!-- File chooser field. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="file" />
             <ui:param name="label" value="#{msgsAcademicControl['request.field.file']}" />
-            <p:fileUpload id="file" value="#{requestController.request.fileUseOfCredits}" mode="simple" skinSimple="true" label="#{msgs['button.fileUpload']}" />
+            <p:fileUpload id="file" value="#{requestController.request.fileUniversityDegree}" mode="simple" skinSimple="true" label="#{msgs['button.fileUpload']}" />
          </ui:decorate>
          <!-- Upload button. -->
          <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-            <p:commandButton ajax="false" action="#{requestController.saveFileAndGenerateRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-upload" />
+            <p:commandButton ajax="false" action="#{requestController.refuseRequest}" value="#{msgsAcademicControl['request.button.refuseRequest']}" icon="fa fa-fw fa-upload" />
+            <p:commandButton ajax="false" action="#{requestController.saveFileAndResponseRequest}" value="#{msgsAcademicControl['request.button.requestRequestReponse']}" icon="fa fa-fw fa-upload" />
          </ui:decorate>
       </ui:decorate>
    </ui:define>

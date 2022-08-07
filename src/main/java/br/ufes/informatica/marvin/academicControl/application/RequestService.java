@@ -11,4 +11,10 @@ public interface RequestService extends CrudService<Request> {
 
 	void createRequest(Academic currentUser, Request request);
 
+	void responseRequest(Academic currentUser, Request request);
+
+	void refuseRequest(Academic currentUser, Request request);
+
+	void changeStatus(Academic currentUser, Request request);
+
 }

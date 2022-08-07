@@ -28,6 +28,9 @@ public class Request extends PersistentObjectSupport {
 	private Academic requester;
 
 	@OneToOne
+	private Academic userSituation;
+
+	@OneToOne
 	private Academic grantor;
 
 	@NotNull
@@ -39,7 +42,10 @@ public class Request extends PersistentObjectSupport {
 	private Date requestDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date replyDate;
+	private Date userSituationDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date responseDate;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -47,17 +53,18 @@ public class Request extends PersistentObjectSupport {
 
 	private String requestResponseDetailing;
 
+	@NotNull
 	private String observation;
+
+	private String localfileUniversityDegree;
+
+	private String localfileUseOfCredits;
 
 	@Transient
 	private UploadedFile fileUniversityDegree;
 
 	@Transient
 	private UploadedFile fileUseOfCredits;
-
-	private String localfileUniversityDegree;
-
-	private String localfileUseOfCredits;
 
 	public Academic getRequester() {
 		return requester;
@@ -91,12 +98,12 @@ public class Request extends PersistentObjectSupport {
 		this.requestDate = requestDate;
 	}
 
-	public Date getReplyDate() {
-		return replyDate;
+	public Date getResponseDate() {
+		return responseDate;
 	}
 
-	public void setReplyDate(Date replyDate) {
-		this.replyDate = replyDate;
+	public void setResponseDate(Date responseDate) {
+		this.responseDate = responseDate;
 	}
 
 	public String getRequestResponseDetailing() {
@@ -153,6 +160,22 @@ public class Request extends PersistentObjectSupport {
 
 	public void setObservation(String observation) {
 		this.observation = observation;
+	}
+
+	public Academic getUserSituation() {
+		return userSituation;
+	}
+
+	public void setUserSituation(Academic userSituation) {
+		this.userSituation = userSituation;
+	}
+
+	public Date getUserSituationDate() {
+		return userSituationDate;
+	}
+
+	public void setUserSituationDate(Date userSituationDate) {
+		this.userSituationDate = userSituationDate;
 	}
 
 	@PrePersist

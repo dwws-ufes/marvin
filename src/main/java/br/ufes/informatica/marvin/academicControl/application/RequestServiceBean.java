@@ -20,6 +20,7 @@ import org.primefaces.model.file.UploadedFile;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.academicControl.domain.Request;
+import br.ufes.informatica.marvin.academicControl.enums.EnumRequestSituation;
 import br.ufes.informatica.marvin.academicControl.persistence.RequestDAO;
 import br.ufes.informatica.marvin.core.domain.Academic;
 import br.ufes.informatica.marvin.utils.MarvinFunctions;
@@ -68,9 +69,40 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 	@Override
 	public void createRequest(Academic currentUser, Request request) {
 		request.setRequester(currentUser);
-		request.setLocalfileUniversityDegree(saveFileInServer(request.getFileUniversityDegree()));
 		request.setLocalfileUseOfCredits(saveFileInServer(request.getFileUseOfCredits()));
 		requestDAO.save(request);
 		MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_INFO, "Request realized with success!");
+	}
+
+	@Override
+	public void responseRequest(Academic currentUser, Request request) {
+		request.setGrantor(currentUser);
+		request.setResponseDate(new Date(System.currentTimeMillis()));
+		request.setLocalfileUniversityDegree(saveFileInServer(request.getFileUniversityDegree()));
+		request.setRequestSituation(EnumRequestSituation.FINALIZED);
+		requestDAO.save(request);
+		MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_INFO, "Request realized with success!");
+	}
+
+	@Override
+	public void refuseRequest(Academic currentUser, Request request) {
+		request.setGrantor(currentUser);
+		request.setResponseDate(new Date(System.currentTimeMillis()));
+		request.setRequestSituation(EnumRequestSituation.REFUSED);
+		requestDAO.save(request);
+	}
+
+	@Override
+	public void changeStatus(Academic currentUser, Request request) {
+		if (!Objects.equals(EnumRequestSituation.WAITING, request.getRequestSituation())) {
+			/* TODO Validation don't show in the screen, fix to show and abort operation */
+			MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_ERROR,
+					"Request situation don't allow this action!");
+		} else {
+			request.setUserSituation(currentUser);
+			request.setUserSituationDate(new Date(System.currentTimeMillis()));
+			request.setRequestSituation(EnumRequestSituation.UNDER_ANALYSIS);
+			requestDAO.save(request);
+		}
 	}
 }
