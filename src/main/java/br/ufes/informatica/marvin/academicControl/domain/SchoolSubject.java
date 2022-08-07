@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.academicControl.domain;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -11,21 +12,26 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 public class SchoolSubject extends PersistentObjectSupport implements Comparable<SchoolSubject> {
 	private static final long serialVersionUID = 1L;
 
+	@Basic
 	@NotNull
 	@Size(max = 15)
 	private String code;
 
+	@Basic
 	@NotNull
 	@Size(max = 255)
 	private String name;
 
+	@Basic
 	@Size(max = 4000)
 	private String description;
 
+	@Basic
 	@NotNull
 	@Positive
 	private Long credits;
 
+	@Basic
 	@NotNull
 	@Positive
 	private Long workload;

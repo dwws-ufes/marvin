@@ -2,6 +2,7 @@ package br.ufes.informatica.marvin.academicControl.domain;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,6 +11,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.primefaces.model.file.UploadedFile;
 
@@ -51,13 +53,21 @@ public class Request extends PersistentObjectSupport implements Comparable<Reque
 	@Enumerated(EnumType.STRING)
 	private EnumRequestSituation requestSituation;
 
+	@Basic
+	@Size(max = 4000)
 	private String requestResponseDetailing;
 
 	@NotNull
+	@Basic
+	@Size(max = 4000)
 	private String observation;
 
+	@Basic
+	@Size(max = 4000)
 	private String localfileUniversityDegree;
 
+	@Basic
+	@Size(max = 4000)
 	private String localfileUseOfCredits;
 
 	@Transient

@@ -2,6 +2,7 @@ package br.ufes.informatica.marvin.academicControl.domain;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -22,6 +23,7 @@ public class SubjectOffer extends PersistentObjectSupport implements Comparable<
 	@OneToOne
 	private Academic professor;
 
+	@Basic
 	@NotNull
 	@Positive
 	private Long numMaxStudents;

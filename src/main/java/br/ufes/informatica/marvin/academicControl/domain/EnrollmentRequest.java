@@ -3,6 +3,7 @@ package br.ufes.informatica.marvin.academicControl.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,7 +11,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 import br.ufes.informatica.marvin.academicControl.enums.EnumEnrollmentRequestSituation;
@@ -35,9 +38,12 @@ public class EnrollmentRequest extends PersistentObjectSupport implements Compar
 	@Enumerated(EnumType.STRING)
 	private EnumEnrollmentRequestSituation enrollmentRequestSituation;
 
+	@Basic
+	@Size(max = 255)
 	private String requestResponseDetailing;
 
 	@PositiveOrZero
+	@Digits(integer = 2, fraction = 2)
 	private BigDecimal note;
 
 	public Academic getRequester() {
