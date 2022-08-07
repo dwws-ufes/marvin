@@ -17,7 +17,7 @@ import br.ufes.informatica.marvin.academicControl.enums.EnumEnrollmentRequestSit
 import br.ufes.informatica.marvin.core.domain.Academic;
 
 @Entity
-public class EnrollmentRequest extends PersistentObjectSupport {
+public class EnrollmentRequest extends PersistentObjectSupport implements Comparable<EnrollmentRequest> {
 	private static final long serialVersionUID = 1L;
 
 	@OneToOne
@@ -101,5 +101,10 @@ public class EnrollmentRequest extends PersistentObjectSupport {
 
 	public void setNote(BigDecimal note) {
 		this.note = note;
+	}
+
+	@Override
+	public int compareTo(EnrollmentRequest o) {
+		return uuid.compareTo(o.uuid);
 	}
 }

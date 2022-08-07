@@ -20,7 +20,7 @@ import br.ufes.informatica.marvin.academicControl.enums.EnumRequestSituation;
 import br.ufes.informatica.marvin.core.domain.Academic;
 
 @Entity
-public class Request extends PersistentObjectSupport {
+public class Request extends PersistentObjectSupport implements Comparable<Request> {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
@@ -182,5 +182,10 @@ public class Request extends PersistentObjectSupport {
 	void setDefaultValues() {
 		this.requestDate = new Date(System.currentTimeMillis());
 		this.requestSituation = EnumRequestSituation.WAITING;
+	}
+
+	@Override
+	public int compareTo(Request o) {
+		return uuid.compareTo(o.uuid);
 	}
 }

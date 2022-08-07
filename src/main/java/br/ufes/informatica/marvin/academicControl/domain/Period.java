@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 @Entity
-public class Period extends PersistentObjectSupport {
+public class Period extends PersistentObjectSupport implements Comparable<Period> {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
@@ -96,5 +96,10 @@ public class Period extends PersistentObjectSupport {
 
 	public void setOfferFinalDate(Date offerFinalDate) {
 		this.offerFinalDate = offerFinalDate;
+	}
+
+	@Override
+	public int compareTo(Period o) {
+		return uuid.compareTo(o.uuid);
 	}
 }

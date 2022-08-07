@@ -14,7 +14,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 import br.ufes.informatica.marvin.core.domain.Academic;
 
 @Entity
-public class SubjectOffer extends PersistentObjectSupport {
+public class SubjectOffer extends PersistentObjectSupport implements Comparable<SubjectOffer> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -80,6 +80,11 @@ public class SubjectOffer extends PersistentObjectSupport {
 	@PrePersist
 	void setCreationDate() {
 		this.creationDate = new Date(System.currentTimeMillis());
+	}
+
+	@Override
+	public int compareTo(SubjectOffer o) {
+		return uuid.compareTo(o.uuid);
 	}
 
 }

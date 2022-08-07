@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 
 @Entity
-public class SchoolSubject extends PersistentObjectSupport {
+public class SchoolSubject extends PersistentObjectSupport implements Comparable<SchoolSubject> {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
@@ -68,5 +68,10 @@ public class SchoolSubject extends PersistentObjectSupport {
 
 	public void setWorkload(Long workload) {
 		this.workload = workload;
+	}
+
+	@Override
+	public int compareTo(SchoolSubject o) {
+		return uuid.compareTo(o.uuid);
 	}
 }

@@ -10,7 +10,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 import br.ufes.informatica.marvin.academicControl.enums.EnumSolicitationType;
 
 @Entity
-public class Deadline extends PersistentObjectSupport {
+public class Deadline extends PersistentObjectSupport implements Comparable<Deadline> {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
@@ -56,5 +56,10 @@ public class Deadline extends PersistentObjectSupport {
 
 	public void setSolicitationType(EnumSolicitationType solicitationType) {
 		this.solicitationType = solicitationType;
+	}
+
+	@Override
+	public int compareTo(Deadline o) {
+		return uuid.compareTo(o.uuid);
 	}
 }
