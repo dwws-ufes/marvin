@@ -13,6 +13,7 @@ import javax.validation.constraints.Positive;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Entity
 public class SubjectOffer extends PersistentObjectSupport implements Comparable<SubjectOffer> {
@@ -29,6 +30,7 @@ public class SubjectOffer extends PersistentObjectSupport implements Comparable<
 	private Long numMaxStudents;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	private Date creationDate;
 
 	@NotNull
@@ -81,7 +83,7 @@ public class SubjectOffer extends PersistentObjectSupport implements Comparable<
 
 	@PrePersist
 	void setCreationDate() {
-		this.creationDate = new Date(System.currentTimeMillis());
+		this.creationDate = MarvinFunctions.sysdate();
 	}
 
 	@Override

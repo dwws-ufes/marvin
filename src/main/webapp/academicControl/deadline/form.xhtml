@@ -32,6 +32,12 @@
             <p:inputText id="name" value="#{deadlineController.selectedEntity.name}" required="true" pt:placeholder="#{msgsAcademicControl['deadline.field.name.placeholder']}" disabled="#{deadlineController.readOnly}">
             </p:inputText>
          </ui:decorate>
+         <!-- Field: solicitationType. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+		    <h:selectOneMenu id="solicitationType" value="#{deadlineController.selectedEntity.solicitationType}" >
+		    <f:selectItems value="#{deadlineController.values}" />
+			</h:selectOneMenu>
+         </ui:decorate>
          <!-- Field: daysToReply. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="daysToReply" />

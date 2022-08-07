@@ -15,27 +15,34 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
+import com.sun.istack.NotNull;
+
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 import br.ufes.informatica.marvin.academicControl.enums.EnumEnrollmentRequestSituation;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Entity
 public class EnrollmentRequest extends PersistentObjectSupport implements Comparable<EnrollmentRequest> {
 	private static final long serialVersionUID = 1L;
 
 	@OneToOne
+	@NotNull
 	private Academic requester;
 
 	@OneToOne
+	@NotNull
 	private SubjectOffer subjectOffer;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	private Date requestDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateSituation;
 
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private EnumEnrollmentRequestSituation enrollmentRequestSituation;
 
 	@Basic
@@ -96,8 +103,8 @@ public class EnrollmentRequest extends PersistentObjectSupport implements Compar
 
 	@PrePersist
 	public void setDefautValues() {
-		this.dateSituation = new Date(System.currentTimeMillis());
-		this.requestDate = new Date(System.currentTimeMillis());
+		this.dateSituation = MarvinFunctions.sysdate();
+		this.requestDate = MarvinFunctions.sysdate();
 		this.enrollmentRequestSituation = EnumEnrollmentRequestSituation.WAITING;
 	}
 

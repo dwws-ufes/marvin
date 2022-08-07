@@ -77,8 +77,10 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 	@Override
 	public void responseRequest(Academic currentUser, Request request) {
 		request.setGrantor(currentUser);
-		request.setResponseDate(new Date(System.currentTimeMillis()));
+		request.setResponseDate(MarvinFunctions.sysdate());
 		request.setLocalfileUniversityDegree(saveFileInServer(request.getFileUniversityDegree()));
+		request.setUserSituation(MarvinFunctions.nvl(request.getUserSituation(), currentUser));
+		request.setUserSituationDate(MarvinFunctions.nvl(request.getUserSituationDate(), MarvinFunctions.sysdate()));
 		request.setRequestSituation(EnumRequestSituation.FINALIZED);
 		requestDAO.save(request);
 		MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_INFO, "Request realized with success!");
@@ -87,7 +89,7 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 	@Override
 	public void refuseRequest(Academic currentUser, Request request) {
 		request.setGrantor(currentUser);
-		request.setResponseDate(new Date(System.currentTimeMillis()));
+		request.setResponseDate(MarvinFunctions.sysdate());
 		request.setRequestSituation(EnumRequestSituation.REFUSED);
 		requestDAO.save(request);
 	}
@@ -100,7 +102,7 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 					"Request situation don't allow this action!");
 		} else {
 			request.setUserSituation(currentUser);
-			request.setUserSituationDate(new Date(System.currentTimeMillis()));
+			request.setUserSituationDate(MarvinFunctions.sysdate());
 			request.setRequestSituation(EnumRequestSituation.UNDER_ANALYSIS);
 			requestDAO.save(request);
 		}

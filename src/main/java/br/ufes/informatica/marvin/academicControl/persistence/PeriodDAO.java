@@ -10,5 +10,4 @@ import br.ufes.informatica.marvin.academicControl.domain.Period;
 @Local
 public interface PeriodDAO extends BaseDAO<Period> {
 	List<Period> retrievePeriods();
-
 }

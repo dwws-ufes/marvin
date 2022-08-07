@@ -20,6 +20,7 @@ import com.sun.istack.NotNull;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 import br.ufes.informatica.marvin.academicControl.enums.EnumRequestSituation;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Entity
 public class Request extends PersistentObjectSupport implements Comparable<Request> {
@@ -190,7 +191,7 @@ public class Request extends PersistentObjectSupport implements Comparable<Reque
 
 	@PrePersist
 	void setDefaultValues() {
-		this.requestDate = new Date(System.currentTimeMillis());
+		this.requestDate = MarvinFunctions.sysdate();
 		this.requestSituation = EnumRequestSituation.WAITING;
 	}
 

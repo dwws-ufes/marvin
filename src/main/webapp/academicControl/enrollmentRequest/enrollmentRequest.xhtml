@@ -64,16 +64,16 @@
                <p:commandButton action="#{enrollmentRequestController.addSubjectOffer}" value="#{msgsAcademicControl['enrollmentRequest.button.addSubjectOffer']}" icon="fa fa-fw fa-plus" update="bgrTable" />
             </p:panelGrid>
             <p:dataTable id="bgrTable" var="bgr" value="#{enrollmentRequestController.listSubjectOfferSelected}" editable="true" editMode="cell" emptyMessage="#{msgsAcademicControl['enrollmentRequest.text.noEnrollmentRequests']}" style="margin-top: 5px;" reflow="true">
-               <p:column headerText="#{msgsAcademicControl['schoolSubject.field.code']}" styleClass="ui-grid-col-6">
+               <p:column headerText="#{msgsAcademicControl['schoolSubject.field.code']}" styleClass="ui-grid-col-6" style="background-color: #F2F5F9">
                   <h:outputText value="#{bgr.schoolSubject.code}" />
                </p:column>
-               <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.subjectOffer']}" styleClass="ui-grid-col-6">
+               <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.subjectOffer']}" styleClass="ui-grid-col-6" style="background-color: #F2F5F9">
                   <h:outputText value="#{bgr.schoolSubject.name}" />
                </p:column>
-               <p:column headerText="#{msgsAcademicControl['subjectOffer.field.professor']}" styleClass="ui-grid-col-6">
+               <p:column headerText="#{msgsAcademicControl['subjectOffer.field.professor']}" styleClass="ui-grid-col-6" style="background-color: #F2F5F9">
                   <h:outputText value="#{bgr.professor.name}" />
                </p:column>
-               <p:column headerText="#{msgsAcademicControl['schoolSubject.field.workload']}" styleClass="ui-grid-col-6">
+               <p:column headerText="#{msgsAcademicControl['schoolSubject.field.workload']}" styleClass="ui-grid-col-6" style="background-color: #F2F5F9">
                   <h:outputText value="#{bgr.schoolSubject.workload}" />
                </p:column>
             </p:dataTable>
