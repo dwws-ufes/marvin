@@ -36,10 +36,10 @@
                <h:outputText value="#{entity.requester.name}" />
             </p:column>
             <p:column headerText="#{msgsAcademicControl['deadline.field.solicitationType']}">
-               <h:outputText value="#{entity.deadline.solicitationType}" />
+               <h:outputText value="#{entity.deadline.solicitationType.code}" />
             </p:column>
             <p:column headerText="#{msgsAcademicControl['request.requestSituation']}">
-               <h:outputText value="#{entity.requestSituation}" />
+               <h:outputText value="#{entity.requestSituation.code}" />
             </p:column>
             <p:column headerText="#{msgsAcademicControl['request.requestDate']}">
                <h:outputText value="#{entity.requestDate}" />
@@ -55,8 +55,8 @@
          <h:panelGroup id="buttonsGroup">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
               <p:commandButton id="changeStatusButton" action="#{requestController.changeStatus}" value="#{msgsAcademicControl['request.button.changeStatus']}" icon="fa fa-fw fa-refresh" />
-			  <p:commandButton id="startRequestButton" action="#{requestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-refresh" />
 			  <p:commandButton id="startRequestReponseButton" action="#{requestController.startRequestReponse}" value="#{msgsAcademicControl['request.button.requestRequestReponse']}" icon="fa fa-fw fa-refresh" />
+			  <p:commandButton id="startRequestButton" action="#{requestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-refresh" />
             </ui:decorate>
          </h:panelGroup>
          <!-- The trash panel: shows entities that have been selected for deletion. -->
