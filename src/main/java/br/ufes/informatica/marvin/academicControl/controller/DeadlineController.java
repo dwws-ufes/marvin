@@ -8,7 +8,6 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.informatica.marvin.academicControl.application.DeadlineService;
 import br.ufes.informatica.marvin.academicControl.domain.Deadline;
-import br.ufes.informatica.marvin.academicControl.enums.EnumSolicitationType;
 
 @Named
 @SessionScoped
@@ -25,10 +24,6 @@ public class DeadlineController extends CrudController<Deadline> {
 
 	@Override
 	protected void initFilters() {
-	}
-
-	public EnumSolicitationType[] getValues() {
-		return EnumSolicitationType.values();
 	}
 
 }

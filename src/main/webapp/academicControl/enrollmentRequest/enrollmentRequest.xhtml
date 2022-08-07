@@ -33,15 +33,48 @@
             <ui:param name="fieldName" value="subjectOffers" />
             <ui:param name="label" value="#{msgsAcademicControl['enrollmentRequest.field.listSubjectOffer']}" />
             <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-9,ui-grid-col-3">
-               <p:selectOneMenu id="subjectOffers" value="#{enrollmentRequestController.selectOffer}" converter="#{enrollmentRequestController.subjectOfferConverter}"  effect="fade" filter="true" filterMatchMode="startsWith" style="width: 100%">
+               <p:selectOneMenu id="subjectOffers" value="#{enrollmentRequestController.selectOffer}" converter="#{enrollmentRequestController.subjectOfferConverter}"  effect="fade" filter="true" filterMatchMode="startsWith" style="width: 100%" var = "c">
                   <f:selectItem itemLabel="" itemValue="#{null}" />
                   <f:selectItems value="#{enrollmentRequestController.listSubjectOffer}" var="subjectOffer" itemLabel="#{subjectOffer.schoolSubject.name}" itemValue="#{subjectOffer}" />
+                  <p:column>
+                     <f:facet name="header">
+                        <h:outputText value="#{msgsAcademicControl['schoolSubject.field.code']}"/>
+                     </f:facet>
+                     <h:outputText value="#{c.schoolSubject.code}"/>
+                  </p:column>
+                  <p:column>
+                     <f:facet name="header">
+                        <h:outputText value="#{msgsAcademicControl['schoolSubject.title']}"/>
+                     </f:facet>
+                     <h:outputText value="#{c.schoolSubject.name}"/>
+                  </p:column>
+                  <p:column>
+                     <f:facet name="header">
+                        <h:outputText value="#{msgsAcademicControl['subjectOffer.field.professor']}"/>
+                     </f:facet>
+                     <h:outputText value="#{c.professor.name}"/>
+                  </p:column>
+                  <p:column>
+                     <f:facet name="header">
+                        <h:outputText value="#{msgsAcademicControl['schoolSubject.field.workload']}"/>
+                     </f:facet>
+                     <h:outputText value="#{c.schoolSubject.workload}"/>
+                  </p:column>
                </p:selectOneMenu>
                <p:commandButton action="#{enrollmentRequestController.addSubjectOffer}" value="#{msgsAcademicControl['enrollmentRequest.button.addSubjectOffer']}" icon="fa fa-fw fa-plus" update="bgrTable" />
             </p:panelGrid>
             <p:dataTable id="bgrTable" var="bgr" value="#{enrollmentRequestController.listSubjectOfferSelected}" editable="true" editMode="cell" emptyMessage="#{msgsAcademicControl['enrollmentRequest.text.noEnrollmentRequests']}" style="margin-top: 5px;" reflow="true">
+               <p:column headerText="#{msgsAcademicControl['schoolSubject.field.code']}" styleClass="ui-grid-col-6">
+                  <h:outputText value="#{bgr.schoolSubject.code}" />
+               </p:column>
                <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.subjectOffer']}" styleClass="ui-grid-col-6">
                   <h:outputText value="#{bgr.schoolSubject.name}" />
+               </p:column>
+               <p:column headerText="#{msgsAcademicControl['subjectOffer.field.professor']}" styleClass="ui-grid-col-6">
+                  <h:outputText value="#{bgr.professor.name}" />
+               </p:column>
+               <p:column headerText="#{msgsAcademicControl['schoolSubject.field.workload']}" styleClass="ui-grid-col-6">
+                  <h:outputText value="#{bgr.schoolSubject.workload}" />
                </p:column>
             </p:dataTable>
          </ui:decorate>

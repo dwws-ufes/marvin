@@ -35,8 +35,8 @@
             <p:column headerText="#{msgsAcademicControl['request.field.requester']}">
                <h:outputText value="#{entity.requester.name}" />
             </p:column>
-            <p:column headerText="#{msgsAcademicControl['deadline.field.solicitationType']}">
-               <h:outputText value="#{entity.deadline.solicitationType.code}" />
+            <p:column headerText="#{msgsAcademicControl['deadline.field.deadline.solicitationType']}">
+               <h:outputText value="#{entity.deadline.name}" />
             </p:column>
             <p:column headerText="#{msgsAcademicControl['request.requestSituation']}">
                <h:outputText value="#{entity.requestSituation.code}" />
@@ -54,7 +54,7 @@
          <!-- Buttons shown below the listing. -->
          <h:panelGroup id="buttonsGroup">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-              <p:commandButton action="#{requestController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{requestController.selectedEntity == null}" process="@this" update="trashGroup" />
+              <p:commandButton action="#{requestController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{requestController.selectedEntity == null or requestController.selectedEntity.requestSituation != 'WAITING'}" process="@this" update="trashGroup" />
               <p:commandButton id="changeStatusButton" action="#{requestController.changeStatus}" value="#{msgsAcademicControl['request.button.changeStatus']}" icon="fa fa-fw fa-refresh" />
 			  <p:commandButton id="startRequestReponseButton" action="#{requestController.startRequestReponse}" value="#{msgsAcademicControl['request.button.requestRequestReponse']}" icon="fa fa-fw fa-refresh" />
 			  <p:commandButton id="startRequestButton" action="#{requestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-refresh" />
@@ -64,7 +64,7 @@
          <h:panelGroup id="trashGroup">
             <p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty requestController.trashCan}" style="margin-top: 20px">
                <p:dataList value="#{requestController.trashCan}" var="entity" type="ordered">
-                  #{entity.requester.name} #{entity.deadline.solicitationType} #{entity.requestSituation} #{entity.requestDate} #{entity.responseDate}
+                  #{entity.requester.name} #{entity.deadline.name} #{entity.requestSituation} #{entity.requestDate} #{entity.responseDate}
                </p:dataList>
                <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
                   <p:commandButton action="#{requestController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

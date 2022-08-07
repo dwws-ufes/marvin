@@ -116,11 +116,12 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 
 	}
 
-	public void generate() {
+	public String generate() {
 		logger.log(Level.FINE, "Requesting enrollment...");
 		enrollmentRequestService.createEnrollmentRequestSubject(loginService.getCurrentUser(),
 				listSubjectOfferSelected);
 		listSubjectOfferSelected.clear();
+		return list();
 	}
 
 	public String startRequest() {

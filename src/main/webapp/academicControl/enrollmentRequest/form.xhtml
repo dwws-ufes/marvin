@@ -48,9 +48,9 @@
          </ui:decorate>
          <!-- Field: enrollmentRequestSituation. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="solicitationType" />
+            <ui:param name="fieldName" value="enrollmentRequestSituation" />
             <ui:param name="label" value="#{msgsAcademicControl['enrollmentRequest.field.enrollmentRequestSituation']}" />
-            <p:selectOneMenu id="solicitationType" value="#{enrollmentRequestController.selectedEntity.enrollmentRequestSituation}" disabled="#{enrollmentRequestController.readOnly}">
+            <p:selectOneMenu id="enrollmentRequestSituation" value="#{enrollmentRequestController.selectedEntity.enrollmentRequestSituation}" disabled="#{enrollmentRequestController.readOnly}">
                <f:selectItems value="#{enrollmentRequestController.values}" />
                <p:column>
                   <f:facet name="header">
