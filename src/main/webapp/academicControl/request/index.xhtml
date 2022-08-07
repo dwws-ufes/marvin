@@ -54,6 +54,7 @@
          <!-- Buttons shown below the listing. -->
          <h:panelGroup id="buttonsGroup">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+              <p:commandButton action="#{requestController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{requestController.selectedEntity == null}" process="@this" update="trashGroup" />
               <p:commandButton id="changeStatusButton" action="#{requestController.changeStatus}" value="#{msgsAcademicControl['request.button.changeStatus']}" icon="fa fa-fw fa-refresh" />
 			  <p:commandButton id="startRequestReponseButton" action="#{requestController.startRequestReponse}" value="#{msgsAcademicControl['request.button.requestRequestReponse']}" icon="fa fa-fw fa-refresh" />
 			  <p:commandButton id="startRequestButton" action="#{requestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-refresh" />
