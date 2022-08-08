@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
-import br.ufes.informatica.marvin.academicControl.enums.EnumSolicitationType;
+import br.ufes.informatica.marvin.academicControl.enums.EnumDeadlineType;
 
 @Entity
 public class Deadline extends PersistentObjectSupport implements Comparable<Deadline> {
@@ -29,7 +29,7 @@ public class Deadline extends PersistentObjectSupport implements Comparable<Dead
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private EnumSolicitationType solicitationType;
+	private EnumDeadlineType deadlineType;
 
 	public String getName() {
 		return name;
@@ -51,12 +51,12 @@ public class Deadline extends PersistentObjectSupport implements Comparable<Dead
 		return description;
 	}
 
-	public EnumSolicitationType getSolicitationType() {
-		return solicitationType;
+	public EnumDeadlineType getDeadlineType() {
+		return deadlineType;
 	}
 
-	public void setSolicitationType(EnumSolicitationType solicitationType) {
-		this.solicitationType = solicitationType;
+	public void setDeadlineType(EnumDeadlineType deadlineType) {
+		this.deadlineType = deadlineType;
 	}
 
 	public void setDescription(String description) {

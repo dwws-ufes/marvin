@@ -32,15 +32,15 @@
             <p:inputText id="name" value="#{deadlineController.selectedEntity.name}" required="true" pt:placeholder="#{msgsAcademicControl['deadline.field.name.placeholder']}" disabled="#{deadlineController.readOnly}">
             </p:inputText>
          </ui:decorate>
-         <!-- Field: solicitationType. -->
+         <!-- Field: deadlineType. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="solicitationType" />
-            <ui:param name="label" value="#{msgsAcademicControl['deadline.field.solicitationType']}" />
-            <p:selectOneMenu id="solicitationType" value="#{deadlineController.selectedEntity.solicitationType}" disabled="#{deadlineController.readOnly}" var = "c" required="true">
+            <ui:param name="fieldName" value="deadlineType" />
+            <ui:param name="label" value="#{msgsAcademicControl['deadline.field.deadlineType']}" />
+            <p:selectOneMenu id="deadlineType" value="#{deadlineController.selectedEntity.deadlineType}" disabled="#{deadlineController.readOnly}" var = "c" required="true">
                <f:selectItems value="#{deadlineController.values}" />
                <p:column>
                   <f:facet name="header">
-                     <h:outputText value="#{msgsAcademicControl['deadline.field.solicitationType']}"/>
+                     <h:outputText value="#{msgsAcademicControl['deadline.field.deadlineType']}"/>
                   </f:facet>
                   <h:outputText value="#{c.code}"/>
                </p:column>

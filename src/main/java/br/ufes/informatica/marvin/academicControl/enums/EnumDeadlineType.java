@@ -1,6 +1,6 @@
 package br.ufes.informatica.marvin.academicControl.enums;
 
-public enum EnumSolicitationType {
+public enum EnumDeadlineType {
 	DIPLOMA_REQUEST("Diploma Request"), //
 	REUSE_OF_CREDITS("Reuse of Credits"), //
 	REQUEST_REGISTRATION_NUMBER("Request Registration Number");
@@ -15,7 +15,7 @@ public enum EnumSolicitationType {
 		this.code = code;
 	}
 
-	EnumSolicitationType(String code) {
+	EnumDeadlineType(String code) {
 		this.code = code;
 	}
 }

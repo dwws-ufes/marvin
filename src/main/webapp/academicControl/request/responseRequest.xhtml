@@ -58,7 +58,7 @@
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="requestRegistrationNumber"/>
             <ui:param name="label" value="#{msgsAcademicControl['request.field.requestRegistrationNumber']}" />
-            <p:inputText id="requestRegistrationNumber" value="#{requestController.request.requestRegistrationNumber}" pt:placeholder="#{msgsAcademicControl['request.field.requestRegistrationNumber.placeholder']}" disabled= "#{requestController.request.deadline.solicitationType != 'REQUEST_REGISTRATION_NUMBER'}">
+            <p:inputText id="requestRegistrationNumber" value="#{requestController.request.requestRegistrationNumber}" pt:placeholder="#{msgsAcademicControl['request.field.requestRegistrationNumber.placeholder']}" disabled= "#{requestController.request.deadline.deadlineType != 'REQUEST_REGISTRATION_NUMBER'}">
             </p:inputText>
          </ui:decorate>
          <!-- requestResponseDetailing. -->
@@ -72,7 +72,7 @@
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="file" />
             <ui:param name="label" value="#{msgsAcademicControl['request.field.file']}" />
-            <p:fileUpload id="file" value="#{requestController.request.fileUniversityDegree}" mode="simple" skinSimple="true" label="#{msgs['button.fileUpload']}" disabled= "#{requestController.request.deadline.solicitationType != 'DIPLOMA_REQUEST'}"/>
+            <p:fileUpload id="file" value="#{requestController.request.fileUniversityDegree}" mode="simple" skinSimple="true" label="#{msgs['button.fileUpload']}" disabled= "#{requestController.request.deadline.deadlineType != 'DIPLOMA_REQUEST'}"/>
          </ui:decorate>
          <!-- Upload button. -->
          <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
