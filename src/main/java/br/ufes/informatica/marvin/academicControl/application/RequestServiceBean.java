@@ -82,6 +82,7 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		request.setUserSituation(MarvinFunctions.nvl(request.getUserSituation(), currentUser));
 		request.setUserSituationDate(MarvinFunctions.nvl(request.getUserSituationDate(), MarvinFunctions.sysdate()));
 		request.setRequestSituation(EnumRequestSituation.FINALIZED);
+		/* TODO set field RegistrationNumber in Academic using nvl */
 		requestDAO.save(request);
 		MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_INFO, "Request realized with success!");
 	}

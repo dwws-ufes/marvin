@@ -77,6 +77,9 @@ public class Request extends PersistentObjectSupport implements Comparable<Reque
 	@Transient
 	private UploadedFile fileUseOfCredits;
 
+	@Transient
+	private String requestRegistrationNumber;
+
 	public Academic getRequester() {
 		return requester;
 	}
@@ -187,6 +190,14 @@ public class Request extends PersistentObjectSupport implements Comparable<Reque
 
 	public void setUserSituationDate(Date userSituationDate) {
 		this.userSituationDate = userSituationDate;
+	}
+
+	public String getRequestRegistrationNumber() {
+		return requestRegistrationNumber;
+	}
+
+	public void setRequestRegistrationNumber(String requestRegistrationNumber) {
+		this.requestRegistrationNumber = requestRegistrationNumber;
 	}
 
 	@PrePersist

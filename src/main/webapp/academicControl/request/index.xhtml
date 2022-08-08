@@ -56,7 +56,7 @@
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
               <p:commandButton action="#{requestController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{requestController.selectedEntity == null or requestController.selectedEntity.requestSituation != 'WAITING'}" process="@this" update="trashGroup" />
               <p:commandButton id="changeStatusButton" action="#{requestController.changeStatus}" value="#{msgsAcademicControl['request.button.changeStatus']}" disabled="#{requestController.selectedEntity == null or requestController.selectedEntity.requestSituation != 'WAITING'}" icon="fa fa-fw fa-refresh" />
-			  <p:commandButton id="startRequestReponseButton" action="#{requestController.startRequestReponse}" value="#{msgsAcademicControl['request.button.requestRequestReponse']}" icon="fa fa-fw fa-refresh" />
+			  <p:commandButton id="startRequestReponseButton" action="#{requestController.startRequestReponse}" value="#{msgsAcademicControl['request.button.requestRequestReponse']}" disabled="#{requestController.selectedEntity == null}" icon="fa fa-fw fa-refresh" />
 			  <p:commandButton id="startRequestButton" action="#{requestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-refresh" />
             </ui:decorate>
          </h:panelGroup>

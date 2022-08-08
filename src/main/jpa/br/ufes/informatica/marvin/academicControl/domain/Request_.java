@@ -8,7 +8,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2022-08-07T00:03:02.519-0300")
+@Generated(value="Dali", date="2022-08-07T21:23:02.225-0300")
 @StaticMetamodel(Request.class)
 public class Request_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<Request, Academic> requester;

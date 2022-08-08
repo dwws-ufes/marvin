@@ -2,10 +2,13 @@ package br.ufes.informatica.marvin.academicControl.domain;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+import br.ufes.informatica.marvin.academicControl.enums.EnumSolicitationType;
 
 @Entity
 public class Deadline extends PersistentObjectSupport implements Comparable<Deadline> {
@@ -23,6 +26,10 @@ public class Deadline extends PersistentObjectSupport implements Comparable<Dead
 	@Basic
 	@NotNull
 	private Long daysToReply;
+
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private EnumSolicitationType solicitationType;
 
 	public String getName() {
 		return name;
@@ -42,6 +49,14 @@ public class Deadline extends PersistentObjectSupport implements Comparable<Dead
 
 	public String getDescription() {
 		return description;
+	}
+
+	public EnumSolicitationType getSolicitationType() {
+		return solicitationType;
+	}
+
+	public void setSolicitationType(EnumSolicitationType solicitationType) {
+		this.solicitationType = solicitationType;
 	}
 
 	public void setDescription(String description) {

@@ -50,6 +50,7 @@ public class RequestController extends CrudController<Request> {
 
 	@Override
 	protected void initFilters() {
+
 	}
 
 	public List<Deadline> getDeadlines() {
@@ -70,6 +71,22 @@ public class RequestController extends CrudController<Request> {
 
 	public void onLoad() {
 		request = new Request();
+	}
+
+	public RequestService getRequestService() {
+		return requestService;
+	}
+
+	public void setRequestService(RequestService requestService) {
+		this.requestService = requestService;
+	}
+
+	public LoginService getLoginService() {
+		return loginService;
+	}
+
+	public void setLoginService(LoginService loginService) {
+		this.loginService = loginService;
 	}
 
 	public String saveFileAndGenerateRequest() {
