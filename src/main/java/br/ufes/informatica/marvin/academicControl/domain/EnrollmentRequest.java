@@ -53,6 +53,9 @@ public class EnrollmentRequest extends PersistentObjectSupport implements Compar
 	@Digits(integer = 2, fraction = 2)
 	private BigDecimal note;
 
+	@NotNull
+	private Boolean registeredSappg;
+
 	public Academic getRequester() {
 		return requester;
 	}
@@ -101,13 +104,6 @@ public class EnrollmentRequest extends PersistentObjectSupport implements Compar
 		this.requestResponseDetailing = requestResponseDetailing;
 	}
 
-	@PrePersist
-	public void setDefautValues() {
-		this.dateSituation = MarvinFunctions.sysdate();
-		this.requestDate = MarvinFunctions.sysdate();
-		this.enrollmentRequestSituation = EnumEnrollmentRequestSituation.WAITING;
-	}
-
 	public BigDecimal getNote() {
 		return note;
 	}
@@ -116,8 +112,24 @@ public class EnrollmentRequest extends PersistentObjectSupport implements Compar
 		this.note = note;
 	}
 
+	public Boolean getRegisteredSappg() {
+		return registeredSappg;
+	}
+
+	public void setRegisteredSappg(Boolean registeredSappg) {
+		this.registeredSappg = registeredSappg;
+	}
+
 	@Override
 	public int compareTo(EnrollmentRequest o) {
 		return uuid.compareTo(o.uuid);
+	}
+
+	@PrePersist
+	public void setDefautValues() {
+		this.dateSituation = MarvinFunctions.sysdate();
+		this.requestDate = MarvinFunctions.sysdate();
+		this.enrollmentRequestSituation = EnumEnrollmentRequestSituation.WAITING;
+		this.registeredSappg = false;
 	}
 }

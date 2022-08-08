@@ -131,4 +131,9 @@ public class RequestController extends CrudController<Request> {
 		requestService.changeStatus(loginService.getCurrentUser(), this.selectedEntity);
 		return list();
 	}
+
+	public String revokeStatus() {
+		requestService.revokeStatus(loginService.getCurrentUser(), this.selectedEntity);
+		return list();
+	}
 }

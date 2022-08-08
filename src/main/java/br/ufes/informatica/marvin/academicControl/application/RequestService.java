@@ -17,4 +17,6 @@ public interface RequestService extends CrudService<Request> {
 
 	void changeStatus(Academic currentUser, Request request);
 
+	void revokeStatus(Academic currentUser, Request request);
+
 }

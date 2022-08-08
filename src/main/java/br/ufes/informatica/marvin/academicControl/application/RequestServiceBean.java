@@ -95,6 +95,13 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		requestDAO.save(request);
 	}
 
+	private void setSituationAndSave(Academic currentUser, Request request, EnumRequestSituation situation) {
+		request.setUserSituation(currentUser);
+		request.setUserSituationDate(MarvinFunctions.sysdate());
+		request.setRequestSituation(situation);
+		requestDAO.save(request);
+	}
+
 	@Override
 	public void changeStatus(Academic currentUser, Request request) {
 		if (!Objects.equals(EnumRequestSituation.WAITING, request.getRequestSituation())) {
@@ -102,10 +109,14 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 			MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_ERROR,
 					"Request situation don't allow this action!");
 		} else {
-			request.setUserSituation(currentUser);
-			request.setUserSituationDate(MarvinFunctions.sysdate());
-			request.setRequestSituation(EnumRequestSituation.UNDER_ANALYSIS);
-			requestDAO.save(request);
+			setSituationAndSave(currentUser, request, EnumRequestSituation.UNDER_ANALYSIS);
 		}
+	}
+
+	@Override
+	public void revokeStatus(Academic currentUser, Request request) {
+		request.setGrantor(null);
+		request.setResponseDate(null);
+		setSituationAndSave(currentUser, request, EnumRequestSituation.UNDER_ANALYSIS);
 	}
 }
