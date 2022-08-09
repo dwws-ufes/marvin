@@ -22,7 +22,6 @@ import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.enums.EnumWeekDays;
 import br.ufes.informatica.marvin.core.domain.Academic;
-import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Named
 @SessionScoped
@@ -91,10 +90,9 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 		this.periods = periods;
 	}
 
-	public String avance() {
+	public String avance() throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		classTime = new ClassTime();
-		this.selectedEntity
-				.setClassTime(MarvinFunctions.nvl(this.selectedEntity.getClassTime(), new ArrayList<ClassTime>()));
+		subjectOfferService.prePopulateSchoolSubjectOffer(this.selectedEntity);
 		return VIEW_PATH + "createClassTime.xhtml?faces-redirect=true";
 	}
 
