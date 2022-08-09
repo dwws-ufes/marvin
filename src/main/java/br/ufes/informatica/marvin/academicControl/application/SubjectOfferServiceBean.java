@@ -44,4 +44,9 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 	public SubjectOffer retrieveSubjectOfferById(Long id) {
 		return subjectOfferDAO.retrieveSubjectOfferById(id);
 	}
+
+	@Override
+	public void saveSubjectOffer(SubjectOffer subjectOffer) {
+		subjectOfferDAO.save(subjectOffer);
+	}
 }

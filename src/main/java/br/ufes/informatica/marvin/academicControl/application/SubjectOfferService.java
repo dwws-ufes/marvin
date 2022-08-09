@@ -15,4 +15,6 @@ public interface SubjectOfferService extends CrudService<SubjectOffer> {
 	SubjectOffer retrieveSubjectOfferById(Long id);
 
 	PersistentObjectConverterFromId<SubjectOffer> getSubjectOfferConverter();
+
+	void saveSubjectOffer(SubjectOffer subjectOffer);
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   xmlns:adm="http://github.com/adminfaces"
+   template="/WEB-INF/templates/template.xhtml">
+   <ui:define name="title">
+      <h:outputText value="#{msgsAcademicControl['classTime.title']}" />
+   </ui:define>
+   <ui:define name="description">
+      <h:outputText value="#{msgsAcademicControl['classTime.title.description']}" />
+   </ui:define>
+   <ui:define name="body">
+      <!-- The breadcrumb. -->
+      <adm:breadcrumb title="#{msgsAcademicControl['classTime.title']}" link="index.xhtml"/>
+      <!-- The form to be filled with a selection of researchers and optional start/end years. -->
+      <ui:decorate template="/WEB-INF/templates/form.xhtml">
+         <ui:param name="formName" value="form" />
+         <ui:param name="formLabel" value="#{msgsAcademicControl['classTime.form.generate']}" />
+         <p:focus />
+         <!-- Instructions on how to fill the form. -->	
+         <p>
+            <h:outputText value="#{msgsAcademicControl['classTime.text.instructions']}" />
+         </p>
+         <!-- Subject offers. -->
+         <p:panelGrid columns="15" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-1,ui-grid-col-1">
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="schoolSubject" />
+            <ui:param name="label" value="#{msgsAcademicControl['schoolSubject.title']}" />
+            <p:inputText id="schoolSubject" value="#{subjectOfferController.selectedEntity.schoolSubject.name}" disabled="true">
+            </p:inputText>
+         </ui:decorate>
+         
+         
+            <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+               <ui:param name="fieldName" value="classTime" />
+               <ui:param name="label" value="#{msgsAcademicControl['classTime.weekDay']}" />
+               <p:selectOneMenu id="classTime" value="#{subjectOfferController.classTime.weekDay}" var = "c" required="true">
+                  <f:selectItems value="#{subjectOfferController.values}" />
+                  <p:column>
+                     <h:outputText value="#{c.code}"/>
+                  </p:column>
+               </p:selectOneMenu>
+            </ui:decorate>
+            <p:outputLabel for="startTime" value="#{msgsAcademicControl['classTime.startTime']}"/>
+            <p:calendar id="startTime" value="#{subjectOfferController.classTime.startTime}" pattern="HH:mm" timeOnly="true"/>
+            <p:outputLabel for="endTime" value="#{msgsAcademicControl['classTime.endTime']}"/>
+            <p:calendar id="endTime" value="#{subjectOfferController.classTime.endTime}" pattern="HH:mm" timeOnly="true"/>
+            <p:commandButton action="#{subjectOfferController.addClassTime}" value="#{msgsAcademicControl['classTime.button.addClassTime']}" icon="fa fa-fw fa-plus" update="bgrTable"/>
+         </p:panelGrid>
+         <p:dataTable id="bgrTable" var="bgr" value="#{subjectOfferController.selectedEntity.classTime}" editable="true" editMode="cell" emptyMessage="#{msgsAcademicControl['classTime.text.noClassTimes']}" style="margin-top: 5px;" reflow="true">
+            <p:column headerText="#{msgsAcademicControl['classTime.weekDay']}" styleClass="ui-grid-col-6">
+               <h:outputText value="#{bgr.weekDay.code}" />
+            </p:column>
+            <p:column headerText="#{msgsAcademicControl['classTime.startTime']}" styleClass="ui-grid-col-6">
+               <h:outputText value="#{bgr.startTime}" />
+            </p:column>
+            <p:column headerText="#{msgsAcademicControl['classTime.endTime']}" styleClass="ui-grid-col-6">
+               <h:outputText value="#{bgr.endTime}" />
+            </p:column>
+         </p:dataTable>
+         <!-- Buttons below the form. -->
+         <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+            <p:commandButton id="startOverButton" action="#{subjectOfferController.startOver}" value="#{msgsAcademicControl['classTime.button.startOver']}" icon="fa fa-fw fa-refresh" update="bgrTable"/>
+            <p:commandButton id="generateButton" action="#{subjectOfferController.generateSubjectOffer}" value="#{msgsAcademicControl['classTime.create']}" icon="fa fa-fw fa-book" />
+         </ui:decorate>
+      </ui:decorate>
+   </ui:define>
+</ui:composition>

@@ -1,9 +1,13 @@
 package br.ufes.informatica.marvin.academicControl.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -40,6 +44,10 @@ public class SubjectOffer extends PersistentObjectSupport implements Comparable<
 	@NotNull
 	@OneToOne
 	private Period period;
+
+	@NotNull
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<ClassTime> classTime;
 
 	public Long getNumMaxStudents() {
 		return numMaxStudents;
@@ -79,6 +87,14 @@ public class SubjectOffer extends PersistentObjectSupport implements Comparable<
 
 	public void setPeriod(Period period) {
 		this.period = period;
+	}
+
+	public List<ClassTime> getClassTime() {
+		return classTime;
+	}
+
+	public void setClassTime(List<ClassTime> classTime) {
+		this.classTime = classTime;
 	}
 
 	@PrePersist

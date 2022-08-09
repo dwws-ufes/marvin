@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.academicControl.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -15,15 +16,20 @@ import br.ufes.informatica.marvin.academicControl.application.ListProfessorsServ
 import br.ufes.informatica.marvin.academicControl.application.PeriodService;
 import br.ufes.informatica.marvin.academicControl.application.SchoolSubjectService;
 import br.ufes.informatica.marvin.academicControl.application.SubjectOfferService;
+import br.ufes.informatica.marvin.academicControl.domain.ClassTime;
 import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
+import br.ufes.informatica.marvin.academicControl.enums.EnumWeekDays;
 import br.ufes.informatica.marvin.core.domain.Academic;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Named
 @SessionScoped
 public class SubjectOfferController extends CrudController<SubjectOffer> {
 	private static final long serialVersionUID = 1L;
+
+	private static final String VIEW_PATH = "/academicControl/subjectOffer/";
 
 	@EJB
 	private SubjectOfferService subjectOfferService;
@@ -42,6 +48,8 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 	private List<Period> periods;
 
 	private List<Academic> professors;
+
+	private ClassTime classTime;
 
 	@Inject
 	public void init() throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
@@ -81,6 +89,41 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 
 	public void setPeriods(List<Period> periods) {
 		this.periods = periods;
+	}
+
+	public String avance() {
+		classTime = new ClassTime();
+		this.selectedEntity
+				.setClassTime(MarvinFunctions.nvl(this.selectedEntity.getClassTime(), new ArrayList<ClassTime>()));
+		return VIEW_PATH + "createClassTime.xhtml?faces-redirect=true";
+	}
+
+	public ClassTime getClassTime() {
+		return classTime;
+	}
+
+	public void setClassTime(ClassTime classTime) {
+		this.classTime = classTime;
+	}
+
+	public EnumWeekDays[] getValues() {
+		return EnumWeekDays.values();
+	}
+
+	public void addClassTime() {
+		this.selectedEntity.getClassTime().add(classTime);
+		classTime = new ClassTime();
+	}
+
+	public String generateSubjectOffer() {
+		subjectOfferService.saveSubjectOffer(this.selectedEntity);
+		return list();
+	}
+
+	public String startOver() {
+		classTime = new ClassTime();
+		this.selectedEntity.setClassTime(new ArrayList<ClassTime>());
+		return VIEW_PATH + "createClassTime.xhtml?faces-redirect=true";
 	}
 
 }

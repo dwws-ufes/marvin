@@ -95,6 +95,7 @@
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
                <p:commandButton id="cancelButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
                <p:commandButton id="saveButton" action="#{subjectOfferController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
+               <p:commandButton id="avance" action="#{subjectOfferController.avance}" value="Avance" />
                <p:defaultCommand target="saveButton" />
             </ui:decorate>
          </h:panelGroup>
