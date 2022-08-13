@@ -10,10 +10,13 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.informatica.marvin.core.domain.PPG;
 import br.ufes.informatica.marvin.research.controller.UploadLattesCVController;
 import br.ufes.informatica.marvin.research.domain.Qualis;
@@ -78,6 +81,18 @@ public class ManageVenuesServiceBean extends CrudServiceBean<Venue> implements M
 				line = reader.readLine();
 			}
 
+		}
+	}
+
+	public Venue findVenue(Venue venue) {
+		try {
+			return venueDAO.retrieveVenue(venue);
+		} catch (PersistentObjectNotFoundException e) {
+			return null;
+		} catch (MultiplePersistentObjectsFoundException e) {
+			return null;
+		} catch (EJBTransactionRolledbackException e) {
+			return null;
 		}
 	}
 

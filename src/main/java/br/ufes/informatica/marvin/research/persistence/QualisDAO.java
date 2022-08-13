@@ -26,5 +26,8 @@ public interface QualisDAO extends BaseDAO<Qualis> {
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
 	Qualis retriveByNameValidity(String name, QualisValidity qualisValidity)
-			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;;
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+
+	List<Qualis> retriveByValidity(Date dtStart, Date dtEnd, Long idPPG)
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

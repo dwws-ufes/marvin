@@ -68,14 +68,16 @@
 			<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" toggleable="true" toggleSpeed="500"
 				rendered="#{not empty manageQualisController.trashCan}">
 				<p:dataTable id="trashDataTable" var="entity" value="#{manageQualisController.trashCan}">
-					<p:column headerText="#{msgsResearch['manageQualis.field.year']}">
-						<h:outputText value="#{entity.year}" />
-					</p:column>
 					<p:column headerText="#{msgsResearch['manageQualis.field.name']}">
 						<h:outputText value="#{entity.name}" />
 					</p:column>
-					<p:column headerText="#{msgsResearch['manageQualis.field.submissionDeadline']}">
-						<h:outputText value="#{entity.submissionDeadline}">
+					<p:column headerText="#{msgsResearch['manageQualis.field.dtValidityStart']}">
+						<h:outputText value="#{entity.getQualisValidity().dtStart}">
+							<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="#{msgsResearch['manageQualis.field.dtValidityEnd']}">
+						<h:outputText value="#{entity.getQualisValidity().dtEnd}">
 							<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
 						</h:outputText>
 					</p:column>

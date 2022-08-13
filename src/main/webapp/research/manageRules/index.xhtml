@@ -29,7 +29,7 @@
 			<f:facet name="header">
 				<h:outputText value="#{msgsResearch['manageRules.text.entities']}" />
 			</f:facet>
-			<p:column headerText="#{msgsResearch['manageRules.field.doctoral']}">
+			<p:column headerText="#{msgsResearch['manageRules.field.type']}">
 				<h:outputText value="#{entity.doctoral ? 'Doctoral' : 'Master'}" />
 			</p:column>
 			<p:column headerText="#{msgsResearch['manageRules.field.qtdPassYears']}">
@@ -74,14 +74,19 @@
 			<p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" toggleable="true" toggleSpeed="500"
 				rendered="#{not empty manageRulesController.trashCan}">
 				<p:dataTable id="trashDataTable" var="entity" value="#{manageRulesController.trashCan}">
-					<p:column headerText="#{msgsResearch['manageRules.field.year']}">
-						<h:outputText value="#{entity.year}" />
+					<p:column headerText="#{msgsResearch['manageRules.field.type']}">
+						<h:outputText value="#{entity.doctoral ? 'Doctoral' : 'Master'}" />
 					</p:column>
-					<p:column headerText="#{msgsResearch['manageRules.field.name']}">
-						<h:outputText value="#{entity.name}" />
+					<p:column headerText="#{msgsResearch['manageRules.field.total']}">
+						<h:outputText value="#{entity.total}" />
 					</p:column>
-					<p:column headerText="#{msgsResearch['manageRules.field.submissionDeadline']}">
-						<h:outputText value="#{entity.submissionDeadline}">
+					<p:column headerText="#{msgsResearch['manageRules.field.dtStart']}">
+						<h:outputText value="#{entity.dtStart}">
+							<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="#{msgsResearch['manageRules.field.dtEnd']}">
+						<h:outputText value="#{entity.dtEnd}">
 							<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
 						</h:outputText>
 					</p:column>

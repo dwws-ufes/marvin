@@ -11,7 +11,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Tuple;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -63,7 +62,7 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 	@Override
 	public Qualis retriveByNameQualisValidity(String qualisName, Date dtStart, Date dtEnd, Long idPPG)
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.FINE,
+		logger.log(Level.INFO,
 				"Retrieving the qualis whose name is \"{0}\", validity date is between \"{1}\" and \"{2}\", ppg_id is \"{3}\"...",
 				new Object[] { qualisName, dtStart, dtEnd, idPPG });
 
@@ -73,9 +72,9 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 
 		Root<Qualis> qualis = cq.from(Qualis.class);
 
-		List<Predicate> predicateList = new ArrayList<Predicate>();
-
 		Join<Qualis, QualisValidity> join = qualis.join("qualisValidity");
+
+		List<Predicate> predicateList = new ArrayList<Predicate>();
 
 		Path<String> name = qualis.get("name");
 		Path<Long> ppg = join.get("ppg");
@@ -97,8 +96,8 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 		predicateList.toArray(predicates);
 		cq.where(predicates);
 		// Filters the query with the academic_id.
-		TypedQuery<Qualis> jpaQuery = entityManager.createQuery(cq);
-		Qualis result = jpaQuery.getSingleResult();
+
+		Qualis result = entityManager.createQuery(cq).getSingleResult();
 
 		logger.log(Level.INFO, "Retrieve qualis with qualis_id \"{0}\"", result.getId());
 		return result;
@@ -199,6 +198,41 @@ public class QualisJPADAO extends BaseJPADAO<Qualis> implements QualisDAO {
 		cq.where(predicates);
 
 		Qualis result = entityManager.createQuery(cq).getSingleResult();
+
+		return result;
+	}
+
+	@Override
+	public List<Qualis> retriveByValidity(Date dtStart, Date dtEnd, Long idPPG)
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.INFO, "Retrieving qualis by date validity");
+
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Qualis> cq = cb.createQuery(Qualis.class);
+		Root<Qualis> qualis = cq.from(Qualis.class);
+
+		Join<Qualis, QualisValidity> join = qualis.join("qualisValidity");
+
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+
+		Path<Long> ppg = join.get("ppg");
+		Path<Date> qualisDtStart = join.get("dtStart");
+		Path<Date> qualisDtEnd = join.get("dtEnd");
+
+		Predicate predQualisPPG = cb.equal(ppg, idPPG);
+		Predicate predQualisValidityStart = cb.greaterThanOrEqualTo(qualisDtStart, dtStart);
+		Predicate predQualisValidityEnd = dtEnd != null ? cb.lessThanOrEqualTo(qualisDtEnd, dtEnd)
+				: cb.isNull(qualisDtEnd);
+
+		predicateList.add(predQualisPPG);
+		predicateList.add(predQualisValidityStart);
+		predicateList.add(predQualisValidityEnd);
+
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		predicateList.toArray(predicates);
+		cq.where(predicates);
+
+		List<Qualis> result = entityManager.createQuery(cq).getResultList();
 
 		return result;
 	}

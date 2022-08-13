@@ -1,6 +1,7 @@
 package br.ufes.informatica.marvin.research.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,7 @@ import br.ufes.informatica.marvin.core.domain.Occupation;
 import br.ufes.informatica.marvin.core.domain.PPG;
 import br.ufes.informatica.marvin.research.application.ManageQualisService;
 import br.ufes.informatica.marvin.research.application.ManageVenuesService;
+import br.ufes.informatica.marvin.research.domain.Qualis;
 import br.ufes.informatica.marvin.research.domain.Venue;
 
 /**
@@ -74,6 +76,10 @@ public class ManageVenuesController extends CrudController<Venue> {
 	@EJB
 	private ManageOccupationsService manageOccupationService;
 
+	private List<Qualis> qualisValidity;
+
+	private String qualisSelected;
+
 	@Override
 	protected CrudService<Venue> getCrudService() {
 		return manageVenuesService;
@@ -103,6 +109,18 @@ public class ManageVenuesController extends CrudController<Venue> {
 
 	public void setDtEnd(Date dtEnd) {
 		this.dtEnd = dtEnd;
+	}
+
+	public List<Qualis> getQualisValidity() {
+		return qualisValidity;
+	}
+
+	public String getQualisSelected() {
+		return qualisSelected;
+	}
+
+	public void setQualisSelected(String qualisSelected) {
+		this.qualisSelected = qualisSelected;
 	}
 
 	@Override
@@ -145,5 +163,21 @@ public class ManageVenuesController extends CrudController<Venue> {
 
 		return currentOccupation.getPpg();
 
+	}
+
+	public String UpdateVenue() {
+		this.qualisValidity = manageQualisService.findByNameValidity(selectedEntity.getDtStart(),
+				selectedEntity.getDtEnd(), selectedEntity.getPpg().getId());
+		setQualisSelected(selectedEntity.getQualis().getName());
+		return VIEW_PATH + "formVenue.xhtml" + "?faces-redirect=" + getFacesRedirect();
+	}
+
+	public String saveVenue() {
+		for (Qualis qualis : qualisValidity) {
+			if (qualis.getName().equals(qualisSelected)) {
+				this.selectedEntity.setQualis(qualis);
+			}
+		}
+		return save();
 	}
 }

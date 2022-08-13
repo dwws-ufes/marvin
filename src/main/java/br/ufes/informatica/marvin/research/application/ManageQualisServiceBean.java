@@ -9,6 +9,7 @@ import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
@@ -77,5 +78,45 @@ public class ManageQualisServiceBean extends CrudServiceBean<Qualis> implements 
 		} catch (MultiplePersistentObjectsFoundException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public List<Qualis> findByNameValidity(Date dtStart, Date dtEnd, Long idPPG) {
+		try {
+			return this.qualisDAO.retriveByValidity(dtStart, dtEnd, idPPG);
+		} catch (PersistentObjectNotFoundException e) {
+			return null;
+		} catch (MultiplePersistentObjectsFoundException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void validateDelete(Qualis entity) throws CrudException {
+		// Possibly throwing a CRUD Exception to indicate validation error.
+		CrudException crudException = null;
+		String name = entity.getName();
+		String crudExceptionMessage = "The qualis (" + name + ") cannot be deleted due to validation errors.";
+
+		// Validates business rules.
+		// Rule 1: cannot delete an admin.
+//		try {
+//			Role adminRole = roleDAO.retrieveByName(Role.SYSADMIN_ROLE_NAME);
+//			if (entity.getRoles().contains(adminRole)) {
+//				logger.log(Level.INFO,
+//						"Deletion of academic \"{0}\" violates validation rule 1: acadmic has SysAdmin role",
+//						new Object[] { email });
+//				crudException = addGlobalValidationError(crudException, crudExceptionMessage,
+//						"manageAcademics.error.deleteAdmin", email);
+//			}
+//		} catch (MultiplePersistentObjectsFoundException | PersistentObjectNotFoundException e) {
+//			logger.log(Level.SEVERE,
+//					"Problem retrieving role " + Role.SYSADMIN_ROLE_NAME + " while validating an academic deletion!",
+//					e);
+//		}
+
+		// If one of the rules was violated, throw the exception.
+		if (crudException != null)
+			throw crudException;
 	}
 }

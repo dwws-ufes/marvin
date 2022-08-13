@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:adm="http://github.com/adminfaces"
+    template="/WEB-INF/templates/template.xhtml">
+
+   <ui:define name="title">
+		<h:outputText value="#{msgsResearch['manageVenues.formVenue.title']}" />
+	</ui:define>
+    
+    <ui:define name="description">
+    	<h:outputText value="#{msgsResearch['manageVenues.formVenue.description']}" />
+    </ui:define>
+
+	<ui:define name="body">
+		<!-- The breadcrumb. -->
+		<adm:breadcrumb title="#{msgsResearch['manageVenues.title']}" link="index.xhtml" />
+		
+		<ui:decorate template="/WEB-INF/templates/form.xhtml">
+			<ui:param name="formName" value="form" /> 
+			<ui:param name="formLabel" value="#{msgsResearch['manageVenues.form.title']}" />
+			<p:focus />
+			
+			<p:panelGrid id="panelValidity" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="dtStartField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="dtStart" value="#{msgsResearch['manageVenues.field.dtStart']}"	/>
+					<h:panelGroup>
+						<p:calendar id="dtStart" value="#{manageVenuesController.selectedEntity.dtStart}" showOn="button"
+						pattern="dd/MM/yyyy" mask="true"/>
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="dtEndField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="dtEnd" value="#{msgsResearch['manageVenues.field.dtEnd']}"	/>
+					<h:panelGroup>
+						<p:calendar id="dtEnd" value="#{manageVenuesController.selectedEntity.dtEnd}" showOn="button"
+						pattern="dd/MM/yyyy" mask="true"/>
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:panelGrid id="panelCategoryName" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="categoryField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="category" value="#{msgsResearch['manageVenues.field.category']}"	/>
+					<h:panelGroup>
+						<p:selectOneMenu id="category" value="#{manageVenuesController.selectedEntity.category}"> 
+		                    <f:selectItem itemLabel="Journal" itemValue="JOURNAL"/>
+		                    <f:selectItem itemLabel="Conference" itemValue="CONFERENCE"/>
+						</p:selectOneMenu> 
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="qualisField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="qualis" value="#{msgsResearch['manageVenues.field.qualis']}"	/>
+					<p:selectOneMenu id="qualis" value="#{manageVenuesController.qualisSelected}">
+					    <f:selectItems value="#{manageVenuesController.qualisValidity}" var="qualis"  itemValue="#{qualis.name}" itemLabel="#{qualis.name}" /> 
+					</p:selectOneMenu>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:panelGrid id="panelName" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="NameField" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="name" value="#{msgsResearch['manageVenues.field.name']}"	/>
+					<h:panelGroup>
+						<p:inputText id="name" value="#{manageVenuesController.selectedEntity.name}" />
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:panelGrid id="panelAcronymISSN" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-fluid"> 
+				<p:panelGrid id="acronymField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="acronym" value="#{msgsResearch['manageVenues.field.acronym']}"	/>
+					<h:panelGroup>
+						<p:inputText id="acronym" value="#{manageVenuesController.selectedEntity.acronym}" />
+					</h:panelGroup>
+				</p:panelGrid>
+				<p:panelGrid id="ISSNField" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-fluid">
+					<p:outputLabel for="ISSN" value="#{msgsResearch['manageVenues.field.ISSN']}"	/>
+					<h:panelGroup>
+						<p:inputText id="ISSN" value="#{manageVenuesController.selectedEntity.issn}" />
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<!-- Buttons shown below the form. -->
+			<h:panelGroup id="buttonsGroup" >
+				<ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+					<p:commandButton action="#{manageVenuesController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-close" />
+					<p:commandButton action="#{manageVenuesController.saveVenue}" value="#{msgs['jbutler.crud.button.save']}" icon="fa fa-fw fa-save" />
+				</ui:decorate>
+			</h:panelGroup>
+			
+		</ui:decorate>
+	</ui:define>
+
+
+</ui:composition>

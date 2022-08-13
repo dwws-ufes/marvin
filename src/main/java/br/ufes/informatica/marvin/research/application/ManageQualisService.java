@@ -21,4 +21,6 @@ public interface ManageQualisService extends CrudService<Qualis> {
 
 	public Qualis findByNameValidity(String name, QualisValidity qualisValidity);
 
+	public List<Qualis> findByNameValidity(Date dtStart, Date dtEnd, Long idPPG);
+
 }
