@@ -105,7 +105,6 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 	@Override
 	public void changeStatus(Academic currentUser, Request request) {
 		if (!Objects.equals(EnumRequestSituation.WAITING, request.getRequestSituation())) {
-			/* TODO Validation don't show in the screen, fix to show and abort operation */
 			MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_ERROR,
 					"Request situation don't allow this action!");
 		} else {
@@ -117,6 +116,7 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 	public void revokeStatus(Academic currentUser, Request request) {
 		request.setGrantor(null);
 		request.setResponseDate(null);
+		request.setRequestResponseDetailing(null);
 		setSituationAndSave(currentUser, request, EnumRequestSituation.UNDER_ANALYSIS);
 	}
 }

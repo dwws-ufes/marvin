@@ -8,6 +8,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
@@ -109,8 +111,10 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 	}
 
 	public void addClassTime() {
-		this.selectedEntity.getClassTime().add(classTime);
-		classTime = new ClassTime();
+		if (ObjectUtils.allNotNull(classTime.getWeekDay(), classTime.getEndTime(), classTime.getStartTime())) {
+			this.selectedEntity.getClassTime().add(classTime);
+			classTime = new ClassTime();
+		}
 	}
 
 	public String generateSubjectOffer() {
