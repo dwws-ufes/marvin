@@ -2,11 +2,14 @@ package br.ufes.informatica.marvin.academicControl.domain;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
+import br.ufes.informatica.marvin.academicControl.enums.EnumSchoolSubjectType;
 
 @Entity
 public class SchoolSubject extends PersistentObjectSupport implements Comparable<SchoolSubject> {
@@ -25,6 +28,18 @@ public class SchoolSubject extends PersistentObjectSupport implements Comparable
 	@Basic
 	@Size(max = 4000)
 	private String description;
+
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private EnumSchoolSubjectType type;
+
+	@Basic
+	@Size(max = 4000)
+	private String summary;
+
+	@Basic
+	@Size(max = 4000)
+	private String bibliography;
 
 	@Basic
 	@NotNull
@@ -74,6 +89,30 @@ public class SchoolSubject extends PersistentObjectSupport implements Comparable
 
 	public void setWorkload(Long workload) {
 		this.workload = workload;
+	}
+
+	public EnumSchoolSubjectType getType() {
+		return type;
+	}
+
+	public void setType(EnumSchoolSubjectType type) {
+		this.type = type;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public String getBibliography() {
+		return bibliography;
+	}
+
+	public void setBibliography(String bibliography) {
+		this.bibliography = bibliography;
 	}
 
 	@Override

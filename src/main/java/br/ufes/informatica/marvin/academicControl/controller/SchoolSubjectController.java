@@ -8,6 +8,7 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.informatica.marvin.academicControl.application.SchoolSubjectService;
 import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
+import br.ufes.informatica.marvin.academicControl.enums.EnumSchoolSubjectType;
 
 @Named
 @SessionScoped
@@ -24,6 +25,10 @@ public class SchoolSubjectController extends CrudController<SchoolSubject> {
 
 	@Override
 	protected void initFilters() {
+	}
+
+	public EnumSchoolSubjectType[] getValues() {
+		return EnumSchoolSubjectType.values();
 	}
 
 }
