@@ -67,7 +67,7 @@
             <p:inputNumber id="note" value="#{enrollmentRequestController.selectedEntity.note}" minValue="0" maxValue="10" decimalPlaces="2" required="false" disabled="#{enrollmentRequestController.readOnly}">
             </p:inputNumber>
          </ui:decorate>
-        <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="registeredSappg" />
             <ui:param name="label" value="#{msgsAcademicControl['enrollmentRequest.field.registeredSappg']}" />
             <p:selectBooleanCheckbox id="registeredSappg" value="#{enrollmentRequestController.selectedEntity.registeredSappg}" required="false" disabled="#{enrollmentRequestController.readOnly}">

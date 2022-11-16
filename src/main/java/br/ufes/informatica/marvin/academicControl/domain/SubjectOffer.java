@@ -106,5 +106,4 @@ public class SubjectOffer extends PersistentObjectSupport implements Comparable<
 	public int compareTo(SubjectOffer o) {
 		return uuid.compareTo(o.uuid);
 	}
-
 }

@@ -81,6 +81,7 @@
                   </f:facet>
                   <h:outputText value="#{c.name}"/>
                </p:column>
+               <f:event type="preRenderView" listener="#{subjectOfferController.setDefaultProfessor}" />
             </p:selectOneMenu>
          </ui:decorate>
          <!-- Field: numMaxStudents. -->
@@ -88,6 +89,7 @@
             <ui:param name="fieldName" value="numMaxStudents" />
             <ui:param name="label" value="#{msgsAcademicControl['subjectOffer.field.numMaxStudents']}" />
             <p:inputNumber id="numMaxStudents" value="#{subjectOfferController.selectedEntity.numMaxStudents}" minValue="1" maxValue="200" decimalPlaces="0" required="true" disabled="#{subjectOfferController.readOnly}">
+               <f:event type="preRenderView" listener="#{subjectOfferController.setDefaultNumMaxStudents}" />
             </p:inputNumber>
          </ui:decorate>
          <!-- Buttons shown below the form. -->
@@ -95,7 +97,7 @@
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
                <p:commandButton id="cancelButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
                <p:commandButton id="saveButton" action="#{subjectOfferController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
-               <p:commandButton id="avance" action="#{subjectOfferController.avance}" value="Avance" />
+               <p:commandButton id="schedules" action="#{subjectOfferController.inputSchedules}" value="#{msgsAcademicControl['subjectOffer.button.schedules']}" />
                <p:defaultCommand target="saveButton" />
             </ui:decorate>
          </h:panelGroup>

@@ -27,14 +27,12 @@
          </p>
          <!-- Subject offers. -->
          <p:panelGrid columns="15" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-1,ui-grid-col-1">
-         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="schoolSubject" />
-            <ui:param name="label" value="#{msgsAcademicControl['schoolSubject.title']}" />
-            <p:inputText id="schoolSubject" value="#{subjectOfferController.selectedEntity.schoolSubject.name}" disabled="true">
-            </p:inputText>
-         </ui:decorate>
-         
-         
+            <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+               <ui:param name="fieldName" value="schoolSubject" />
+               <ui:param name="label" value="#{msgsAcademicControl['schoolSubject.title']}" />
+               <p:inputText id="schoolSubject" value="#{subjectOfferController.selectedEntity.schoolSubject.name}" disabled="true">
+               </p:inputText>
+            </ui:decorate>
             <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
                <ui:param name="fieldName" value="classTime" />
                <ui:param name="label" value="#{msgsAcademicControl['classTime.weekDay']}" />
@@ -64,8 +62,9 @@
          </p:dataTable>
          <!-- Buttons below the form. -->
          <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-            <p:commandButton id="startOverButton" action="#{subjectOfferController.startOver}" value="#{msgsAcademicControl['classTime.button.startOver']}" icon="fa fa-fw fa-refresh" update="bgrTable"/>
-            <p:commandButton id="generateButton" action="#{subjectOfferController.generateSubjectOffer}" value="#{msgsAcademicControl['classTime.create']}" icon="fa fa-fw fa-book" />
+            <p:commandButton id="backButton" onclick="window.history.back();" value="#{msgsAcademicControl['classTime.button.back']}" icon="fa fa-fw fa-close" />
+            <p:commandButton id="cleanClassTime" action="#{subjectOfferController.cleanClassTime}" value="#{msgsAcademicControl['classTime.button.cleanClassTime']}" icon="fa fa-fw fa-refresh" update="bgrTable"/>
+            <p:commandButton id="generateButton" action="#{subjectOfferController.generateSubjectOffer}" value="#{msgsAcademicControl['classTime.save']}" icon="fa fa-fw fa-book" />
          </ui:decorate>
       </ui:decorate>
    </ui:define>

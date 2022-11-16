@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.academicControl.controller;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.enums.EnumWeekDays;
+import br.ufes.informatica.marvin.core.application.LoginService;
 import br.ufes.informatica.marvin.core.domain.Academic;
 
 @Named
@@ -43,6 +45,9 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 
 	@EJB
 	private ListProfessorsService listProfessorsService;
+
+	@EJB
+	private LoginService loginService;
 
 	private List<SchoolSubject> schoolSubjects;
 
@@ -92,7 +97,7 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 		this.periods = periods;
 	}
 
-	public String avance() throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+	public String inputSchedules() throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		classTime = new ClassTime();
 		subjectOfferService.prePopulateSchoolSubjectOffer(this.selectedEntity);
 		return VIEW_PATH + "createClassTime.xhtml?faces-redirect=true";
@@ -110,9 +115,42 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 		return EnumWeekDays.values();
 	}
 
+	private boolean isBetween(LocalTime dateBetween, LocalTime dateIni, LocalTime dateFinal) {
+		if (!dateBetween.equals(dateIni) && !dateBetween.equals(dateFinal))
+			if (dateBetween.isAfter(dateIni) && dateBetween.isBefore(dateFinal))
+				return true;
+		return false;
+	}
+
+	private boolean isBeforeAndAfter(LocalTime dateI, LocalTime dateF, LocalTime dateIni, LocalTime dateFinal) {
+		if (dateI.isBefore(dateIni) && dateF.isAfter(dateFinal))
+			return true;
+		return false;
+	}
+
+	private boolean existSchedulesConflits(ClassTime classTime) {
+		Long qtdConflits = this.selectedEntity.getClassTime()//
+				.stream()//
+				.filter(c -> c.getWeekDay().equals(classTime.getWeekDay()))//
+				.filter(c -> isBetween(classTime.getStartTime(), c.getStartTime(), c.getEndTime()) //
+						|| isBetween(classTime.getEndTime(), c.getStartTime(), c.getEndTime()) //
+						|| isBeforeAndAfter(classTime.getStartTime(), classTime.getEndTime(), c.getStartTime(),
+								c.getEndTime()))
+				.count();
+		return qtdConflits > 0L;
+	}
+
 	public void addClassTime() {
 		if (ObjectUtils.allNotNull(classTime.getWeekDay(), classTime.getEndTime(), classTime.getStartTime())) {
-			this.selectedEntity.getClassTime().add(classTime);
+			Long qtdEqualsClassTime = this.selectedEntity.getClassTime()//
+					.stream()//
+					.filter(c -> c.getWeekDay().equals(classTime.getWeekDay()))//
+					.filter(c -> c.getStartTime().equals(classTime.getStartTime()))//
+					.filter(c -> c.getEndTime().equals(classTime.getEndTime()))//
+					.count();
+
+			if (qtdEqualsClassTime.equals(0L) && !existSchedulesConflits(classTime))
+				this.selectedEntity.getClassTime().add(classTime);
 			classTime = new ClassTime();
 		}
 	}
@@ -122,10 +160,20 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 		return list();
 	}
 
-	public String startOver() {
+	public String cleanClassTime() {
 		classTime = new ClassTime();
 		this.selectedEntity.setClassTime(new ArrayList<ClassTime>());
 		return VIEW_PATH + "createClassTime.xhtml?faces-redirect=true";
+	}
+
+	public void setDefaultNumMaxStudents() {
+		if (!this.selectedEntity.isPersistent())
+			this.selectedEntity.setNumMaxStudents(40L);
+	}
+
+	public void setDefaultProfessor() {
+		if (!this.selectedEntity.isPersistent())
+			this.selectedEntity.setProfessor(loginService.getCurrentUser());
 	}
 
 }
