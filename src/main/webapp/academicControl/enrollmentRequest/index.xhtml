@@ -32,7 +32,6 @@
             paginatorPosition="bottom" 
             loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
             emptyMessage="#{enrollmentRequestController.filtering ? msgsAcademicControl['enrollmentRequest.text.noEntitiesFiltered'] : msgsAcademicControl['enrollmentRequest.text.noEntities']}">
-            
             <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.subjectOffer.period']}">
                <h:outputText value="#{entity.subjectOffer.period.name}" />
             </p:column>
@@ -48,7 +47,6 @@
             <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.note']}">
                <h:outputText value="#{entity.note}" />
             </p:column>
-            
             <p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
             <p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
          </p:dataTable>

@@ -31,4 +31,9 @@ public class SchoolSubjectController extends CrudController<SchoolSubject> {
 		return EnumSchoolSubjectType.values();
 	}
 
+	public void setDefaultType() {
+		if (!this.selectedEntity.isPersistent())
+			this.selectedEntity.setType(EnumSchoolSubjectType.REGULAR_DISCIPLINE);
+	}
+
 }
