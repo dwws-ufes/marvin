@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
+import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer_;
 
@@ -62,6 +63,18 @@ public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements Subj
 		logger.log(Level.INFO, "Retrieving subject offers by the id \"{0}\" returned {1} results",
 				new Object[] { schoolSubjectId, result.size() });
 		return result.size() == 0 ? null : result.get(result.size() - 1);
+	}
+
+	@Override
+	public int getCountSubjectOfferByPeriod(Period period) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<SubjectOffer> cq = cb.createQuery(SubjectOffer.class);
+		Root<SubjectOffer> root = cq.from(SubjectOffer.class);
+
+		cq.select(root);
+		cq.where(cb.equal(root.get(SubjectOffer_.period), period));
+
+		return entityManager.createQuery(cq).getResultList().size();
 	}
 
 }

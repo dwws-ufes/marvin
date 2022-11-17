@@ -39,6 +39,7 @@
                   </f:facet>
                   <h:outputText value="#{c.name}"/>
                </p:column>
+            <f:event type="preRenderView" listener="#{subjectOfferController.setDefaultPeriod}" />
             </p:selectOneMenu>
          </ui:decorate>
          <!-- Field: schoolSubject. -->

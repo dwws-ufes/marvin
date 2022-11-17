@@ -58,7 +58,7 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 	private ClassTime classTime;
 
 	@Inject
-	public void init() throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+	public void init() throws Exception {
 		setSchoolSubjects(schoolSubjectService.retrieveSchoolSubjects());
 		setPeriods(periodService.retrievePeriods());
 		setProfessors(listProfessorsService.listProfessors());
@@ -174,6 +174,11 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 	public void setDefaultProfessor() {
 		if (!this.selectedEntity.isPersistent())
 			this.selectedEntity.setProfessor(loginService.getCurrentUser());
+	}
+
+	public void setDefaultPeriod() {
+		if (!this.selectedEntity.isPersistent())
+			this.selectedEntity.setPeriod(periodService.retriveActualPeriod());
 	}
 
 }

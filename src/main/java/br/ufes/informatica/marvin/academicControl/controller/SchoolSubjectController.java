@@ -36,4 +36,9 @@ public class SchoolSubjectController extends CrudController<SchoolSubject> {
 			this.selectedEntity.setType(EnumSchoolSubjectType.REGULAR_DISCIPLINE);
 	}
 
+	public void setDefaultWorkLoadByCredits() {
+		if (this.selectedEntity.getCredits() != null)
+			this.selectedEntity.setWorkload(this.selectedEntity.getCredits() * 15);
+	}
+
 }

@@ -10,4 +10,8 @@ import br.ufes.informatica.marvin.academicControl.domain.Period;
 @Local
 public interface PeriodService extends CrudService<Period> {
 	List<Period> retrievePeriods();
+
+	Period retriveActualPeriod();
+
+	Period retrivePeriodByName(String name);
 }

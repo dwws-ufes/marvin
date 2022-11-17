@@ -66,6 +66,7 @@
             <ui:param name="fieldName" value="credits" />
             <ui:param name="label" value="#{msgsAcademicControl['schoolSubject.field.credits']}" />
             <p:inputNumber id="credits" value="#{schoolSubjectController.selectedEntity.credits}" minValue="1" maxValue="10" decimalPlaces="0" required="true" pt:placeholder="#{msgsAcademicControl['schoolSubject.field.credits.placeholder']}" disabled="#{schoolSubjectController.readOnly}">
+            <p:ajax event="blur" update="nameField workload" listener="#{schoolSubjectController.setDefaultWorkLoadByCredits}" />
             </p:inputNumber>
          </ui:decorate>
          <!-- Field: workload. -->

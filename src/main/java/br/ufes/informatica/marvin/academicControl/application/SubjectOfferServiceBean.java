@@ -16,6 +16,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
 import br.ufes.informatica.marvin.academicControl.domain.ClassTime;
+import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.persistence.SubjectOfferDAO;
 import br.ufes.informatica.marvin.utils.MarvinFunctions;
@@ -77,5 +78,10 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 				}
 			}
 		}
+	}
+
+	@Override
+	public int getCountSubjectOfferByPeriod(Period period) {
+		return subjectOfferDAO.getCountSubjectOfferByPeriod(period);
 	}
 }
