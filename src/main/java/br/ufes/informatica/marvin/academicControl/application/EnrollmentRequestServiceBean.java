@@ -40,4 +40,9 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 		MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_INFO, "Enrollment Request realized with success!");
 	}
 
+	@Override
+	public List<EnrollmentRequest> getListEnrollmentRequestActualPeriodByUser(Academic currentUser) throws Exception {
+		return enrollmentRequestDAO.getListEnrollmentRequestActualPeriodByUser(currentUser);
+	}
+
 }
