@@ -14,6 +14,6 @@ public interface EnrollmentRequestService extends CrudService<EnrollmentRequest>
 
 	void createEnrollmentRequestSubject(Academic currentUser, List<SubjectOffer> listSubjectOffer);
 
-	List<EnrollmentRequest> getListEnrollmentRequestActualPeriodByUser(Academic currentUser) throws Exception;
+	List<EnrollmentRequest> retrieveEnrollmentRequestsActualPeriodByUser(Academic currentUser) throws Exception;
 
 }

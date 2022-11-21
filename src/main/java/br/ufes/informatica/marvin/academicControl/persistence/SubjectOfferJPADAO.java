@@ -14,6 +14,8 @@ import javax.persistence.criteria.Root;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.exceptions.PersistentObjectNotFoundException;
+import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest;
+import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest_;
 import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer_;
@@ -75,6 +77,17 @@ public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements Subj
 		cq.where(cb.equal(root.get(SubjectOffer_.period), period));
 
 		return entityManager.createQuery(cq).getResultList().size();
+	}
+
+	@Override
+	public boolean hasStudentEnrolled(SubjectOffer subjectOffer) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<EnrollmentRequest> cq = cb.createQuery(EnrollmentRequest.class);
+		Root<EnrollmentRequest> root = cq.from(EnrollmentRequest.class);
+
+		cq.where(cb.equal(root.get(EnrollmentRequest_.subjectOffer), subjectOffer));
+
+		return entityManager.createQuery(cq).getResultList().size() > 0;
 	}
 
 }

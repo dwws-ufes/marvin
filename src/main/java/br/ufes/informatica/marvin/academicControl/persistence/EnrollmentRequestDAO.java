@@ -11,6 +11,6 @@ import br.ufes.informatica.marvin.core.domain.Academic;
 @Local
 public interface EnrollmentRequestDAO extends BaseDAO<EnrollmentRequest> {
 
-	List<EnrollmentRequest> getListEnrollmentRequestActualPeriodByUser(Academic currentUser) throws Exception;
+	List<EnrollmentRequest> retrieveEnrollmentRequestsActualPeriodByUser(Academic currentUser) throws Exception;
 
 }

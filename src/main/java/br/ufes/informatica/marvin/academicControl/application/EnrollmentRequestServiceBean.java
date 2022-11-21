@@ -41,8 +41,8 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 	}
 
 	@Override
-	public List<EnrollmentRequest> getListEnrollmentRequestActualPeriodByUser(Academic currentUser) throws Exception {
-		return enrollmentRequestDAO.getListEnrollmentRequestActualPeriodByUser(currentUser);
+	public List<EnrollmentRequest> retrieveEnrollmentRequestsActualPeriodByUser(Academic currentUser) throws Exception {
+		return enrollmentRequestDAO.retrieveEnrollmentRequestsActualPeriodByUser(currentUser);
 	}
 
 }

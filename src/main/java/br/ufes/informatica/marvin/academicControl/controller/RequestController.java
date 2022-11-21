@@ -89,11 +89,6 @@ public class RequestController extends CrudController<Request> {
 		this.loginService = loginService;
 	}
 
-	public String saveFileAndGenerateRequest() {
-		requestService.createRequest(loginService.getCurrentUser(), request);
-		return list();
-	}
-
 	public String saveFileAndResponseRequest() {
 		requestService.responseRequest(loginService.getCurrentUser(), request);
 		return list();
@@ -135,5 +130,17 @@ public class RequestController extends CrudController<Request> {
 	public String revokeStatus() {
 		requestService.revokeStatus(loginService.getCurrentUser(), this.selectedEntity);
 		return list();
+	}
+
+	public List<Request> getRequests() throws Exception {
+		return requestService.retrieveRequestsByUser(loginService.getCurrentUser());
+	}
+
+	@Override
+	public String save() {
+		this.getSelectedEntity().setRequester(loginService.getCurrentUser());
+		this.getSelectedEntity()
+				.setLocalfileUseOfCredits(MarvinFunctions.saveFileInServer(request.getFileUseOfCredits()));
+		return super.save();
 	}
 }

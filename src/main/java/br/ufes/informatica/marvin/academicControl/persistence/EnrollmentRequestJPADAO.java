@@ -29,7 +29,7 @@ public class EnrollmentRequestJPADAO extends BaseJPADAO<EnrollmentRequest> imple
 	}
 
 	@Override
-	public List<EnrollmentRequest> getListEnrollmentRequestActualPeriodByUser(Academic currentUser) throws Exception {
+	public List<EnrollmentRequest> retrieveEnrollmentRequestsActualPeriodByUser(Academic currentUser) throws Exception {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<EnrollmentRequest> cq = cb.createQuery(EnrollmentRequest.class);
 		Root<EnrollmentRequest> root = cq.from(EnrollmentRequest.class);

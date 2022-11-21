@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 
 import org.apache.commons.lang3.ObjectUtils;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
@@ -84,4 +85,30 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 	public int getCountSubjectOfferByPeriod(Period period) {
 		return subjectOfferDAO.getCountSubjectOfferByPeriod(period);
 	}
+
+	@Override
+	public void validateUpdate(SubjectOffer subjectOffer) throws CrudException {
+		CrudException crudException = null;
+		if (subjectOffer.getPeriod().getEnrollmentFinalDate().before(MarvinFunctions.sysdate()))
+			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.requestDateClosed");
+		if (crudException != null)
+			throw crudException;
+	}
+
+	@Override
+	public void validateDelete(SubjectOffer subjectOffer) throws CrudException {
+		CrudException crudException = null;
+		if (subjectOffer.getPeriod().getEnrollmentStartDate().before(MarvinFunctions.sysdate()))
+			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.requestDateStarted");
+		if (hasStudentEnrolled(subjectOffer))
+			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.hasStudentEnrolled");
+		if (crudException != null)
+			throw crudException;
+	}
+
+	@Override
+	public boolean hasStudentEnrolled(SubjectOffer subjectOffer) {
+		return subjectOfferDAO.hasStudentEnrolled(subjectOffer);
+	}
+
 }

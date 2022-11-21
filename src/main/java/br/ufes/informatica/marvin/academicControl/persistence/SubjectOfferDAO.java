@@ -20,4 +20,6 @@ public interface SubjectOfferDAO extends BaseDAO<SubjectOffer> {
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
 	int getCountSubjectOfferByPeriod(Period period);
+
+	boolean hasStudentEnrolled(SubjectOffer subjectOffer);
 }

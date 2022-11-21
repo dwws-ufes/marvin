@@ -26,4 +26,6 @@ public interface SubjectOfferService extends CrudService<SubjectOffer> {
 
 	int getCountSubjectOfferByPeriod(Period period);
 
+	boolean hasStudentEnrolled(SubjectOffer subjectOffer);
+
 }

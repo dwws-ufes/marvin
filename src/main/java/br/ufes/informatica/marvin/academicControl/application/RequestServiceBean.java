@@ -1,22 +1,14 @@
 package br.ufes.informatica.marvin.academicControl.application;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 
-import org.primefaces.model.file.UploadedFile;
-
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.academicControl.domain.Request;
@@ -30,8 +22,6 @@ import br.ufes.informatica.marvin.utils.MarvinFunctions;
 public class RequestServiceBean extends CrudServiceBean<Request> implements RequestService {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = Logger.getLogger(RequestServiceBean.class.getCanonicalName());
-
 	@EJB
 	private RequestDAO requestDAO;
 
@@ -40,45 +30,16 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		return requestDAO;
 	}
 
-	private String saveFileInServer(UploadedFile file) {
-		try {
-			if (Objects.nonNull(file) && Objects.nonNull(file.getFileName()) && file.getSize() > 0) {
-				SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
-				String name = System.getProperty("java.io.tmpdir") + fmt.format(new Date()) + file.getFileName();
-				logger.log(Level.FINE, "Saving the file " + name + " in temp folder");
-				File fileToSave = new File(name);
-				InputStream is = file.getInputStream();
-				OutputStream out = new FileOutputStream(fileToSave);
-				byte buf[] = new byte[1024];
-				int len;
-				while ((len = is.read(buf)) > 0)
-					out.write(buf, 0, len);
-				is.close();
-				out.close();
-				return name;
-			}
-		} catch (Exception e) {
-			logger.log(Level.WARNING, "Error saving file to folder Temp");
-			MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_ERROR, "Failed to save file to server!",
-					e.getMessage());
-		}
-
-		return null;
-	}
-
 	@Override
-	public void createRequest(Academic currentUser, Request request) {
-		request.setRequester(currentUser);
-		request.setLocalfileUseOfCredits(saveFileInServer(request.getFileUseOfCredits()));
-		requestDAO.save(request);
-		MarvinFunctions.showMessageInScreen(FacesMessage.SEVERITY_INFO, "Request realized with success!");
+	public boolean requestAlreadyExist(Request request) {
+		return requestDAO.requestAlreadyExist(request);
 	}
 
 	@Override
 	public void responseRequest(Academic currentUser, Request request) {
 		request.setGrantor(currentUser);
 		request.setResponseDate(MarvinFunctions.sysdate());
-		request.setLocalfileUniversityDegree(saveFileInServer(request.getFileUniversityDegree()));
+		request.setLocalfileUniversityDegree(MarvinFunctions.saveFileInServer(request.getFileUniversityDegree()));
 		request.setUserSituation(MarvinFunctions.nvl(request.getUserSituation(), currentUser));
 		request.setUserSituationDate(MarvinFunctions.nvl(request.getUserSituationDate(), MarvinFunctions.sysdate()));
 		request.setRequestSituation(EnumRequestSituation.FINALIZED);
@@ -118,5 +79,28 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		request.setResponseDate(null);
 		request.setRequestResponseDetailing(null);
 		setSituationAndSave(currentUser, request, EnumRequestSituation.UNDER_ANALYSIS);
+	}
+
+	@Override
+	public List<Request> retrieveRequestsByUser(Academic currentUser) throws Exception {
+		return requestDAO.retrieveRequestsByUser(currentUser);
+	}
+
+	@Override
+	public void validateDelete(Request request) throws CrudException {
+		CrudException crudException = null;
+		if (!EnumRequestSituation.WAITING.equals(request.getRequestSituation()))
+			crudException = addGlobalValidationError(crudException, null, "error.request.situationDontAllow");
+		if (crudException != null)
+			throw crudException;
+	}
+
+	@Override
+	public void validateCreate(Request request) throws CrudException {
+		CrudException crudException = null;
+		if (requestAlreadyExist(request))
+			crudException = addGlobalValidationError(crudException, null, "error.request.typeAlreadyExists");
+		if (crudException != null)
+			throw crudException;
 	}
 }

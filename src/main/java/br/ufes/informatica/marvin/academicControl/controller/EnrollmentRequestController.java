@@ -48,14 +48,10 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 
 	private PersistentObjectConverterFromId<SubjectOffer> subjectOfferConverter;
 
-	private List<EnrollmentRequest> enrollmentRequests;
-
 	@PostConstruct
 	public void init() throws Exception {
 		setListSubjectOffer(subjectOfferService.retrieveSubjectsOffer());
 		setSubjectOfferConverter(subjectOfferService.getSubjectOfferConverter());
-		setEnrollmentRequests(
-				enrollmentRequestService.getListEnrollmentRequestActualPeriodByUser(loginService.getCurrentUser()));
 	}
 
 	public void onLoad() {
@@ -110,12 +106,8 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 		this.selectOffer = selectOffer;
 	}
 
-	public List<EnrollmentRequest> getEnrollmentRequests() {
-		return enrollmentRequests;
-	}
-
-	public void setEnrollmentRequests(List<EnrollmentRequest> enrollmentRequests) {
-		this.enrollmentRequests = enrollmentRequests;
+	public List<EnrollmentRequest> getEnrollmentRequests() throws Exception {
+		return enrollmentRequestService.retrieveEnrollmentRequestsActualPeriodByUser(loginService.getCurrentUser());
 	}
 
 	@Override
@@ -143,4 +135,5 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 	public EnumEnrollmentRequestSituation[] getValues() {
 		return EnumEnrollmentRequestSituation.values();
 	}
+
 }
