@@ -88,6 +88,7 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 
 	@Override
 	public void validateDelete(Request request) throws CrudException {
+		super.validateDelete(request);
 		CrudException crudException = null;
 		if (!EnumRequestSituation.WAITING.equals(request.getRequestSituation()))
 			crudException = addGlobalValidationError(crudException, null, "error.request.situationDontAllow");
@@ -97,6 +98,7 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 
 	@Override
 	public void validateCreate(Request request) throws CrudException {
+		super.validateCreate(request);
 		CrudException crudException = null;
 		if (requestAlreadyExist(request))
 			crudException = addGlobalValidationError(crudException, null, "error.request.typeAlreadyExists");

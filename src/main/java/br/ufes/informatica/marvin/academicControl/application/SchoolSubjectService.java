@@ -12,4 +12,6 @@ public interface SchoolSubjectService extends CrudService<SchoolSubject> {
 
 	List<SchoolSubject> retrieveSchoolSubjects();
 
+	boolean codeAlreadyExists(SchoolSubject entity);
+
 }

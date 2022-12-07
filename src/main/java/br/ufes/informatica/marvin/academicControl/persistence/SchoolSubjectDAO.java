@@ -14,4 +14,6 @@ public interface SchoolSubjectDAO extends BaseDAO<SchoolSubject> {
 
 	SchoolSubject retrieveSubjectById(Long id);
 
+	boolean codeAlreadyExists(SchoolSubject schoolSubject);
+
 }
