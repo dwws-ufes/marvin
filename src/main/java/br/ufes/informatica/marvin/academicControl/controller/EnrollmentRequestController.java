@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -48,7 +49,8 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 
 	private PersistentObjectConverterFromId<SubjectOffer> subjectOfferConverter;
 
-	@PostConstruct
+	@Inject
+	@ViewScoped
 	public void init() throws Exception {
 		setListSubjectOffer(subjectOfferService.retrieveSubjectsOffer());
 		setSubjectOfferConverter(subjectOfferService.getSubjectOfferConverter());

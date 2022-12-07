@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -58,6 +59,7 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 	private ClassTime classTime;
 
 	@Inject
+	@ViewScoped
 	public void init() throws Exception {
 		setSchoolSubjects(schoolSubjectService.retrieveSchoolSubjects());
 		setPeriods(periodService.retrievePeriods());

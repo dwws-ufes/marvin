@@ -10,32 +10,32 @@
 	<li class="header"><h:outputText value="#{msgsAcademicControl['menu.academicControl']}" /></li>
 	
 	<!-- deadLine -->
-	<li><p:link outcome="/academicControl/deadline/index"><i class="fa fa-clock-o"></i>
+	<li><p:link outcome="/academicControl/deadline/index" rendered="#{sessionController.staff or sessionController.admin}" ><i class="fa fa-clock-o"></i>
 		<span><h:outputText value="#{msgsAcademicControl['menu.academicControl.deadline']}" /></span>
 	</p:link></li>
 	
-	<!-- schoolSubjectl -->
-	<li><p:link outcome="/academicControl/schoolSubject/index"><i class="fa fa-book-open"></i>
+	<!-- schoolSubject -->
+	<li><p:link outcome="/academicControl/schoolSubject/index" rendered="#{sessionController.staff or sessionController.admin or sessionController.professor}"><i class="fa fa-book-open"></i>
 		<span><h:outputText value="#{msgsAcademicControl['menu.academicControl.schoolSubject']}" /></span>
 	</p:link></li>
 	
 	<!-- period -->
-	<li><p:link outcome="/academicControl/period/index"><i class="fa fa-calendar-check"></i>
+	<li><p:link outcome="/academicControl/period/index" rendered="#{sessionController.staff or sessionController.admin or sessionController.professor}"><i class="fa fa-calendar-check"></i>
 		<span><h:outputText value="#{msgsAcademicControl['menu.academicControl.period']}" /></span>
 	</p:link></li>
 	
 	<!-- subjectOffer -->
-	<li><p:link outcome="/academicControl/subjectOffer/index"><i class="fa fa-chalkboard-teacher"></i>
+	<li><p:link outcome="/academicControl/subjectOffer/index" rendered="#{sessionController.staff or sessionController.admin or sessionController.professor}"><i class="fa fa-chalkboard-teacher"></i>
 		<span><h:outputText value="#{msgsAcademicControl['menu.academicControl.subjectOffer']}" /></span>
 	</p:link></li>
 	
 	<!-- enrollmentRequest -->
-	<li><p:link outcome="/academicControl/enrollmentRequest/index"><i class="fa fa-pencil-square-o"></i>
+	<li><p:link outcome="/academicControl/enrollmentRequest/index" rendered="#{sessionController.staff or sessionController.admin or sessionController.student}"><i class="fa fa-pencil-square-o"></i>
 		<span><h:outputText value="#{msgsAcademicControl['menu.academicControl.enrollmentRequest']}" /></span>
 	</p:link></li>
 	
 	<!-- request -->
-	<li><p:link outcome="/academicControl/request/index"><i class="fas fa-bullhorn"></i>
+	<li><p:link outcome="/academicControl/request/index" rendered="#{sessionController.staff or sessionController.admin or sessionController.student}"><i class="fas fa-bullhorn"></i>
 		<span><h:outputText value="#{msgsAcademicControl['menu.academicControl.request']}" /></span>
 	</p:link></li>
 	

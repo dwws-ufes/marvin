@@ -58,19 +58,14 @@ public class PeriodJPADAO extends BaseJPADAO<Period> implements PeriodDAO {
 
 	@Override
 	public Period retriveActualPeriod() {
-		try {
-			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-			CriteriaQuery<Period> cq = cb.createQuery(Period.class);
-			Root<Period> root = cq.from(Period.class);
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Period> cq = cb.createQuery(Period.class);
+		Root<Period> root = cq.from(Period.class);
 
-			Date sysdate = MarvinFunctions.sysdate();
-			cq.where(cb.lessThanOrEqualTo(root.get(Period_.offerStartDate), sysdate));
-			cq.where(cb.greaterThanOrEqualTo(root.get(Period_.offerFinalDate), sysdate));
-			Period result = executeSingleResultQuery(cq, sysdate, sysdate);
-			return result;
-		} catch (Exception e) {
-			List<Period> periods = retrievePeriods();
-			return periods.size() > 0 ? periods.get(0) : null;
-		}
+		Date sysdate = MarvinFunctions.sysdate();
+		cq.where(cb.lessThanOrEqualTo(root.get(Period_.offerStartDate), sysdate));
+		cq.where(cb.greaterThanOrEqualTo(root.get(Period_.offerFinalDate), sysdate));
+		List<Period> periods = entityManager.createQuery(cq).getResultList();
+		return periods.size() > 0 ? periods.get(0) : null;
 	}
 }
