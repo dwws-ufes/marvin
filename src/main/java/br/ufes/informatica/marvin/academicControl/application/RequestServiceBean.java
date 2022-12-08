@@ -82,8 +82,11 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 	}
 
 	@Override
-	public List<Request> retrieveRequestsByUser(Academic currentUser) throws Exception {
-		return requestDAO.retrieveRequestsByUser(currentUser);
+	public List<Request> retrieveRequests(Academic currentUser) throws Exception {
+		if (!MarvinFunctions.isStaffOrAdmin()) {
+			return requestDAO.retrieveRequestsByUser(currentUser);
+		}
+		return requestDAO.retrieveAll();
 	}
 
 	@Override

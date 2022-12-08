@@ -109,7 +109,7 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 	}
 
 	public List<EnrollmentRequest> getEnrollmentRequests() throws Exception {
-		return enrollmentRequestService.retrieveEnrollmentRequestsActualPeriodByUser(loginService.getCurrentUser());
+		return enrollmentRequestService.retrieveEnrollmentRequests(loginService.getCurrentUser());
 	}
 
 	@Override

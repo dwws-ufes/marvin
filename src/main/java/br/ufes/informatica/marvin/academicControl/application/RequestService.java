@@ -19,7 +19,7 @@ public interface RequestService extends CrudService<Request> {
 
 	void revokeStatus(Academic currentUser, Request request);
 
-	List<Request> retrieveRequestsByUser(Academic currentUser) throws Exception;
+	List<Request> retrieveRequests(Academic currentUser) throws Exception;
 
 	boolean requestAlreadyExist(Request request);
 

@@ -133,7 +133,7 @@ public class RequestController extends CrudController<Request> {
 	}
 
 	public List<Request> getRequests() throws Exception {
-		return requestService.retrieveRequestsByUser(loginService.getCurrentUser());
+		return requestService.retrieveRequests(loginService.getCurrentUser());
 	}
 
 	@Override

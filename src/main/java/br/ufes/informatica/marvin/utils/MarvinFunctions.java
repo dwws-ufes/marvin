@@ -12,7 +12,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
+import org.omnifaces.util.Faces;
 import org.primefaces.model.file.UploadedFile;
+
+import br.ufes.informatica.marvin.core.domain.Role;
 
 public class MarvinFunctions {
 
@@ -32,6 +35,10 @@ public class MarvinFunctions {
 
 	public static <T> T nvl(T mayBeNull, T alternative) {
 		return null == mayBeNull ? alternative : mayBeNull;
+	}
+
+	public static boolean isStaffOrAdmin() {
+		return Faces.isUserInRole(Role.STAFF_ROLE_NAME) || Faces.isUserInRole(Role.SYSADMIN_ROLE_NAME);
 	}
 
 	public static String saveFileInServer(UploadedFile file) {

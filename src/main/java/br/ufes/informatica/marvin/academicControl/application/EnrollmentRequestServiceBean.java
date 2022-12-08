@@ -41,8 +41,11 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 	}
 
 	@Override
-	public List<EnrollmentRequest> retrieveEnrollmentRequestsActualPeriodByUser(Academic currentUser) throws Exception {
-		return enrollmentRequestDAO.retrieveEnrollmentRequestsActualPeriodByUser(currentUser);
+	public List<EnrollmentRequest> retrieveEnrollmentRequests(Academic currentUser) throws Exception {
+		if (!MarvinFunctions.isStaffOrAdmin()) {
+			return enrollmentRequestDAO.retrieveEnrollmentRequestsActualPeriodByUser(currentUser);
+		}
+		return enrollmentRequestDAO.retrieveAll();
 	}
 
 }
