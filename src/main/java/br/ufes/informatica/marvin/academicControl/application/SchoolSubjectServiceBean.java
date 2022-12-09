@@ -35,6 +35,11 @@ public class SchoolSubjectServiceBean extends CrudServiceBean<SchoolSubject> imp
 		return schoolSubjectDAO.codeAlreadyExists(entity);
 	}
 
+	@Override
+	public boolean hasSubjectOffer(SchoolSubject schoolSubject) {
+		return schoolSubjectDAO.hasSubjectOffer(schoolSubject);
+	}
+
 	public void validateCreateUpdate(SchoolSubject entity) throws CrudException {
 		CrudException crudException = null;
 		if (codeAlreadyExists(entity))
@@ -53,6 +58,15 @@ public class SchoolSubjectServiceBean extends CrudServiceBean<SchoolSubject> imp
 	public void validateUpdate(SchoolSubject entity) throws CrudException {
 		super.validateUpdate(entity);
 		validateCreateUpdate(entity);
+	}
+
+	@Override
+	public void validateDelete(SchoolSubject entity) throws CrudException {
+		CrudException crudException = null;
+		if (hasSubjectOffer(entity))
+			crudException = addGlobalValidationError(crudException, null, "error.schoolSubject.hasSubjectOffer");
+		if (crudException != null)
+			throw crudException;
 	}
 
 }

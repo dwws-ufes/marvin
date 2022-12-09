@@ -16,4 +16,6 @@ public interface SchoolSubjectDAO extends BaseDAO<SchoolSubject> {
 
 	boolean codeAlreadyExists(SchoolSubject schoolSubject);
 
+	boolean hasSubjectOffer(SchoolSubject schoolSubject);
+
 }

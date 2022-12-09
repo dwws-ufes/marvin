@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
@@ -44,9 +45,12 @@ public class RequestJPADAO extends BaseJPADAO<Request> implements RequestDAO {
 		CriteriaQuery<Request> cq = cb.createQuery(Request.class);
 		Root<Request> root = cq.from(Request.class);
 
-		cq.where(cb.lessThanOrEqualTo(root.get(Request_.requester), request.getRequester()));
-		cq.where(cb.notEqual(root.get(Request_.requestSituation), EnumRequestSituation.REFUSED));
-		cq.where(cb.equal(root.get(Request_.deadline), request.getDeadline()));
+		Predicate[] predicates = new Predicate[3];
+		predicates[0] = cb.lessThanOrEqualTo(root.get(Request_.requester), request.getRequester());
+		predicates[1] = cb.notEqual(root.get(Request_.requestSituation), EnumRequestSituation.REFUSED);
+		predicates[2] = cb.equal(root.get(Request_.deadline), request.getDeadline());
+
+		cq.select(root).where(predicates);
 
 		return getEntityManager().createQuery(cq).getResultList().size() > 0;
 	}

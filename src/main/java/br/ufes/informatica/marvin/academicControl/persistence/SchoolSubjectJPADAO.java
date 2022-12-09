@@ -9,11 +9,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
 import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject_;
+import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
+import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer_;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Stateless
 public class SchoolSubjectJPADAO extends BaseJPADAO<SchoolSubject> implements SchoolSubjectDAO {
@@ -49,17 +53,25 @@ public class SchoolSubjectJPADAO extends BaseJPADAO<SchoolSubject> implements Sc
 		CriteriaQuery<SchoolSubject> cq = cb.createQuery(SchoolSubject.class);
 		Root<SchoolSubject> root = cq.from(SchoolSubject.class);
 
-		/*
-		 * TODO checar porque restrição só funcionou dessa maneira e não funcionou adicionando um and caso o registro já
-		 * estiver persistido
-		 */
-		cq.where(cb.equal(root.get(SchoolSubject_.code), schoolSubject.getCode()),
-				schoolSubject.isPersistent() ? cb.notEqual(root.get(SchoolSubject_.id), schoolSubject.getId())
-						: cb.equal(root.get(SchoolSubject_.code), schoolSubject.getCode()));
-		/*
-		 * if (schoolSubject.isPersistent()) cq.where(cb.notEqual(root.get(SchoolSubject_.id), schoolSubject.getId()));
-		 */
+		Predicate[] predicates = new Predicate[2];
+		predicates[0] = cb.equal(root.get(SchoolSubject_.code), schoolSubject.getCode());
+		predicates[1] = MarvinFunctions.selectByExp(schoolSubject.isPersistent(), //
+				cb.notEqual(root.get(SchoolSubject_.id), schoolSubject.getId()), //
+				cb.equal(root.get(SchoolSubject_.code), schoolSubject.getCode()));
+
+		cq.select(root).where(predicates);
 
 		return getEntityManager().createQuery(cq).getResultList().size() > 0;
+	}
+
+	@Override
+	public boolean hasSubjectOffer(SchoolSubject schoolSubject) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<SubjectOffer> cq = cb.createQuery(SubjectOffer.class);
+		Root<SubjectOffer> root = cq.from(SubjectOffer.class);
+
+		cq.where(cb.equal(root.get(SubjectOffer_.schoolSubject), schoolSubject));
+
+		return entityManager.createQuery(cq).getResultList().size() > 0;
 	}
 }

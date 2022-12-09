@@ -21,7 +21,7 @@
          <ui:param name="formName" value="listingForm" />
          <p:dataTable
             widgetVar="listingTable"
-            value="#{requestController.lazyEntities}" 
+            value="#{requestController.requests}" 
             var="entity" 
             rows="#{requestController.maxDataTableRowsPerPage}" 
             rowsPerPageTemplate="#{requestController.halfMaxDataTableRowsPerPage},#{requestController.maxDataTableRowsPerPage},#{requestController.doubleMaxDataTableRowsPerPage}"
@@ -29,6 +29,7 @@
             paginator="true" 
             selection="#{requestController.selectedEntity}" 
             selectionMode="single" 
+            rowKey="#{entity.uuid}"
             paginatorPosition="bottom" 
             loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
             emptyMessage="#{requestController.filtering ? msgsAcademicControl['request.text.noEntitiesFiltered'] : msgsAcademicControl['request.text.noEntities']}">

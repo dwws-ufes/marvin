@@ -19,6 +19,7 @@ import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest_;
 import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer_;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Stateless
 public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements SubjectOfferDAO {
@@ -64,7 +65,7 @@ public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements Subj
 
 		logger.log(Level.INFO, "Retrieving subject offers by the id \"{0}\" returned {1} results",
 				new Object[] { schoolSubjectId, result.size() });
-		return result.size() == 0 ? null : result.get(result.size() - 1);
+		return MarvinFunctions.selectByExp(result.size() == 0, null, result.get(result.size() - 1));
 	}
 
 	@Override

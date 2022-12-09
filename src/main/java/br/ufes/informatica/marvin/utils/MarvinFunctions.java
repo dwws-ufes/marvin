@@ -37,6 +37,10 @@ public class MarvinFunctions {
 		return null == mayBeNull ? alternative : mayBeNull;
 	}
 
+	public static <T> T selectByExp(boolean exp, T value1, T value2) {
+		return exp ? value1 : value2;
+	}
+
 	public static boolean isStaffOrAdmin() {
 		return Faces.isUserInRole(Role.STAFF_ROLE_NAME) || Faces.isUserInRole(Role.SYSADMIN_ROLE_NAME);
 	}
