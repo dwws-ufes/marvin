@@ -138,4 +138,9 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 		return EnumEnrollmentRequestSituation.values();
 	}
 
+	public String registeredOnSappg() {
+		enrollmentRequestService.registeredOnSappg(this.getSelectedEntity());
+		return list();
+	}
+
 }

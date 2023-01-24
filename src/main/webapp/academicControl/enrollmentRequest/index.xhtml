@@ -33,6 +33,9 @@
             paginatorPosition="bottom" 
             loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
             emptyMessage="#{enrollmentRequestController.filtering ? msgsAcademicControl['enrollmentRequest.text.noEntitiesFiltered'] : msgsAcademicControl['enrollmentRequest.text.noEntities']}">
+            <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.registeredSappg']}">
+               <p:selectBooleanCheckbox value="#{entity.registeredSappg}" disabled="true" styleClass="readonly" itemLabel="#{msgsAcademicControl['enrollmentRequest.field.cb.registeredSappg']}"/>
+            </p:column>
             <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.subjectOffer.period']}">
                <h:outputText value="#{entity.subjectOffer.period.name}" />
             </p:column>
@@ -54,6 +57,7 @@
          <!-- Buttons shown below the listing. -->
          <h:panelGroup id="buttonsGroup">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
+               <p:commandButton id="registeredSappg" action="#{enrollmentRequestController.registeredOnSappg}" value="#{msgsAcademicControl['enrollmentRequest.button.registeredSappg']}" icon="fa fa-fw fa-refresh" />
                <p:commandButton id="startOverButton" action="#{enrollmentRequestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-refresh" />
                <p:commandButton action="#{enrollmentRequestController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{enrollmentRequestController.selectedEntity == null}" />
                <p:commandButton action="#{enrollmentRequestController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{enrollmentRequestController.selectedEntity == null}" />

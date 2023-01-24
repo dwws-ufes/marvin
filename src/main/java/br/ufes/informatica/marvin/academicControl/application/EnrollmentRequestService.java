@@ -16,4 +16,6 @@ public interface EnrollmentRequestService extends CrudService<EnrollmentRequest>
 
 	List<EnrollmentRequest> retrieveEnrollmentRequests(Academic currentUser) throws Exception;
 
+	void registeredOnSappg(EnrollmentRequest enrollmentRequest);
+
 }
