@@ -13,6 +13,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.ObjectUtils;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PersistentObjectConverterFromId;
@@ -138,9 +139,15 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 		return EnumEnrollmentRequestSituation.values();
 	}
 
-	public String registeredOnSappg() {
+	public String registeredOnSappg() throws CrudException {
 		enrollmentRequestService.registeredOnSappg(this.getSelectedEntity());
 		return list();
 	}
 
+	public boolean isAllowedChangeSappg() {
+		if (this.getSelectedEntity() != null) {
+			return enrollmentRequestService.isAllowedChangeSappg(this.getSelectedEntity());
+		}
+		return false;
+	}
 }

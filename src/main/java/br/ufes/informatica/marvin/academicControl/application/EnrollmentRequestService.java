@@ -18,4 +18,6 @@ public interface EnrollmentRequestService extends CrudService<EnrollmentRequest>
 
 	void registeredOnSappg(EnrollmentRequest enrollmentRequest);
 
+	boolean isAllowedChangeSappg(EnrollmentRequest enrollmentRequest);
+
 }

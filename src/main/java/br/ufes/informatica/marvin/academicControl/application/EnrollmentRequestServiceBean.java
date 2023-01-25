@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.academicControl.application;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
@@ -7,10 +8,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 
-import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest;
+import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.enums.EnumEnrollmentRequestSituation;
 import br.ufes.informatica.marvin.academicControl.persistence.EnrollmentRequestDAO;
@@ -53,24 +54,24 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 	@Override
 	public void registeredOnSappg(EnrollmentRequest enrollmentRequest) {
 		enrollmentRequest.setRegisteredSappg(enrollmentRequest.getRegisteredSappg() == false ? true : false);
+		if (EnumEnrollmentRequestSituation.WAITING.equals(enrollmentRequest.getEnrollmentRequestSituation()))
+			enrollmentRequest.setEnrollmentRequestSituation(EnumEnrollmentRequestSituation.REGISTRED);
 		this.update(enrollmentRequest);
-		enrollmentRequestDAO.save(enrollmentRequest);
 	}
 
 	@Override
-	public void validateUpdate(EnrollmentRequest enrollmentRequest) throws CrudException {
-		super.validateUpdate(enrollmentRequest);
-		CrudException crudException = null;
+	public boolean isAllowedChangeSappg(EnrollmentRequest enrollmentRequest) {
 		EnrollmentRequest enrollmentRequestBD = enrollmentRequestDAO.retrieveById(enrollmentRequest.getId());
 
-		if (enrollmentRequestBD.getRegisteredSappg() == false && //
-				enrollmentRequest.getRegisteredSappg() == true && //
-				EnumEnrollmentRequestSituation.REFUSED.equals(enrollmentRequest.getEnrollmentRequestSituation()))
-			crudException = addGlobalValidationError(crudException, null,
-					"error.enrollmentRequest.enrollmentRequestWasRefused");
+		if (EnumEnrollmentRequestSituation.REFUSED.equals(enrollmentRequest.getEnrollmentRequestSituation()))
+			return false;
 
-		if (crudException != null)
-			throw crudException;
+		Date sysdate = MarvinFunctions.sysdate();
+		Period period = enrollmentRequestBD.getSubjectOffer().getPeriod();
+		if (!(period.getPeriodStartDate().after(sysdate) && period.getPeriodFinalDate().before(sysdate)))
+			return false;
+
+		return true;
 	}
 
 }
