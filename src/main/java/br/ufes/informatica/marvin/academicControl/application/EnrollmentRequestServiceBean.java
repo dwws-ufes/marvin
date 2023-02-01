@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest;
@@ -30,6 +31,21 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 	@Override
 	public BaseDAO<EnrollmentRequest> getDAO() {
 		return enrollmentRequestDAO;
+	}
+
+	@Override
+	public void validateUpdate(EnrollmentRequest enrollmentRequest) throws CrudException {
+		super.validateUpdate(enrollmentRequest);
+		CrudException crudException = null;
+
+		EnrollmentRequest enrollmentRequestBD = enrollmentRequestDAO.retrieveById(enrollmentRequest.getId());
+
+		if (!enrollmentRequestBD.getRegisteredSappg()
+				.equals(enrollmentRequest.getRegisteredSappg() && !isAllowedChangeSappg(enrollmentRequest)))
+			crudException = addGlobalValidationError(crudException, null,
+					"error.enrollmentRequest.notPossibleRegisterSAPPG");
+		if (crudException != null)
+			throw crudException;
 	}
 
 	@Override

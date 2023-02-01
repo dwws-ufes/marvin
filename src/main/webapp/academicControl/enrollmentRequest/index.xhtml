@@ -57,10 +57,10 @@
          <!-- Buttons shown below the listing. -->
          <h:panelGroup id="buttonsGroup">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-               <p:commandButton id="registeredSappg" action="#{enrollmentRequestController.registeredOnSappg}" value="#{msgsAcademicControl['enrollmentRequest.button.registeredSappg']}" icon="fa fa-fw fa-refresh" disabled="#{!enrollmentRequestController.allowedChangeSappg}"/>
-               <p:commandButton id="startOverButton" action="#{enrollmentRequestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-refresh" />
+               <p:commandButton id="registeredSappg" action="#{enrollmentRequestController.registeredOnSappg}" value="#{msgsAcademicControl['enrollmentRequest.button.registeredSappg']}" icon="fa fa-steam-square" disabled="#{!enrollmentRequestController.allowedChangeSappg}"/>
+               <p:commandButton id="startOverButton" action="#{enrollmentRequestController.startRequest}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-plus-square" />
                <p:commandButton action="#{enrollmentRequestController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{enrollmentRequestController.selectedEntity == null}" />
-               <p:commandButton action="#{enrollmentRequestController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{enrollmentRequestController.selectedEntity == null}" />
+               <p:commandButton action="#{enrollmentRequestController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-pencil-square-o" disabled="#{enrollmentRequestController.selectedEntity == null}" />
                <p:commandButton action="#{enrollmentRequestController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{enrollmentRequestController.selectedEntity == null}" process="@this" update="trashGroup" />
             </ui:decorate>
          </h:panelGroup>

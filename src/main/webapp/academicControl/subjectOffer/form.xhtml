@@ -96,15 +96,15 @@
          <!-- Buttons shown below the form. -->
          <h:panelGroup rendered="#{! subjectOfferController.readOnly}">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-               <p:commandButton id="cancelButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
+               <p:commandButton id="cancelButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-window-close" />
                <p:commandButton id="saveButton" action="#{subjectOfferController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :messages :info-messages" icon="fa fa-fw fa-save" />
-               <p:commandButton id="schedules" action="#{subjectOfferController.inputSchedules}" value="#{msgsAcademicControl['subjectOffer.button.schedules']}" />
+               <p:commandButton id="schedules" action="#{subjectOfferController.inputSchedules}" value="#{msgsAcademicControl['subjectOffer.button.schedules']}" icon="fa fa-clock-o" />
                <p:defaultCommand target="saveButton" />
             </ui:decorate>
          </h:panelGroup>
          <h:panelGroup rendered="#{subjectOfferController.readOnly}">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-               <p:commandButton id="backButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
+               <p:commandButton id="backButton" action="#{subjectOfferController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-arrow-circle-o-left" />
             </ui:decorate>
          </h:panelGroup>
       </ui:decorate>

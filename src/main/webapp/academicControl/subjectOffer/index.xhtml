@@ -56,9 +56,9 @@
          <!-- Buttons shown below the listing. -->
          <h:panelGroup id="buttonsGroup">
             <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-               <p:commandButton action="#{subjectOfferController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus" />
+               <p:commandButton action="#{subjectOfferController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-plus-square" />
                <p:commandButton action="#{subjectOfferController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{subjectOfferController.selectedEntity == null}" />
-               <p:commandButton action="#{subjectOfferController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{subjectOfferController.selectedEntity == null}" />
+               <p:commandButton action="#{subjectOfferController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-pencil-square-o" disabled="#{subjectOfferController.selectedEntity == null}" />
                <p:commandButton action="#{subjectOfferController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{subjectOfferController.selectedEntity == null}" process="@this" update="trashGroup" />
             </ui:decorate>
          </h:panelGroup>
