@@ -26,6 +26,9 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 	@EJB
 	private RequestDAO requestDAO;
 
+	@EJB
+	private MailSenderService mailSenderService;
+
 	@Override
 	public BaseDAO<Request> getDAO() {
 		return requestDAO;
@@ -46,8 +49,11 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		request.setRequestSituation(EnumRequestSituation.FINALIZED);
 		/* TODO set field RegistrationNumber in Academic using nvl */
 		requestDAO.save(request);
-		MarvinFunctions.sendMail(request.getRequester().getEmail(), subjectMailChangeSituation,
-				"Sua requisição de " + request.getDeadline().getDeadlineType().getDescription() + " foi respondida.");
+		mailSenderService.createMailSender(//
+				request.getRequester().getEmail(), //
+				subjectMailChangeSituation, //
+				"Sua requisição de " + request.getDeadline().getDeadlineType().getDescription() + " foi respondida."//
+		);
 	}
 
 	@Override
@@ -56,9 +62,12 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		request.setResponseDate(MarvinFunctions.sysdate());
 		request.setRequestSituation(EnumRequestSituation.REFUSED);
 		requestDAO.save(request);
-		MarvinFunctions.sendMail(request.getRequester().getEmail(), subjectMailChangeSituation,
+		mailSenderService.createMailSender(//
+				request.getRequester().getEmail(), //
+				subjectMailChangeSituation, //
 				"Sua requisição de " + request.getDeadline().getDeadlineType()
-						.getDescription() + " foi recusada, favor checar as observações do porque ela foi recusada.");
+						.getDescription() + " foi recusada, favor checar as observações do porque ela foi recusada."//
+		);
 	}
 
 	private void setSituationAndSave(Academic currentUser, Request request, EnumRequestSituation situation) {
@@ -66,9 +75,12 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		request.setUserSituationDate(MarvinFunctions.sysdate());
 		request.setRequestSituation(situation);
 		requestDAO.save(request);
-		MarvinFunctions.sendMail(request.getRequester().getEmail(), subjectMailChangeSituation,
+		mailSenderService.createMailSender(//
+				request.getRequester().getEmail(), //
+				subjectMailChangeSituation, //
 				"Sua requisição de " + request.getDeadline().getDeadlineType()
-						.getDescription() + " teve a situação alterada.");
+						.getDescription() + " teve a situação alterada."//
+		);
 	}
 
 	@Override
@@ -78,7 +90,9 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 					"Request situation don't allow this action!");
 		} else {
 			setSituationAndSave(currentUser, request, EnumRequestSituation.UNDER_ANALYSIS);
-			MarvinFunctions.sendMail(request.getRequester().getEmail(), subjectMailChangeSituation,
+			mailSenderService.createMailSender(//
+					request.getRequester().getEmail(), //
+					subjectMailChangeSituation, //
 					"Sua requisição de " + request.getDeadline().getDeadlineType()
 							.getDescription() + " está sob análise.");
 		}
@@ -90,7 +104,9 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		request.setResponseDate(null);
 		request.setRequestResponseDetailing(null);
 		setSituationAndSave(currentUser, request, EnumRequestSituation.UNDER_ANALYSIS);
-		MarvinFunctions.sendMail(request.getRequester().getEmail(), subjectMailChangeSituation,
+		mailSenderService.createMailSender(//
+				request.getRequester().getEmail(), //
+				subjectMailChangeSituation, //
 				"Sua requisição de " + request.getDeadline().getDeadlineType()
 						.getDescription() + " voltou para a situação de análise.");
 	}

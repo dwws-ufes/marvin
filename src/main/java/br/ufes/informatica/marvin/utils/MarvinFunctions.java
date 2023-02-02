@@ -21,6 +21,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.lang3.StringUtils;
 import org.omnifaces.util.Faces;
 import org.primefaces.model.file.UploadedFile;
 
@@ -77,7 +78,7 @@ public class MarvinFunctions {
 		return null;
 	}
 
-	public static void sendMail(String addressee, String subject, String text) {
+	public static String sendMail(String addressee, String subject, String text) {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -100,8 +101,9 @@ public class MarvinFunctions {
 			message.setText(text);
 			Transport.send(message);
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			return StringUtils.abbreviate(e.getMessage(), 4000);
 		}
+		return null;
 	}
 
 }
