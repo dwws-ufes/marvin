@@ -28,6 +28,11 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 	@EJB
 	private EnrollmentRequestDAO enrollmentRequestDAO;
 
+	@EJB
+	private MailSenderService mailSenderService;
+
+	private static final String subjectMailChangeSituation = "Marvin - Alteração de situação da solicitação de matrícula";
+
 	@Override
 	public BaseDAO<EnrollmentRequest> getDAO() {
 		return enrollmentRequestDAO;
@@ -46,6 +51,8 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 					"error.enrollmentRequest.notPossibleRegisterSAPPG");
 		if (crudException != null)
 			throw crudException;
+
+		this.afterUpdate(enrollmentRequest);
 	}
 
 	@Override
@@ -90,4 +97,11 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 		return true;
 	}
 
+	public void afterUpdate(EnrollmentRequest enrollmentRequest) {
+		mailSenderService.createMailSender(//
+				enrollmentRequest.getRequester().getEmail(), //
+				subjectMailChangeSituation, //
+				"Sua solicitação de matrícula teve a situação alterada."//
+		);
+	}
 }

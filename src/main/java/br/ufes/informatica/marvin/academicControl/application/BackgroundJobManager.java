@@ -33,7 +33,7 @@ public class BackgroundJobManager {
 	@PostConstruct
 	public void init() {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new SomeDailyJob(), 0, 1, TimeUnit.MINUTES);
+		scheduler.scheduleAtFixedRate(new MailJob(), 0, 1, TimeUnit.MINUTES);
 	}
 
 	@PreDestroy
@@ -41,8 +41,7 @@ public class BackgroundJobManager {
 		scheduler.shutdownNow();
 	}
 
-	public class SomeDailyJob implements Runnable {
-
+	private class MailJob implements Runnable {
 		@Override
 		public void run() {
 			logger.log(Level.INFO, "Listing emails to sent...");
@@ -64,7 +63,5 @@ public class BackgroundJobManager {
 				mailSenderService.getDAO().save(mail);
 			}
 		}
-
 	}
-
 }
