@@ -1,11 +1,12 @@
 package br.ufes.informatica.marvin.academicControl.enums;
 
 public enum EnumDeadlineType {
-	DIPLOMA_REQUEST("Diploma Request"), //
-	REUSE_OF_CREDITS("Reuse of Credits"), //
-	REQUEST_REGISTRATION_NUMBER("Request Registration Number");
+	DIPLOMA_REQUEST("Diploma Request", "Solicitação de Diploma"), //
+	REUSE_OF_CREDITS("Reuse of Credits", "Aproveitamento de créditos"), //
+	REQUEST_REGISTRATION_NUMBER("Request Registration Number", "Solicitação de n�mero de matrícula");
 
 	private String code;
+	private String description;
 
 	public String getCode() {
 		return code;
@@ -15,7 +16,16 @@ public enum EnumDeadlineType {
 		this.code = code;
 	}
 
-	EnumDeadlineType(String code) {
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	EnumDeadlineType(String code, String description) {
 		this.code = code;
+		this.description = description;
 	}
 }

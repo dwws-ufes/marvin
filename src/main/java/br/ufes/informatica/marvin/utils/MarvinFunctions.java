@@ -7,10 +7,19 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Properties;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.omnifaces.util.Faces;
 import org.primefaces.model.file.UploadedFile;
@@ -18,7 +27,6 @@ import org.primefaces.model.file.UploadedFile;
 import br.ufes.informatica.marvin.core.domain.Role;
 
 public class MarvinFunctions {
-
 	public static void showMessageInScreen(Severity severity, String str1, String str2) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = new FacesMessage(severity, str1, str2);
@@ -67,6 +75,33 @@ public class MarvinFunctions {
 		}
 
 		return null;
+	}
+
+	public static void sendMail(String addressee, String subject, String text) {
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("marvinufes@gmail.com", "axqaxkmbbwvmqxvf");
+			}
+		});
+
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("marvinufes@gmail.com"));
+			Address[] toUser = InternetAddress.parse(addressee);
+			message.setRecipients(Message.RecipientType.TO, toUser);
+			message.setSubject(subject);
+			message.setText(text);
+			Transport.send(message);
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
