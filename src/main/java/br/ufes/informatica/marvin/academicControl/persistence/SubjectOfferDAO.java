@@ -19,7 +19,9 @@ public interface SubjectOfferDAO extends BaseDAO<SubjectOffer> {
 	SubjectOffer retrieveLastSubjectOfferBySchoolSubject(Long schoolSubjectId)
 			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
-	int getCountSubjectOfferByPeriod(Period period);
-
 	boolean hasStudentEnrolled(SubjectOffer subjectOffer);
+
+	boolean schoolSubjectWasOfferedInPeriod(SubjectOffer subjectOffer);
+
+	int getCountSubjectOfferByPeriod(Period period);
 }

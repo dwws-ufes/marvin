@@ -28,4 +28,6 @@ public interface SubjectOfferService extends CrudService<SubjectOffer> {
 
 	boolean hasStudentEnrolled(SubjectOffer subjectOffer);
 
+	boolean schoolSubjectWasOfferedInPeriod(SubjectOffer subjectOffer);
+
 }

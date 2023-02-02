@@ -125,8 +125,7 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		CrudException crudException = null;
 		if (!EnumRequestSituation.WAITING.equals(request.getRequestSituation()))
 			crudException = addGlobalValidationError(crudException, null, "error.request.situationDontAllow");
-		if (crudException != null)
-			throw crudException;
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 	}
 
 	@Override
@@ -135,7 +134,6 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		CrudException crudException = null;
 		if (requestAlreadyExist(request))
 			crudException = addGlobalValidationError(crudException, null, "error.request.typeAlreadyExists");
-		if (crudException != null)
-			throw crudException;
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 	}
 }

@@ -11,6 +11,7 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
 import br.ufes.informatica.marvin.academicControl.persistence.SchoolSubjectDAO;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Stateless
 @PermitAll
@@ -44,8 +45,7 @@ public class SchoolSubjectServiceBean extends CrudServiceBean<SchoolSubject> imp
 		CrudException crudException = null;
 		if (codeAlreadyExists(entity))
 			crudException = addGlobalValidationError(crudException, null, "error.schoolSubject.codeAlreadyExists");
-		if (crudException != null)
-			throw crudException;
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 	}
 
 	@Override
@@ -65,8 +65,6 @@ public class SchoolSubjectServiceBean extends CrudServiceBean<SchoolSubject> imp
 		CrudException crudException = null;
 		if (hasSubjectOffer(entity))
 			crudException = addGlobalValidationError(crudException, null, "error.schoolSubject.hasSubjectOffer");
-		if (crudException != null)
-			throw crudException;
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 	}
-
 }

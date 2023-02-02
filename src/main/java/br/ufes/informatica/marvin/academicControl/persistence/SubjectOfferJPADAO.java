@@ -19,7 +19,6 @@ import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest_;
 import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer_;
-import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Stateless
 public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements SubjectOfferDAO {
@@ -65,7 +64,9 @@ public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements Subj
 
 		logger.log(Level.INFO, "Retrieving subject offers by the id \"{0}\" returned {1} results",
 				new Object[] { schoolSubjectId, result.size() });
-		return MarvinFunctions.selectByExp(result.size() == 0, null, result.get(result.size() - 1));
+		if (result.size() == 0)
+			return null;
+		return result.get(result.size() - 1);
 	}
 
 	@Override
@@ -89,6 +90,19 @@ public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements Subj
 		cq.where(cb.equal(root.get(EnrollmentRequest_.subjectOffer), subjectOffer));
 
 		return entityManager.createQuery(cq).getResultList().size() > 0;
+	}
+
+	@Override
+	public boolean schoolSubjectWasOfferedInPeriod(SubjectOffer subjectOffer) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<SubjectOffer> cq = cb.createQuery(SubjectOffer.class);
+		Root<SubjectOffer> root = cq.from(SubjectOffer.class);
+
+		cq.select(root);
+		cq.where(cb.equal(root.get(SubjectOffer_.period), subjectOffer.getPeriod()));
+		cq.where(cb.equal(root.get(SubjectOffer_.schoolSubject), subjectOffer.getSchoolSubject()));
+
+		return entityManager.createQuery(cq).getResultList().size() > 0 ? true : false;
 	}
 
 }

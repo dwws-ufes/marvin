@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.omnifaces.util.Faces;
 import org.primefaces.model.file.UploadedFile;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.informatica.marvin.core.domain.Role;
 
 public class MarvinFunctions {
@@ -104,6 +105,11 @@ public class MarvinFunctions {
 			return StringUtils.abbreviate(e.getMessage(), 4000);
 		}
 		return null;
+	}
+
+	public static void verifyAndThrowCrudExc(CrudException crudException) throws CrudException {
+		if (crudException != null)
+			throw crudException;
 	}
 
 }

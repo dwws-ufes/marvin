@@ -125,7 +125,7 @@ public class SubjectOfferController extends CrudController<SubjectOffer> {
 	}
 
 	private boolean isBeforeAndAfter(LocalTime dateI, LocalTime dateF, LocalTime dateIni, LocalTime dateFinal) {
-		if (dateI.isBefore(dateIni) && dateF.isAfter(dateFinal))
+		if ((dateI.isBefore(dateIni) || dateI.equals(dateIni)) && (dateF.isAfter(dateFinal) || dateF.equals(dateFinal)))
 			return true;
 		return false;
 	}

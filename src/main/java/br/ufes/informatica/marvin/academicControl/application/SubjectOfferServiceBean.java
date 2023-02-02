@@ -3,6 +3,8 @@ package br.ufes.informatica.marvin.academicControl.application;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -31,6 +33,8 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 	private SubjectOfferDAO subjectOfferDAO;
 
 	private PersistentObjectConverterFromId<SubjectOffer> subjectOfferConverter;
+
+	private static final Logger logger = Logger.getLogger(SubjectOfferServiceBean.class.getCanonicalName());
 
 	@Override
 	public BaseDAO<SubjectOffer> getDAO() {
@@ -87,12 +91,29 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 	}
 
 	@Override
+	public void validateCreate(SubjectOffer subjectOffer) throws CrudException {
+		CrudException crudException = null;
+
+		try {
+			prePopulateSchoolSubjectOffer(subjectOffer);
+		} catch (Exception e) {
+			logger.log(Level.INFO, "Error to pre populate school subject offer class times");
+		}
+
+		if (schoolSubjectWasOfferedInPeriod(subjectOffer)) {
+			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.schoolSubjectWasOfered");
+		} else if (Objects.isNull(subjectOffer.getClassTime()) || subjectOffer.getClassTime().isEmpty())
+			crudException = addGlobalValidationError(crudException, null,
+					"error.subjectOffer.notPosibleGenerateSchedules");
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+	}
+
+	@Override
 	public void validateUpdate(SubjectOffer subjectOffer) throws CrudException {
 		CrudException crudException = null;
 		if (subjectOffer.getPeriod().getEnrollmentFinalDate().before(MarvinFunctions.sysdate()))
 			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.requestDateClosed");
-		if (crudException != null)
-			throw crudException;
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 	}
 
 	@Override
@@ -102,13 +123,17 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.requestDateStarted");
 		if (hasStudentEnrolled(subjectOffer))
 			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.hasStudentEnrolled");
-		if (crudException != null)
-			throw crudException;
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 	}
 
 	@Override
 	public boolean hasStudentEnrolled(SubjectOffer subjectOffer) {
 		return subjectOfferDAO.hasStudentEnrolled(subjectOffer);
+	}
+
+	@Override
+	public boolean schoolSubjectWasOfferedInPeriod(SubjectOffer subjectOffer) {
+		return subjectOfferDAO.schoolSubjectWasOfferedInPeriod(subjectOffer);
 	}
 
 }

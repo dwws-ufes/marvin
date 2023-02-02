@@ -22,7 +22,7 @@
       <!-- The form to be filled with a selection of researchers and optional start/end years. -->
       <ui:decorate template="/WEB-INF/templates/form.xhtml">
          <ui:param name="formName" value="form" />
-         <ui:param name="formLabel" value="#{msgsAcademicControl['enrollmentRequest.form.generate']}" />
+         <ui:param name="formLabel" value="#{msgsAcademicControl['enrollmentRequest.form.generateEnrollmentRequest']}" />
          <p:focus />
          <!-- Instructions on how to fill the form. -->	
          <p>
@@ -80,8 +80,8 @@
          </ui:decorate>
          <!-- Buttons below the form. -->
          <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-            <p:commandButton id="startOverButton" action="#{enrollmentRequestController.startRequest}" value="#{msgsAcademicControl['enrollmentRequest.button.startOver']}" icon="fa fa-fw fa-refresh" update="bgrTable" />
-            <p:commandButton id="generateButton" action="#{enrollmentRequestController.generate}" value="#{msgsAcademicControl['enrollmentRequest.form.generate']}" icon="fa fa-fw fa-book" update="bgrTable" />
+            <p:commandButton id="startOverButton" action="#{enrollmentRequestController.startRequest}" value="#{msgsAcademicControl['enrollmentRequest.button.startOver']}" icon="fa fa-pencil-square-o" update="bgrTable" />
+            <p:commandButton id="generateButton" action="#{enrollmentRequestController.generate}" value="#{msgsAcademicControl['enrollmentRequest.form.generate']}" icon="fa fa-fw fa-save" update="bgrTable" />
          </ui:decorate>
       </ui:decorate>
    </ui:define>

@@ -49,9 +49,7 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 				.equals(enrollmentRequest.getRegisteredSappg() && !isAllowedChangeSappg(enrollmentRequest)))
 			crudException = addGlobalValidationError(crudException, null,
 					"error.enrollmentRequest.notPossibleRegisterSAPPG");
-		if (crudException != null)
-			throw crudException;
-
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 		this.afterUpdate(enrollmentRequest);
 	}
 

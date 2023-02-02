@@ -15,5 +15,4 @@ public interface SchoolSubjectService extends CrudService<SchoolSubject> {
 	boolean codeAlreadyExists(SchoolSubject entity);
 
 	boolean hasSubjectOffer(SchoolSubject schoolSubject);
-
 }

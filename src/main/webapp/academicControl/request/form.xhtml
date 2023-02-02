@@ -56,7 +56,8 @@
          </ui:decorate>
          <!-- Upload button. -->
          <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
-            <p:commandButton ajax="false" action="#{requestController.save}" value="#{msgsAcademicControl['request.button.request']}" icon="fa fa-fw fa-upload" />
+            <p:commandButton id="cancelButton" action="#{requestController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-window-close" />
+            <p:commandButton ajax="false" action="#{requestController.save}" value="#{msgs['jbutler.crud.button.save']}" icon="fa fa-fw fa-save" />
          </ui:decorate>
       </ui:decorate>
    </ui:define>

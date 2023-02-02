@@ -65,8 +65,7 @@ public class PeriodServiceBean extends CrudServiceBean<Period> implements Period
 				period.getEnrollmentFinalDate().after(period.getPeriodFinalDate()))
 			crudException = addGlobalValidationError(crudException, null, "error.period.registrationAfterPeriodStart");
 
-		if (crudException != null)
-			throw crudException;
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 	}
 
 	@Override
@@ -88,8 +87,7 @@ public class PeriodServiceBean extends CrudServiceBean<Period> implements Period
 		if (subjectOfferService.getCountSubjectOfferByPeriod(period) > 0)
 			crudException = addGlobalValidationError(crudException, null, "error.period.existSubjectOfferLinked");
 
-		if (crudException != null)
-			throw crudException;
+		MarvinFunctions.verifyAndThrowCrudExc(crudException);
 	}
 
 }
