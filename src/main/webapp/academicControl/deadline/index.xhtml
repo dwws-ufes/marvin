@@ -38,6 +38,9 @@
             <p:column headerText="#{msgsAcademicControl['deadline.field.daysToReply']}">
                <h:outputText value="#{entity.daysToReply}" />
             </p:column>
+            <p:column headerText="#{msgsAcademicControl['deadline.field.maxDaysToSendMail']}">
+               <h:outputText value="#{entity.maxDaysToSendMail}" />
+            </p:column>
             <p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
             <p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
          </p:dataTable>

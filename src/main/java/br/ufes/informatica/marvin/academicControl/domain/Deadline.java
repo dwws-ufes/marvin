@@ -27,6 +27,10 @@ public class Deadline extends PersistentObjectSupport implements Comparable<Dead
 	@NotNull
 	private Long daysToReply;
 
+	@Basic
+	@NotNull
+	private Long maxDaysToSendMail;
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private EnumDeadlineType deadlineType;
@@ -61,6 +65,14 @@ public class Deadline extends PersistentObjectSupport implements Comparable<Dead
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Long getMaxDaysToSendMail() {
+		return maxDaysToSendMail;
+	}
+
+	public void setMaxDaysToSendMail(Long maxDaysToSendMail) {
+		this.maxDaysToSendMail = maxDaysToSendMail;
 	}
 
 	@Override

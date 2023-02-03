@@ -55,4 +55,20 @@ public class RequestJPADAO extends BaseJPADAO<Request> implements RequestDAO {
 		return getEntityManager().createQuery(cq).getResultList().size() > 0;
 	}
 
+	@Override
+	public List<Request> requestWithoutAnswer() {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Request> cq = cb.createQuery(Request.class);
+		Root<Request> root = cq.from(Request.class);
+		cq.where(root.get(Request_.requestSituation)
+				.in(List.of(EnumRequestSituation.UNDER_ANALYSIS, EnumRequestSituation.WAITING)));
+
+		/* TODO inserir calculo do tempo que falta para expirar o tempo da requisição */
+		/*
+		 * cq.where(cb.lessThanOrEqualTo(root.get(Request_.daysLeftToDeadline),
+		 * root.get("deadline").get("maxDaysToSendMail")));
+		 */
+		return getEntityManager().createQuery(cq).getResultList();
+	}
+
 }

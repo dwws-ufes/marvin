@@ -136,4 +136,9 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 			crudException = addGlobalValidationError(crudException, null, "error.request.typeAlreadyExists");
 		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
+
+	@Override
+	public List<Request> requestWithoutAnswer() {
+		return requestDAO.requestWithoutAnswer();
+	}
 }

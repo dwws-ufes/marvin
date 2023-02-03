@@ -99,7 +99,7 @@ public class MarvinFunctions {
 			Address[] toUser = InternetAddress.parse(addressee);
 			message.setRecipients(Message.RecipientType.TO, toUser);
 			message.setSubject(subject);
-			message.setText(text);
+			message.setContent(text, "text/html");
 			Transport.send(message);
 		} catch (MessagingException e) {
 			return StringUtils.abbreviate(e.getMessage(), 4000);
@@ -110,6 +110,12 @@ public class MarvinFunctions {
 	public static void verifyAndThrowCrudException(CrudException crudException) throws CrudException {
 		if (crudException != null)
 			throw crudException;
+	}
+
+	public static Long dateDifferenceInDays(Date dateIni, Long daysOfRequest) {
+		long dif = MarvinFunctions.sysdate().getTime() - dateIni.getTime();
+		long differenceInDays = (dif / (1000 * 60 * 60 * 24)) % 365;
+		return daysOfRequest - differenceInDays;
 	}
 
 }

@@ -15,4 +15,6 @@ public interface RequestDAO extends BaseDAO<Request> {
 
 	boolean requestAlreadyExist(Request request);
 
+	List<Request> requestWithoutAnswer();
+
 }

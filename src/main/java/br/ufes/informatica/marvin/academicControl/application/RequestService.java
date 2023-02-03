@@ -23,4 +23,6 @@ public interface RequestService extends CrudService<Request> {
 
 	boolean requestAlreadyExist(Request request);
 
+	List<Request> requestWithoutAnswer();
+
 }
