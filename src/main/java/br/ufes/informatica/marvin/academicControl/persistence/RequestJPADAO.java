@@ -46,7 +46,7 @@ public class RequestJPADAO extends BaseJPADAO<Request> implements RequestDAO {
 		Root<Request> root = cq.from(Request.class);
 
 		Predicate[] predicates = new Predicate[3];
-		predicates[0] = cb.lessThanOrEqualTo(root.get(Request_.requester), request.getRequester());
+		predicates[0] = cb.equal(root.get(Request_.requester), request.getRequester());
 		predicates[1] = cb.notEqual(root.get(Request_.requestSituation), EnumRequestSituation.REFUSED);
 		predicates[2] = cb.equal(root.get(Request_.deadline), request.getDeadline());
 

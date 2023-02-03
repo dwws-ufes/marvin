@@ -75,12 +75,6 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 		request.setUserSituationDate(MarvinFunctions.sysdate());
 		request.setRequestSituation(situation);
 		requestDAO.save(request);
-		mailSenderService.createMailSender(//
-				request.getRequester().getEmail(), //
-				subjectMailChangeSituation, //
-				"Sua requisição de " + request.getDeadline().getDeadlineType()
-						.getDescription() + " teve a situação alterada."//
-		);
 	}
 
 	@Override
