@@ -1,11 +1,14 @@
 package br.ufes.informatica.marvin.academicControl.application;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import com.google.common.collect.Ordering;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
@@ -53,19 +56,25 @@ public class PeriodServiceBean extends CrudServiceBean<Period> implements Period
 					period.getName());
 		if (period.getEnrollmentFinalDate().before(period.getEnrollmentStartDate()) || //
 				period.getOfferFinalDate().before(period.getOfferStartDate()) || //
-				period.getPeriodFinalDate().before(period.getPeriodStartDate()))
+				period.getPeriodFinalDate().before(period.getPeriodStartDate()) || //
+				period.getEnrollmentProcessingFinalDate().before(period.getEnrollmentProcessingStartDate()))
 			crudException = addGlobalValidationError(crudException, null, "error.period.finalDateBeforeStartDate");
-		if (period.getEnrollmentStartDate().before(MarvinFunctions.sysdate()) || //
-				period.getPeriodStartDate().before(MarvinFunctions.sysdate()))
-			crudException = addGlobalValidationError(crudException, null, "error.period.dateBeforeToday");
-		if (period.getOfferStartDate().after(period.getEnrollmentStartDate()) || //
-				period.getOfferFinalDate().after(period.getEnrollmentFinalDate()))
-			crudException = addGlobalValidationError(crudException, null, "error.period.offerAfterEnrollment");
-		if (period.getEnrollmentStartDate().after(period.getPeriodStartDate()) || //
-				period.getEnrollmentFinalDate().after(period.getPeriodFinalDate()))
-			crudException = addGlobalValidationError(crudException, null, "error.period.registrationAfterPeriodStart");
 
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		List<Date> listOfDates = List.of(//
+				period.getOfferStartDate(), //
+				period.getOfferFinalDate(), //
+				period.getEnrollmentStartDate(), //
+				period.getEnrollmentFinalDate(), //
+				period.getEnrollmentProcessingStartDate(), //
+				period.getEnrollmentProcessingFinalDate(), //
+				period.getPeriodStartDate(), //
+				period.getPeriodFinalDate());
+
+		if (!Ordering.natural().isOrdered(listOfDates)) {
+			crudException = addGlobalValidationError(crudException, null, "error.period.periodDatesOutOfOrder");
+		}
+
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 
 	@Override
@@ -87,7 +96,7 @@ public class PeriodServiceBean extends CrudServiceBean<Period> implements Period
 		if (subjectOfferService.getCountSubjectOfferByPeriod(period) > 0)
 			crudException = addGlobalValidationError(crudException, null, "error.period.existSubjectOfferLinked");
 
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 
 }

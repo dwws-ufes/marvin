@@ -40,6 +40,6 @@ public class DeadlineServiceBean extends CrudServiceBean<Deadline> implements De
 			crudException = addGlobalValidationError(crudException, null,
 					"error.deadline.notPossibleChangeTypeDeadline");
 		}
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 }

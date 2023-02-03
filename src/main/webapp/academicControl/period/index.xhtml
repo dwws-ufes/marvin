@@ -35,11 +35,11 @@
             <p:column headerText="#{msgsAcademicControl['period.field.name']}">
                <h:outputText value="#{entity.name}" />
             </p:column>
-            <p:column headerText="#{msgsAcademicControl['period.field.periodStartDate']}">
-               <h:outputText value="#{entity.periodStartDate}" />
+            <p:column headerText="#{msgsAcademicControl['period.field.offerStartDate']}">
+               <h:outputText value="#{entity.offerStartDate}" />
             </p:column>
-            <p:column headerText="#{msgsAcademicControl['period.field.periodFinalDate']}">
-               <h:outputText value="#{entity.periodFinalDate}" />
+            <p:column headerText="#{msgsAcademicControl['period.field.offerFinalDate']}">
+               <h:outputText value="#{entity.offerFinalDate}" />
             </p:column>
             <p:column headerText="#{msgsAcademicControl['period.field.enrollmentStartDate']}">
                <h:outputText value="#{entity.enrollmentStartDate}" />
@@ -47,11 +47,17 @@
             <p:column headerText="#{msgsAcademicControl['period.field.enrollmentFinalDate']}">
                <h:outputText value="#{entity.enrollmentFinalDate}" />
             </p:column>
-            <p:column headerText="#{msgsAcademicControl['period.field.offerStartDate']}">
-               <h:outputText value="#{entity.offerStartDate}" />
+            <p:column headerText="#{msgsAcademicControl['period.field.enrollmentProcessingStartDate']}">
+               <h:outputText value="#{entity.enrollmentProcessingStartDate}" />
             </p:column>
-            <p:column headerText="#{msgsAcademicControl['period.field.offerFinalDate']}">
-               <h:outputText value="#{entity.offerFinalDate}" />
+            <p:column headerText="#{msgsAcademicControl['period.field.enrollmentProcessingFinalDate']}">
+               <h:outputText value="#{entity.enrollmentProcessingFinalDate}" />
+            </p:column>
+            <p:column headerText="#{msgsAcademicControl['period.field.periodStartDate']}">
+               <h:outputText value="#{entity.periodStartDate}" />
+            </p:column>
+            <p:column headerText="#{msgsAcademicControl['period.field.periodFinalDate']}">
+               <h:outputText value="#{entity.periodFinalDate}" />
             </p:column>
             <p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
             <p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />

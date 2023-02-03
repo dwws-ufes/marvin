@@ -105,7 +105,7 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 		} else if (Objects.isNull(subjectOffer.getClassTime()) || subjectOffer.getClassTime().isEmpty())
 			crudException = addGlobalValidationError(crudException, null,
 					"error.subjectOffer.notPosibleGenerateSchedules");
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 		CrudException crudException = null;
 		if (subjectOffer.getPeriod().getEnrollmentFinalDate().before(MarvinFunctions.sysdate()))
 			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.requestDateClosed");
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.requestDateStarted");
 		if (hasStudentEnrolled(subjectOffer))
 			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.hasStudentEnrolled");
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 
 	@Override

@@ -32,22 +32,22 @@
             <p:inputText id="name" value="#{periodController.selectedEntity.name}" required="true" pt:placeholder="#{msgsAcademicControl['period.field.name.placeholder']}" disabled="#{periodController.readOnly}">
             </p:inputText>
          </ui:decorate>
-         <!-- Field: periodStartDate. -->
+         <!-- Field: offerStartDate. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="periodStartDate" />
-            <ui:param name="label" value="#{msgsAcademicControl['period.field.periodStartDate']}" />
-            <p:inputMask id="periodStartDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.periodStartDate}" required="true" disabled="#{periodController.readOnly}">
-               <p:ajax event="blur" update="periodStartDate" />
+            <ui:param name="fieldName" value="offerStartDate" />
+            <ui:param name="label" value="#{msgsAcademicControl['period.field.offerStartDate']}" />
+            <p:inputMask id="offerStartDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.offerStartDate}" required="true" disabled="#{periodController.readOnly}">
+               <p:ajax event="blur" update="offerStartDate" />
                <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
             </p:inputMask>
             <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
          </ui:decorate>
-         <!-- Field: periodFinalDate. -->
+         <!-- Field: offerFinalDate. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="periodFinalDate" />
-            <ui:param name="label" value="#{msgsAcademicControl['period.field.periodFinalDate']}" />
-            <p:inputMask id="periodFinalDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.periodFinalDate}" required="true" disabled="#{periodController.readOnly}">
-               <p:ajax event="blur" update="periodFinalDate" />
+            <ui:param name="fieldName" value="offerFinalDate" />
+            <ui:param name="label" value="#{msgsAcademicControl['period.field.offerFinalDate']}" />
+            <p:inputMask id="offerFinalDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.offerFinalDate}" required="true" disabled="#{periodController.readOnly}">
+               <p:ajax event="blur" update="offerFinalDate" />
                <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
             </p:inputMask>
             <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
@@ -72,22 +72,42 @@
             </p:inputMask>
             <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
          </ui:decorate>
-         <!-- Field: offerStartDate. -->
+         <!-- Field: enrollmentProcessingStartDate. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="offerStartDate" />
-            <ui:param name="label" value="#{msgsAcademicControl['period.field.offerStartDate']}" />
-            <p:inputMask id="offerStartDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.offerStartDate}" required="true" disabled="#{periodController.readOnly}">
-               <p:ajax event="blur" update="offerStartDate" />
+            <ui:param name="fieldName" value="enrollmentProcessingStartDate" />
+            <ui:param name="label" value="#{msgsAcademicControl['period.field.enrollmentProcessingStartDate']}" />
+            <p:inputMask id="enrollmentProcessingStartDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.enrollmentProcessingStartDate}" required="true" disabled="#{periodController.readOnly}">
+               <p:ajax event="blur" update="enrollmentProcessingStartDate" />
                <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
             </p:inputMask>
             <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
          </ui:decorate>
-         <!-- Field: offerFinalDate. -->
+         <!-- Field: enrollmentProcessingFinalDate. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="offerFinalDate" />
-            <ui:param name="label" value="#{msgsAcademicControl['period.field.offerFinalDate']}" />
-            <p:inputMask id="offerFinalDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.offerFinalDate}" required="true" disabled="#{periodController.readOnly}">
-               <p:ajax event="blur" update="offerFinalDate" />
+            <ui:param name="fieldName" value="enrollmentProcessingFinalDate" />
+            <ui:param name="label" value="#{msgsAcademicControl['period.field.enrollmentProcessingFinalDate']}" />
+            <p:inputMask id="enrollmentProcessingFinalDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.enrollmentProcessingFinalDate}" required="true" disabled="#{periodController.readOnly}">
+               <p:ajax event="blur" update="enrollmentProcessingFinalDate" />
+               <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+            </p:inputMask>
+            <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
+         </ui:decorate>
+         <!-- Field: periodStartDate. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="periodStartDate" />
+            <ui:param name="label" value="#{msgsAcademicControl['period.field.periodStartDate']}" />
+            <p:inputMask id="periodStartDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.periodStartDate}" required="true" disabled="#{periodController.readOnly}">
+               <p:ajax event="blur" update="periodStartDate" />
+               <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
+            </p:inputMask>
+            <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
+         </ui:decorate>
+         <!-- Field: periodFinalDate. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="periodFinalDate" />
+            <ui:param name="label" value="#{msgsAcademicControl['period.field.periodFinalDate']}" />
+            <p:inputMask id="periodFinalDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.periodFinalDate}" required="true" disabled="#{periodController.readOnly}">
+               <p:ajax event="blur" update="periodFinalDate" />
                <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
             </p:inputMask>
             <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />

@@ -107,7 +107,7 @@ public class MarvinFunctions {
 		return null;
 	}
 
-	public static void verifyAndThrowCrudExc(CrudException crudException) throws CrudException {
+	public static void verifyAndThrowCrudException(CrudException crudException) throws CrudException {
 		if (crudException != null)
 			throw crudException;
 	}

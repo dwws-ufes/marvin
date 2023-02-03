@@ -45,7 +45,7 @@ public class SchoolSubjectServiceBean extends CrudServiceBean<SchoolSubject> imp
 		CrudException crudException = null;
 		if (codeAlreadyExists(entity))
 			crudException = addGlobalValidationError(crudException, null, "error.schoolSubject.codeAlreadyExists");
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 
 	@Override
@@ -65,6 +65,6 @@ public class SchoolSubjectServiceBean extends CrudServiceBean<SchoolSubject> imp
 		CrudException crudException = null;
 		if (hasSubjectOffer(entity))
 			crudException = addGlobalValidationError(crudException, null, "error.schoolSubject.hasSubjectOffer");
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 }

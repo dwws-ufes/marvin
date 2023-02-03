@@ -49,7 +49,7 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 				.equals(enrollmentRequest.getRegisteredSappg() && !isAllowedChangeSappg(enrollmentRequest)))
 			crudException = addGlobalValidationError(crudException, null,
 					"error.enrollmentRequest.notPossibleRegisterSAPPG");
-		MarvinFunctions.verifyAndThrowCrudExc(crudException);
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
 		this.afterUpdate(enrollmentRequest);
 	}
 
@@ -89,7 +89,7 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 
 		Date sysdate = MarvinFunctions.sysdate();
 		Period period = enrollmentRequestBD.getSubjectOffer().getPeriod();
-		if (!(period.getPeriodStartDate().after(sysdate) && period.getPeriodFinalDate().before(sysdate)))
+		if (period.getPeriodFinalDate().before(sysdate))
 			return false;
 
 		return true;

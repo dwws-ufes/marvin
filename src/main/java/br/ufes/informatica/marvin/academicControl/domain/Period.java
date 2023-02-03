@@ -20,11 +20,11 @@ public class Period extends PersistentObjectSupport implements Comparable<Period
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date periodStartDate;
+	private Date offerStartDate;
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date periodFinalDate;
+	private Date offerFinalDate;
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
@@ -36,11 +36,19 @@ public class Period extends PersistentObjectSupport implements Comparable<Period
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date offerStartDate;
+	private Date enrollmentProcessingStartDate;
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date offerFinalDate;
+	private Date enrollmentProcessingFinalDate;
+
+	@Temporal(TemporalType.DATE)
+	@NotNull
+	private Date periodStartDate;
+
+	@Temporal(TemporalType.DATE)
+	@NotNull
+	private Date periodFinalDate;
 
 	public String getName() {
 		return name;
@@ -96,6 +104,22 @@ public class Period extends PersistentObjectSupport implements Comparable<Period
 
 	public void setOfferFinalDate(Date offerFinalDate) {
 		this.offerFinalDate = offerFinalDate;
+	}
+
+	public Date getEnrollmentProcessingStartDate() {
+		return enrollmentProcessingStartDate;
+	}
+
+	public void setEnrollmentProcessingStartDate(Date enrollmentProcessingStartDate) {
+		this.enrollmentProcessingStartDate = enrollmentProcessingStartDate;
+	}
+
+	public Date getEnrollmentProcessingFinalDate() {
+		return enrollmentProcessingFinalDate;
+	}
+
+	public void setEnrollmentProcessingFinalDate(Date enrollmentProcessingFinalDate) {
+		this.enrollmentProcessingFinalDate = enrollmentProcessingFinalDate;
 	}
 
 	@Override
