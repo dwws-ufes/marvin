@@ -57,7 +57,8 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 		setSubjectOfferConverter(subjectOfferService.getSubjectOfferConverter());
 	}
 
-	public void onLoad() {
+	public void onLoad() throws Exception {
+		init();
 		listSubjectOfferSelected = new ArrayList<SubjectOffer>();
 	}
 
