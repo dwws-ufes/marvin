@@ -6,10 +6,13 @@ import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.informatica.marvin.academicControl.domain.SchoolSubject;
+import br.ufes.informatica.marvin.academicControl.enums.EnumSchoolSubjectType;
 import br.ufes.informatica.marvin.academicControl.persistence.SchoolSubjectDAO;
 import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
@@ -41,10 +44,18 @@ public class SchoolSubjectServiceBean extends CrudServiceBean<SchoolSubject> imp
 		return schoolSubjectDAO.hasSubjectOffer(schoolSubject);
 	}
 
-	public void validateCreateUpdate(SchoolSubject entity) throws CrudException {
+	public void validateCreateUpdate(SchoolSubject schoolSubject) throws CrudException {
 		CrudException crudException = null;
-		if (codeAlreadyExists(entity))
+		if (codeAlreadyExists(schoolSubject))
 			crudException = addGlobalValidationError(crudException, null, "error.schoolSubject.codeAlreadyExists");
+
+		if (List.of(EnumSchoolSubjectType.SPECIAL_TOPIC, EnumSchoolSubjectType.THEMATIC_SEMINAR)
+				.contains(schoolSubject.getType()) && //
+				!ObjectUtils.allNotNull(schoolSubject.getSummary(), schoolSubject.getSubtitle(),
+						schoolSubject.getSubtitle()))
+			crudException = addGlobalValidationError(crudException, null,
+					"error.schoolSubject.fieldsMandatoryForSpecialTopicAndSeminar");
+
 		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
 

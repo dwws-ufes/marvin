@@ -119,6 +119,9 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 	@Override
 	public void validateDelete(SubjectOffer subjectOffer) throws CrudException {
 		CrudException crudException = null;
+		if (subjectOffer.getPeriod().getOfferFinalDate().before(MarvinFunctions.sysdate()))
+			crudException = addGlobalValidationError(crudException, null,
+					"error.subjectOffer.cantBeDeletedAfterEndOfferPeriod");
 		if (subjectOffer.getPeriod().getEnrollmentStartDate().before(MarvinFunctions.sysdate()))
 			crudException = addGlobalValidationError(crudException, null, "error.subjectOffer.requestDateStarted");
 		if (hasStudentEnrolled(subjectOffer))

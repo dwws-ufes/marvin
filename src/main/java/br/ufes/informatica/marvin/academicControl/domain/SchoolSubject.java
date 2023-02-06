@@ -26,6 +26,10 @@ public class SchoolSubject extends PersistentObjectSupport implements Comparable
 	private String name;
 
 	@Basic
+	@Size(max = 255)
+	private String subtitle;
+
+	@Basic
 	@Size(max = 4000)
 	private String description;
 
@@ -113,6 +117,14 @@ public class SchoolSubject extends PersistentObjectSupport implements Comparable
 
 	public void setBibliography(String bibliography) {
 		this.bibliography = bibliography;
+	}
+
+	public String getSubtitle() {
+		return subtitle;
+	}
+
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
 	}
 
 	@Override

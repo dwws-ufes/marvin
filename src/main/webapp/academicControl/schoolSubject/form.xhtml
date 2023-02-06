@@ -39,6 +39,13 @@
             <p:inputText id="name" value="#{schoolSubjectController.selectedEntity.name}" required="true" pt:placeholder="#{msgsAcademicControl['schoolSubject.field.name.placeholder']}" disabled="#{schoolSubjectController.readOnly}">
             </p:inputText>
          </ui:decorate>
+         <!-- Field: subtitle. -->
+         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
+            <ui:param name="fieldName" value="subtitle" />
+            <ui:param name="label" value="#{msgsAcademicControl['schoolSubject.field.subtitle']}" />
+            <p:inputText id="subtitle" value="#{schoolSubjectController.selectedEntity.subtitle}" disabled="#{schoolSubjectController.readOnly}">
+            </p:inputText>
+         </ui:decorate>
          <!-- Field: description. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="description" />
