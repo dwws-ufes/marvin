@@ -72,26 +72,6 @@
             </p:inputMask>
             <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
          </ui:decorate>
-         <!-- Field: enrollmentProcessingStartDate. -->
-         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="enrollmentProcessingStartDate" />
-            <ui:param name="label" value="#{msgsAcademicControl['period.field.enrollmentProcessingStartDate']}" />
-            <p:inputMask id="enrollmentProcessingStartDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.enrollmentProcessingStartDate}" required="true" disabled="#{periodController.readOnly}">
-               <p:ajax event="blur" update="enrollmentProcessingStartDate" />
-               <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
-            </p:inputMask>
-            <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
-         </ui:decorate>
-         <!-- Field: enrollmentProcessingFinalDate. -->
-         <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
-            <ui:param name="fieldName" value="enrollmentProcessingFinalDate" />
-            <ui:param name="label" value="#{msgsAcademicControl['period.field.enrollmentProcessingFinalDate']}" />
-            <p:inputMask id="enrollmentProcessingFinalDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.enrollmentProcessingFinalDate}" required="true" disabled="#{periodController.readOnly}">
-               <p:ajax event="blur" update="enrollmentProcessingFinalDate" />
-               <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
-            </p:inputMask>
-            <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />
-         </ui:decorate>
          <!-- Field: periodStartDate. -->
          <ui:decorate template="/WEB-INF/templates/formfield.xhtml">
             <ui:param name="fieldName" value="periodStartDate" />

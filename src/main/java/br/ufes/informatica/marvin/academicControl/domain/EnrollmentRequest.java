@@ -1,6 +1,5 @@
 package br.ufes.informatica.marvin.academicControl.domain;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -11,8 +10,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import com.sun.istack.NotNull;
@@ -48,10 +45,6 @@ public class EnrollmentRequest extends PersistentObjectSupport implements Compar
 	@Basic
 	@Size(max = 255)
 	private String requestResponseDetailing;
-
-	@PositiveOrZero
-	@Digits(integer = 2, fraction = 2)
-	private BigDecimal note;
 
 	@NotNull
 	private Boolean registeredSappg;
@@ -102,14 +95,6 @@ public class EnrollmentRequest extends PersistentObjectSupport implements Compar
 
 	public void setRequestResponseDetailing(String requestResponseDetailing) {
 		this.requestResponseDetailing = requestResponseDetailing;
-	}
-
-	public BigDecimal getNote() {
-		return note;
-	}
-
-	public void setNote(BigDecimal note) {
-		this.note = note;
 	}
 
 	public Boolean getRegisteredSappg() {

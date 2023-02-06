@@ -56,8 +56,7 @@ public class PeriodServiceBean extends CrudServiceBean<Period> implements Period
 					period.getName());
 		if (period.getEnrollmentFinalDate().before(period.getEnrollmentStartDate()) || //
 				period.getOfferFinalDate().before(period.getOfferStartDate()) || //
-				period.getPeriodFinalDate().before(period.getPeriodStartDate()) || //
-				period.getEnrollmentProcessingFinalDate().before(period.getEnrollmentProcessingStartDate()))
+				period.getPeriodFinalDate().before(period.getPeriodStartDate()))
 			crudException = addGlobalValidationError(crudException, null, "error.period.finalDateBeforeStartDate");
 
 		List<Date> listOfDates = List.of(//
@@ -65,8 +64,6 @@ public class PeriodServiceBean extends CrudServiceBean<Period> implements Period
 				period.getOfferFinalDate(), //
 				period.getEnrollmentStartDate(), //
 				period.getEnrollmentFinalDate(), //
-				period.getEnrollmentProcessingStartDate(), //
-				period.getEnrollmentProcessingFinalDate(), //
 				period.getPeriodStartDate(), //
 				period.getPeriodFinalDate());
 

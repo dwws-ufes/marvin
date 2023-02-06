@@ -51,9 +51,6 @@
             <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.registeredSappg']}" rendered="#{sessionController.admin || sessionController.staff}">
                <p:selectBooleanCheckbox value="#{entity.registeredSappg}" disabled="true" styleClass="readonly" itemLabel="#{msgsAcademicControl['enrollmentRequest.field.cb.registeredSappg']}"/>
             </p:column>
-            <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.note']}">
-               <h:outputText value="#{entity.note}" />
-            </p:column>
             <p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
             <p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
          </p:dataTable>
@@ -71,7 +68,7 @@
          <h:panelGroup id="trashGroup">
             <p:panel id="trashPanel" header="#{msgs['jbutler.crud.text.trashHeader']}" rendered="#{not empty enrollmentRequestController.trashCan}" style="margin-top: 20px">
                <p:dataList value="#{enrollmentRequestController.trashCan}" var="entity" type="ordered">
-                  #{entity.subjectOffer.period.name} #{entity.subjectOffer.schoolSubject.name} #{entity.subjectOffer.professor.name} #{entity.enrollmentRequestSituation} #{entity.note}
+                  #{entity.subjectOffer.period.name} #{entity.subjectOffer.schoolSubject.name} #{entity.subjectOffer.professor.name} #{entity.enrollmentRequestSituation}
                </p:dataList>
                <ui:decorate template="/WEB-INF/templates/formbuttonpanel.xhtml">
                   <p:commandButton action="#{enrollmentRequestController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />

@@ -36,14 +36,6 @@ public class Period extends PersistentObjectSupport implements Comparable<Period
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date enrollmentProcessingStartDate;
-
-	@Temporal(TemporalType.DATE)
-	@NotNull
-	private Date enrollmentProcessingFinalDate;
-
-	@Temporal(TemporalType.DATE)
-	@NotNull
 	private Date periodStartDate;
 
 	@Temporal(TemporalType.DATE)
@@ -104,22 +96,6 @@ public class Period extends PersistentObjectSupport implements Comparable<Period
 
 	public void setOfferFinalDate(Date offerFinalDate) {
 		this.offerFinalDate = offerFinalDate;
-	}
-
-	public Date getEnrollmentProcessingStartDate() {
-		return enrollmentProcessingStartDate;
-	}
-
-	public void setEnrollmentProcessingStartDate(Date enrollmentProcessingStartDate) {
-		this.enrollmentProcessingStartDate = enrollmentProcessingStartDate;
-	}
-
-	public Date getEnrollmentProcessingFinalDate() {
-		return enrollmentProcessingFinalDate;
-	}
-
-	public void setEnrollmentProcessingFinalDate(Date enrollmentProcessingFinalDate) {
-		this.enrollmentProcessingFinalDate = enrollmentProcessingFinalDate;
 	}
 
 	@Override

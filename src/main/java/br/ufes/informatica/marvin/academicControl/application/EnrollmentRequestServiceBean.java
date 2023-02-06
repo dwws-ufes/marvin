@@ -76,7 +76,7 @@ public class EnrollmentRequestServiceBean extends CrudServiceBean<EnrollmentRequ
 	public void registeredOnSappg(EnrollmentRequest enrollmentRequest) {
 		enrollmentRequest.setRegisteredSappg(enrollmentRequest.getRegisteredSappg() == false ? true : false);
 		if (EnumEnrollmentRequestSituation.WAITING.equals(enrollmentRequest.getEnrollmentRequestSituation()))
-			enrollmentRequest.setEnrollmentRequestSituation(EnumEnrollmentRequestSituation.REGISTRED);
+			enrollmentRequest.setEnrollmentRequestSituation(EnumEnrollmentRequestSituation.APROVED);
 		this.update(enrollmentRequest);
 	}
 
