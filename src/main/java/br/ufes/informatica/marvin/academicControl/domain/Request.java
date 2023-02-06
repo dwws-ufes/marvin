@@ -200,6 +200,10 @@ public class Request extends PersistentObjectSupport implements Comparable<Reque
 		this.requestRegistrationNumber = requestRegistrationNumber;
 	}
 
+	public Long calculateLeftDaysInRequest() {
+		return MarvinFunctions.dateDifferenceInDays(this.getRequestDate(), this.getDeadline().getDaysToReply());
+	}
+
 	@PrePersist
 	void setDefaultValues() {
 		this.requestDate = MarvinFunctions.sysdate();

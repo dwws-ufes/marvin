@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.academicControl.application;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -92,8 +93,8 @@ public class BackgroundJobManager {
 			logger.log(Level.INFO, "Listing emails to sent...");
 
 			List<Request> requests = requestService.requestWithoutAnswer().stream()//
-					.filter(c -> MarvinFunctions.dateDifferenceInDays(c.getRequestDate(),
-							c.getDeadline().getDaysToReply()) < c.getDeadline().getMaxDaysToSendMail())
+					.filter(c -> c.calculateLeftDaysInRequest() <= c.getDeadline().getMaxDaysToSendMail())//
+					.sorted(Comparator.comparingLong(Request::calculateLeftDaysInRequest))//
 					.collect(Collectors.toList());
 
 			if (!requests.isEmpty()) {

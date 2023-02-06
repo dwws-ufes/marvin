@@ -33,8 +33,8 @@
             paginatorPosition="bottom" 
             loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
             emptyMessage="#{enrollmentRequestController.filtering ? msgsAcademicControl['enrollmentRequest.text.noEntitiesFiltered'] : msgsAcademicControl['enrollmentRequest.text.noEntities']}">
-            <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.registeredSappg']}">
-               <p:selectBooleanCheckbox value="#{entity.registeredSappg}" disabled="true" styleClass="readonly" itemLabel="#{msgsAcademicControl['enrollmentRequest.field.cb.registeredSappg']}"/>
+            <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.requester']}" rendered="#{sessionController.admin || sessionController.staff}">
+               <h:outputText value="#{entity.requester.name}"/>
             </p:column>
             <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.subjectOffer.period']}">
                <h:outputText value="#{entity.subjectOffer.period.name}" />
@@ -47,6 +47,9 @@
             </p:column>
             <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.enrollmentRequestSituation']}">
                <h:outputText value="#{entity.enrollmentRequestSituation.code}" />
+            </p:column>
+            <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.registeredSappg']}" rendered="#{sessionController.admin || sessionController.staff}">
+               <p:selectBooleanCheckbox value="#{entity.registeredSappg}" disabled="true" styleClass="readonly" itemLabel="#{msgsAcademicControl['enrollmentRequest.field.cb.registeredSappg']}"/>
             </p:column>
             <p:column headerText="#{msgsAcademicControl['enrollmentRequest.field.note']}">
                <h:outputText value="#{entity.note}" />

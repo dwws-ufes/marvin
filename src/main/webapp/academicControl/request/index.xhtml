@@ -33,7 +33,7 @@
             paginatorPosition="bottom" 
             loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
             emptyMessage="#{requestController.filtering ? msgsAcademicControl['request.text.noEntitiesFiltered'] : msgsAcademicControl['request.text.noEntities']}">
-            <p:column headerText="#{msgsAcademicControl['request.field.requester']}">
+            <p:column headerText="#{msgsAcademicControl['request.field.requester']}" rendered="#{sessionController.admin || sessionController.staff}">
                <h:outputText value="#{entity.requester.name}" />
             </p:column>
             <p:column headerText="#{msgsAcademicControl['deadline.field.deadline.deadlineType']}">
