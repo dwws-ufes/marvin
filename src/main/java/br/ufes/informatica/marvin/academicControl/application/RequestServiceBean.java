@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.informatica.marvin.academicControl.domain.Deadline;
 import br.ufes.informatica.marvin.academicControl.domain.Request;
 import br.ufes.informatica.marvin.academicControl.enums.EnumRequestSituation;
 import br.ufes.informatica.marvin.academicControl.persistence.RequestDAO;
@@ -135,4 +136,10 @@ public class RequestServiceBean extends CrudServiceBean<Request> implements Requ
 	public List<Request> requestWithoutAnswer() {
 		return requestDAO.requestWithoutAnswer();
 	}
+
+	@Override
+	public boolean deadlineIsLinkedInRequest(Deadline deadline) {
+		return requestDAO.deadlineIsLinkedInRequest(deadline);
+	}
+
 }

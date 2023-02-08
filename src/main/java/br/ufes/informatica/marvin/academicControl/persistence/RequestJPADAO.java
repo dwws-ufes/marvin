@@ -11,6 +11,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
+import br.ufes.informatica.marvin.academicControl.domain.Deadline;
 import br.ufes.informatica.marvin.academicControl.domain.Request;
 import br.ufes.informatica.marvin.academicControl.domain.Request_;
 import br.ufes.informatica.marvin.academicControl.enums.EnumRequestSituation;
@@ -49,6 +50,20 @@ public class RequestJPADAO extends BaseJPADAO<Request> implements RequestDAO {
 		predicates[0] = cb.equal(root.get(Request_.requester), request.getRequester());
 		predicates[1] = cb.notEqual(root.get(Request_.requestSituation), EnumRequestSituation.REFUSED);
 		predicates[2] = cb.equal(root.get(Request_.deadline), request.getDeadline());
+
+		cq.select(root).where(predicates);
+
+		return getEntityManager().createQuery(cq).getResultList().size() > 0;
+	}
+
+	@Override
+	public boolean deadlineIsLinkedInRequest(Deadline deadline) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Request> cq = cb.createQuery(Request.class);
+		Root<Request> root = cq.from(Request.class);
+
+		Predicate[] predicates = new Predicate[1];
+		predicates[0] = cb.equal(root.get(Request_.deadline), deadline);
 
 		cq.select(root).where(predicates);
 

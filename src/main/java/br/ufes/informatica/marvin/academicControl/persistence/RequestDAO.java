@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
+import br.ufes.informatica.marvin.academicControl.domain.Deadline;
 import br.ufes.informatica.marvin.academicControl.domain.Request;
 import br.ufes.informatica.marvin.core.domain.Academic;
 
@@ -16,5 +17,7 @@ public interface RequestDAO extends BaseDAO<Request> {
 	boolean requestAlreadyExist(Request request);
 
 	List<Request> requestWithoutAnswer();
+
+	boolean deadlineIsLinkedInRequest(Deadline deadline);
 
 }

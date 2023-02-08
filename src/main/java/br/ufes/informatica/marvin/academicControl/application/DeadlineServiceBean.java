@@ -21,6 +21,9 @@ public class DeadlineServiceBean extends CrudServiceBean<Deadline> implements De
 	@EJB
 	private DeadlineDAO deadlineDAO;
 
+	@EJB
+	private RequestService requestService;
+
 	@Override
 	public BaseDAO<Deadline> getDAO() {
 		return deadlineDAO;
@@ -39,6 +42,16 @@ public class DeadlineServiceBean extends CrudServiceBean<Deadline> implements De
 		if (!deadLineBd.getDeadlineType().equals(deadline.getDeadlineType())) {
 			crudException = addGlobalValidationError(crudException, null,
 					"error.deadline.notPossibleChangeTypeDeadline");
+		}
+		MarvinFunctions.verifyAndThrowCrudException(crudException);
+	}
+
+	@Override
+	public void validateDelete(Deadline deadline) throws CrudException {
+		CrudException crudException = null;
+		super.validateDelete(deadline);
+		if (requestService.deadlineIsLinkedInRequest(deadline)) {
+			crudException = addGlobalValidationError(crudException, null, "error.deadline.notPossibleDelete");
 		}
 		MarvinFunctions.verifyAndThrowCrudException(crudException);
 	}
