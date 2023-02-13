@@ -64,7 +64,7 @@ public class PeriodJPADAO extends BaseJPADAO<Period> implements PeriodDAO {
 
 		Date sysdate = MarvinFunctions.sysdate();
 		cq.where(cb.lessThanOrEqualTo(root.get(Period_.offerStartDate), sysdate));
-		cq.where(cb.greaterThanOrEqualTo(root.get(Period_.offerFinalDate), sysdate));
+		cq.where(cb.greaterThanOrEqualTo(root.get(Period_.periodFinalDate), sysdate));
 		List<Period> periods = entityManager.createQuery(cq).getResultList();
 		if (periods.size() == 0)
 			return null;

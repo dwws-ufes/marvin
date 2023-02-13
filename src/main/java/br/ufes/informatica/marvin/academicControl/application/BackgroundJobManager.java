@@ -40,7 +40,7 @@ public class BackgroundJobManager {
 	public void init() {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
 		scheduler.scheduleAtFixedRate(new MailJob(), 0, 1, TimeUnit.MINUTES);
-		scheduler.scheduleAtFixedRate(new CreateMailRequestWithoutAnswerJob(), 0, 1, TimeUnit.DAYS);
+		scheduler.scheduleAtFixedRate(new CreateMailRequestWithoutAnswerJob(), 0, 5, TimeUnit.MINUTES);
 	}
 
 	@PreDestroy
@@ -63,6 +63,7 @@ public class BackgroundJobManager {
 				.append("<tr>")//
 				.append("<th style = \"background-color:#3166ff;border-color:inherit;position:-webkit-sticky;position:sticky;text-align:center;top:-1px; vertical-align:top;will-change:transform\">Nome do Aluno</th>")//
 				.append("<th style = \"background-color:#3166ff;border-color:inherit;position:-webkit-sticky;position:sticky;text-align:center;top:-1px; vertical-align:top;will-change:transform\">Tipo de solicitação</th>")//
+				.append("<th style = \"background-color:#3166ff;border-color:inherit;position:-webkit-sticky;position:sticky;text-align:center;top:-1px; vertical-align:top;will-change:transform\">Situação da solicitação</th>")//
 				.append("<th style = \"background-color:#3166ff;border-color:inherit;position:-webkit-sticky;position:sticky;text-align:center;top:-1px; vertical-align:top;will-change:transform\">Tempo restante</th>")//
 				.append("</tr>")//
 				.append("</thead>")//
@@ -73,6 +74,7 @@ public class BackgroundJobManager {
 			email.append("<tr>")//
 					.append(style + request.getRequester().getName() + "</td>")//
 					.append(style + request.getDeadline().getDeadlineType().getDescription() + "</td>")//
+					.append(style + request.getRequestSituation().getDescription() + "</td>")//
 					.append(style + MarvinFunctions.dateDifferenceInDays(request.getRequestDate(),
 							request.getDeadline().getDaysToReply()) + "</td>")//
 					.append("</tr>");

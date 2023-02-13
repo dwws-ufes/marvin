@@ -1,5 +1,6 @@
 package br.ufes.informatica.marvin.academicControl.persistence;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import br.ufes.informatica.marvin.academicControl.domain.EnrollmentRequest_;
 import br.ufes.informatica.marvin.academicControl.domain.Period;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer;
 import br.ufes.informatica.marvin.academicControl.domain.SubjectOffer_;
+import br.ufes.informatica.marvin.utils.MarvinFunctions;
 
 @Stateless
 public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements SubjectOfferDAO {
@@ -41,6 +43,20 @@ public class SubjectOfferJPADAO extends BaseJPADAO<SubjectOffer> implements Subj
 		List<SubjectOffer> result = this.retrieveAll();
 		logger.log(Level.INFO, "Retrieving Periods returned {0} results", result.size());
 		return result;
+	}
+
+	@Override
+	public List<SubjectOffer> retrieveSubjectsOfferByActualPeriod() {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<SubjectOffer> cq = cb.createQuery(SubjectOffer.class);
+		Root<SubjectOffer> root = cq.from(SubjectOffer.class);
+
+		Date sysdate = MarvinFunctions.sysdate();
+		cq.select(root);
+		cq.where(cb.lessThanOrEqualTo(root.get("period").get("offerStartDate"), sysdate));
+		cq.where(cb.greaterThanOrEqualTo(root.get("period").get("periodFinalDate"), sysdate));
+
+		return getEntityManager().createQuery(cq).getResultList();
 	}
 
 	@Override

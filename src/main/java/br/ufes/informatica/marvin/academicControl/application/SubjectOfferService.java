@@ -30,4 +30,6 @@ public interface SubjectOfferService extends CrudService<SubjectOffer> {
 
 	boolean schoolSubjectWasOfferedInPeriod(SubjectOffer subjectOffer);
 
+	List<SubjectOffer> retrieveSubjectsOfferByActualPeriod();
+
 }

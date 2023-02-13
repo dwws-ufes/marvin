@@ -77,7 +77,7 @@
             <ui:param name="fieldName" value="periodStartDate" />
             <ui:param name="label" value="#{msgsAcademicControl['period.field.periodStartDate']}" />
             <p:inputMask id="periodStartDate" mask="#{msgs['jbutler.format.date.primefaces']}" value="#{periodController.selectedEntity.periodStartDate}" required="true" disabled="#{periodController.readOnly}">
-               <p:ajax event="blur" update="periodStartDate" />
+			   <p:ajax event="blur" update="periodStartDate" />
                <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.date.java']}" />
             </p:inputMask>
             <h:outputText value=" (#{msgs['jbutler.format.date.label']})" />

@@ -139,4 +139,9 @@ public class SubjectOfferServiceBean extends CrudServiceBean<SubjectOffer> imple
 		return subjectOfferDAO.schoolSubjectWasOfferedInPeriod(subjectOffer);
 	}
 
+	@Override
+	public List<SubjectOffer> retrieveSubjectsOfferByActualPeriod() {
+		return subjectOfferDAO.retrieveSubjectsOfferByActualPeriod();
+	}
+
 }

@@ -26,6 +26,8 @@ import org.omnifaces.util.Faces;
 import org.primefaces.model.file.UploadedFile;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudException;
+import br.ufes.informatica.marvin.academicControl.domain.Request;
+import br.ufes.informatica.marvin.academicControl.enums.EnumRequestSituation;
 import br.ufes.informatica.marvin.core.domain.Role;
 
 public class MarvinFunctions {
@@ -113,9 +115,51 @@ public class MarvinFunctions {
 	}
 
 	public static Long dateDifferenceInDays(Date dateIni, Long daysOfRequest) {
-		long dif = MarvinFunctions.sysdate().getTime() - dateIni.getTime();
-		long differenceInDays = (dif / (1000 * 60 * 60 * 24)) % 365;
-		return daysOfRequest - differenceInDays;
+		Long dif = MarvinFunctions.sysdate().getTime() - dateIni.getTime();
+		Long differenceInDays = (dif / (1000 * 60 * 60 * 24)) % 365;
+		differenceInDays = daysOfRequest - differenceInDays;
+		return differenceInDays < 0L ? 0L : differenceInDays;
+	}
+
+	public static String generateTextRequestMail(Request request, EnumRequestSituation oldSituation, EnumRequestSituation newSituation) {	
+		String email = "<html>\r\n" + 
+				"   <head>\r\n" + 
+				"      <meta charset=\"UTF-8\"/>\r\n" + 
+				"   </head> \r\n" + 
+				"   <p> " + request.getRequester().getName() + ", a sua solicitação teve a situação alterada. </p>\r\n" + 
+				"   <body>\r\n" + 
+				"      <table style = \"border-collapse:collapse;border-spacing:0;\">\r\n" + 
+				"         <thead>\r\n" + 
+				"            <tr>\r\n" + 
+				"               <th style = \"background-color:#3166ff;border-color:inherit;position:-webkit-sticky;position:sticky;text-align:center;top:-1px; vertical-align:top;will-change:transform\" colspan=\"2\">Alteração da situação da Solicitação</th>\r\n" + 
+				"            </tr>\r\n" + 
+				"         </thead>\r\n" + 
+				"         <tbody>\r\n" + 
+				"            <tr>\r\n" + 
+				"               <td style = \"background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top\">Tipo de solicitação</td>\r\n" + 
+				"               <td style = \"background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top\">" + request.getDeadline().getName() + "</td>\r\n" + 
+				"            </tr>\r\n" + 
+				"            <tr>\r\n" + 
+				"               <td style = \"border-color:inherit;text-align:center;vertical-align:top\">Antiga situação</td>\r\n" + 
+				"               <td style = \"border-color:inherit;text-align:center;vertical-align:top\">"+  oldSituation.getDescription() + "</td>\r\n" + 
+				"            </tr>\r\n" + 
+				"            <tr>\r\n" + 
+				"               <td style = \"background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top\">Nova Situação</td>\r\n" + 
+				"               <td style = \"background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top\">" + newSituation.getDescription() + "</td>\r\n" +
+				"            </tr>\r\n" + 
+				"            <tr>\r\n" + 
+				"               <td style = \"border-color:inherit;text-align:center;vertical-align:top\">Prazo máximo de resposta (em dias)</td>\r\n" + 
+				"               <td style = \"border-color:inherit;text-align:center;vertical-align:top\">" + request.getDeadline().getDaysToReply() + "</td>\r\n" + 
+				"            </tr>\r\n" + 
+				"            <tr>\r\n" + 
+				"               <td style = \"background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top\">Tempo restante para a reposta (em dias)</td>\r\n" + 
+				"               <td style = \"background-color:#D2E4FC;border-color:inherit;text-align:center;vertical-align:top\">" + dateDifferenceInDays(request.getRequestDate(), request.getDeadline().getDaysToReply()) + "</td>\r\n" + 
+				"            </tr>\r\n" + 
+				"         </tbody>\r\n" + 
+				"      </table>\r\n" + 
+				"   </body>\r\n" + 
+				"</html>";
+		return email;
 	}
 
 }

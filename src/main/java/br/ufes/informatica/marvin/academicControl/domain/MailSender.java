@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
@@ -32,7 +33,7 @@ public class MailSender extends PersistentObjectSupport {
 
 	@NotNull
 	@Basic
-	@Size(max = 4000)
+	@Lob
 	private String text;
 
 	@Basic

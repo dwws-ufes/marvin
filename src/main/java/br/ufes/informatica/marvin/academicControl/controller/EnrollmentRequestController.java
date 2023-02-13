@@ -53,7 +53,7 @@ public class EnrollmentRequestController extends CrudController<EnrollmentReques
 	@Inject
 	@ViewScoped
 	public void init() throws Exception {
-		setListSubjectOffer(subjectOfferService.retrieveSubjectsOffer());
+		setListSubjectOffer(subjectOfferService.retrieveSubjectsOfferByActualPeriod());
 		setSubjectOfferConverter(subjectOfferService.getSubjectOfferConverter());
 	}
 

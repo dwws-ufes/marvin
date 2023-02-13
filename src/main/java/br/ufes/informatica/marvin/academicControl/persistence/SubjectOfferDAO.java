@@ -24,4 +24,6 @@ public interface SubjectOfferDAO extends BaseDAO<SubjectOffer> {
 	boolean schoolSubjectWasOfferedInPeriod(SubjectOffer subjectOffer);
 
 	int getCountSubjectOfferByPeriod(Period period);
+
+	List<SubjectOffer> retrieveSubjectsOfferByActualPeriod();
 }
